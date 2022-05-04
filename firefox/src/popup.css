@@ -1,0 +1,247 @@
+html,
+body {
+  width: 500px;
+  background-color: transparent;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 16px;
+}
+
+* {
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#token {
+  width: 100%;
+}
+
+button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+input {
+  width: 100%;
+  border: 1px solid #e1e0db;
+}
+
+input[type="password"] {
+  background-color: #f7f6f2;
+  border: 1px solid #e1e0db;
+  height: 48px;
+  border-radius: 5px;
+  padding: 0 10px;
+}
+
+input[type="password"]:focus {
+  outline: 1px solid #ffb319;
+}
+
+#status {
+  font-size: 0.875rem;
+  width: 90%;
+}
+
+.status_good {
+  color: #00a854;
+  font-weight: 700;
+}
+
+.status_error {
+  color: #fd6820;
+  font-weight: 700;
+}
+
+.logo {
+  width: 58px;
+  height: 29px;
+}
+
+.logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+#header {
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#header #advanced {
+  align-self: flex-end;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  margin-right: 15px;
+}
+
+h3 {
+  font-weight: 400;
+}
+
+#header h3 {
+  margin-top: 5px;
+  font-weight: 700;
+}
+
+#sync_checkbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#incognito {
+  max-width: 70%;
+}
+
+.setting_row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 15px;
+  margin-bottom: 20px;
+}
+
+.desc {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.75rem;
+  margin-top: 5px;
+}
+
+.title {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.setting_row .desc {
+  max-width: 80%;
+}
+
+p {
+  width: 70%;
+  text-align: center;
+  margin-top: 5px;
+}
+
+#token_save {
+  background-color: #ffb319;
+  border: 1px solid #ffb319;
+  color: #191919;
+  border-radius: 5px;
+  height: 46px;
+  max-width: 150px;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+
+#token_save:hover {
+  background-color: #f7a808;
+  border: 1px solid #d9950d;
+}
+
+.checkbox_box h3 {
+  margin-bottom: 10px;
+}
+
+.k_ui_toggle_switch {
+  --bg-color: transparent;
+  --active-bg-color: transparent;
+  --border-color: #15273f;
+  --active-border-color: #15273f;
+  --knob-bg-color: #15273f;
+  --active-knob-bg-color: #15273f;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+}
+
+.k_ui_toggle_switch.with_label {
+  margin-left: auto;
+  position: relative;
+  padding-right: 35px;
+  display: inline-block;
+  color: var(--border-color);
+}
+
+.k_ui_toggle_switch_status {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(55px, 5px);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  line-height: normal;
+  opacity: 0.3;
+}
+
+.k_ui_toggle_switch_status .__on {
+  display: none;
+}
+
+.k_ui_toggle_switch_bar {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  position: relative;
+  padding: 3px;
+  width: 48px;
+  height: 24px;
+  border-radius: 100px;
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.k_ui_toggle_switch_bar:after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background-color: var(--knob-bg-color);
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  border-radius: 100px;
+  transition: left 0.15s ease-in-out;
+}
+
+.k_ui_toggle_switch input {
+  display: none;
+}
+
+.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_bar {
+  border: 1px solid var(--active-border-color);
+  background-color: var(--active-bg-color);
+  opacity: unset;
+}
+
+.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_status {
+  opacity: unset;
+}
+
+.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_status .__on {
+  display: block;
+}
+
+.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_status .__off {
+  display: none;
+}
+
+.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_bar:after {
+  background-color: var(--active-knob-bg-color);
+  left: unset;
+  right: 2px;
+}
