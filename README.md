@@ -2,8 +2,10 @@
 
 This contains the source for the [Kagi Search](https://kagi.com) extension for Firefox and Chrome.
 
-[Get the Firefox Addon here!](https://addons.mozilla.org/en-US/firefox/addon/kagi-search-for-firefox/)\
-[Get the Chrome Addon here!](https://chrome.google.com/webstore/detail/kagi-search-for-chrome/cdglnehniifkbagbbombnjghhcihifij)
+Get it for your browser here:
+
+- [Chrome](https://chrome.google.com/webstore/detail/kagi-search-for-chrome/cdglnehniifkbagbbombnjghhcihifij)
+- [Firefox](https://addons.mozilla.org/en-US/firefox/addon/kagi-search-for-firefox/)
 
 ## Contents
 
@@ -26,9 +28,7 @@ This contains the source for the [Kagi Search](https://kagi.com) extension for F
 
 ## Other Browsers
 
-We currently only officially support Chrome and Firefox.\
-Support for other browsers will come in the future!
-
+- [Safari (iOS)](https://apps.apple.com/us/app/kagi-search-for-safari/id1607766153)
 
 ## Loading from source
 
