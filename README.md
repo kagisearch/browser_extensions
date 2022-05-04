@@ -29,7 +29,18 @@ This contains the source for the [Kagi Search](https://kagi.com) extension for F
 We currently only officially support Chrome and Firefox.\
 Support for other browsers will come in the future!
 
-## Installing from source
+
+## Loading from source
+
+### Building
+
+To build the extension, you will need node and npm installed.
+1. Obtain the files from this repo, either via `git clone https://github.com/kagisearch/browser_extensions`
+or by downloading the source zip.
+2. run `npm i` to install `adm-zip` which is used to package up the files.
+3. You can now run `npm run build-firefox` or `npm run build-chrome` to zip up the relevant files and output a zip file.
+
+You can also download a pre-packaged zip from our releases page.
 
 ### Download
 
@@ -41,7 +52,7 @@ Or by cloning the repo:
 
 `git clone https://github.com/kagisearch/browser_extensions`
 
-### Load the extension
+### Loading the extension
 
 #### Firefox
 1. Head to `about:debugging`
@@ -53,7 +64,7 @@ Or by cloning the repo:
 1. Head to `chrome://extensions`
 2. Turn on "Developer mode" in the top right and then some new buttons will pop up.
 3. Click on `Load unpacked extension`
-4. Select the zip file or cloned folder that you downloaded and you're done!
+4. Select the zip file or you may have to unzip the zip and select the folder outputted from extraction.
 
 ## Contributing
 
