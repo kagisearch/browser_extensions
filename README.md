@@ -35,8 +35,8 @@ Get it for your browser here:
 ### Building
 
 To build the extension, you will need node and npm installed.
-1. Obtain the files from this repo, either via `git clone https://github.com/kagisearch/browser_extensions`
-or by downloading the source zip.
+
+1. Obtain the files from this repo, either via `git clone https://github.com/kagisearch/browser_extensions` or by downloading the source zip.
 2. run `npm i` to install `adm-zip` which is used to package up the files.
 3. You can now run `npm run build-firefox` or `npm run build-chrome` to zip up the relevant files and output a zip file.
 
@@ -55,12 +55,14 @@ Or by cloning the repo:
 ### Loading the extension
 
 #### Firefox
+
 1. Head to `about:debugging`
 2. Click on "This Firefox"
 3. Click "Load Temporary Add-On"
 4. Select the zip file or manifest.json of the extension.
 
 #### Chrome
+
 1. Head to `chrome://extensions`
 2. Turn on "Developer mode" in the top right and then some new buttons will pop up.
 3. Click on `Load unpacked extension`
