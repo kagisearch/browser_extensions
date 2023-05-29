@@ -1,8 +1,10 @@
 let sessionToken = undefined;
 let syncSessionFromExisting = true;
+let sessionApiToken = undefined;
 
-function saveToken(token, manual) {
+function saveToken(token, manual, apiToken) {
   sessionToken = token;
+  sessionApiToken = apiToken ? apiToken : sessionApiToken;
 
   let shouldSync = !manual;
   if (sessionToken === undefined || sessionToken.trim().length === 0) {
@@ -20,6 +22,7 @@ function saveToken(token, manual) {
   chrome.storage.local.set({
     session_token: token,
     sync_existing: shouldSync,
+    api_token: sessionApiToken,
   });
 
   updateRules();
@@ -35,22 +38,84 @@ function saveToken(token, manual) {
   }
 }
 
+async function summarizePage(apiToken, url, summary_type, target_language) {
+  let summary = '';
+
+  try {
+    const requestBody = {
+      url,
+      summary_type,
+    };
+
+    if (target_language) {
+      requestBody.target_language = target_language;
+    }
+
+    const response = await fetch('https://kagi.com/api/v0/summarize', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bot ${apiToken}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (response.status === 200) {
+
+      const result = await response.json();
+
+      console.debug('summarize API response', result);
+
+      if (result.data?.output) {
+        summary = result.data.output;
+      } else if (result.error) {
+        summary = JSON.stringify(result.error);
+      }
+    } else {
+      console.error('summarize API error', response.status, response.statusText);
+
+      if (response.status === 401) {
+        summary = 'Invalid API Token! Please set a new one.';
+      } else {
+        summary = `Error: ${response.status} - ${response.statusText}`;
+      }
+    }
+  } catch (error) {
+    summary = error.message ? `Error: ${error.message}` : JSON.stringify(error);
+  }
+  
+  if (summary) {
+    chrome.runtime.sendMessage({
+      type: "summary_finished",
+      summary,
+    }, (response) => {
+      if (!response)
+        console.error('error setting summary: ', chrome.runtime.lastError.message);
+    });
+  }
+}
+
 chrome.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
   switch(data.type) {
     case "get_data": {
       sendResponse({
         token: sessionToken,
+        api_token: sessionApiToken,
         sync_existing: syncSessionFromExisting,
         browser: "chrome",
       });
       break;
     }
     case "save_token": {
-      saveToken(data.token, true);
+      saveToken(data.token, true, data.api_token);
       break;
     }
     case "open_extension": {
       chrome.tabs.create({'url': `chrome://extensions/?id=${chrome.runtime.id}`});
+      break;
+    }
+    case "summarize_page": {
+      summarizePage(data.api_token, data.url, data.summary_type, data.target_language);
       break;
     }
     default:
@@ -142,6 +207,12 @@ function setup() {
   chrome.storage.local.get("sync_existing", (syncObj) => {
     if (syncObj && syncObj.sync_existing != undefined) {
       syncSessionFromExisting = syncObj.sync_existing;
+    }
+  });
+
+  chrome.storage.local.get("api_token", (apiSessionObject) => {
+    if (apiSessionObject && apiSessionObject.api_token) {
+      sessionApiToken = apiSessionObject.api_token;
     }
   });
 }

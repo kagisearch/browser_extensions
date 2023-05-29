@@ -245,3 +245,54 @@ p {
   left: unset;
   right: 2px;
 }
+
+#summarize {
+  margin-top: 10px;
+  width: 100%;
+  padding: 0 15px;
+}
+
+#summarize .setting_row {
+  margin-top: 10px;
+  padding: 0;
+  justify-content: flex-start;
+}
+
+#summarize .setting_row > div {
+  margin-right: 10px;
+}
+
+#summarize .setting_row label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+#summary_result {
+  padding: 10px;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}
+
+/* This "hack" makes the "key moments" summary type look more readable */
+#summary_result br {
+  margin-top: 10px;
+  display: block;
+  content: "";
+}
+
+#summarize_page {
+  background-color: #ffb319;
+  border: 1px solid #ffb319;
+  color: #191919;
+  border-radius: 5px;
+  height: 46px;
+  max-width: 150px;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#summarize_page:hover {
+  background-color: #f7a808;
+  border: 1px solid #d9950d;
+}

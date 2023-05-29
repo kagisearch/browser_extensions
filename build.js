@@ -26,5 +26,5 @@ const zip = new AdmZip();
 zip.addLocalFolder(`shared`);
 zip.addLocalFolder(extension);
 
-zip.writeZip(`built/kagi_${extension}_${version}.zip`);
+zip.writeZip(`${__dirname}/built/kagi_${extension}_${version}.zip`);
 console.log(`Done: built/kagi_${extension}_${version}.zip`);
