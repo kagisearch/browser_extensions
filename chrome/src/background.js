@@ -3,7 +3,7 @@ let syncSessionFromExisting = true;
 let sessionApiToken = undefined;
 
 function saveToken(token, manual, apiToken) {
-  sessionToken = token;
+  sessionToken = token || sessionToken;
   sessionApiToken = apiToken ? apiToken : sessionApiToken;
 
   let shouldSync = !manual;
@@ -40,6 +40,7 @@ function saveToken(token, manual, apiToken) {
 
 async function summarizePage(apiToken, url, summary_type, target_language) {
   let summary = '';
+  let success = false;
 
   try {
     const requestBody = {
@@ -68,8 +69,13 @@ async function summarizePage(apiToken, url, summary_type, target_language) {
 
       if (result.data?.output) {
         summary = result.data.output;
+        success = true;
       } else if (result.error) {
-        summary = JSON.stringify(result.error);
+        if (Array.isArray(result.error) && result.error[0]?.msg) {
+          summary = result.error[0].msg;
+        } else {
+          summary = JSON.stringify(result.error);
+        }
       }
     } else {
       console.error('summarize API error', response.status, response.statusText);
@@ -88,6 +94,7 @@ async function summarizePage(apiToken, url, summary_type, target_language) {
     chrome.runtime.sendMessage({
       type: "summary_finished",
       summary,
+      success,
     }, (response) => {
       if (!response)
         console.error('error setting summary: ', chrome.runtime.lastError.message);

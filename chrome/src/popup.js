@@ -85,17 +85,10 @@ async function setup() {
   }
 
   eSummaryResult.style.display = "none";
+  eSummaryResult.classList.remove('error');
 
   chrome.runtime.sendMessage({ type: "get_data" }, (response) => {
     if (!response) return;
-
-    if (response.sync_existing) {
-      eTokenDiv.style.display = "none";
-      eAdvanced.style.display = "";
-    } else {
-      eTokenDiv.style.display = "";
-      eAdvanced.style.display = "none";
-    }
 
     if (response.api_token) {
       eSummarize.style.display = "";
@@ -181,8 +174,13 @@ async function setup() {
   });
 
   eAdvanced.addEventListener("click", async () => {
-    eAdvanced.style.display = "none";
-    eTokenDiv.style.display = '';
+    if (eTokenDiv.style.display === '') {
+      eAdvanced.innerHTML = 'Advanced settings';
+      eTokenDiv.style.display = 'none';
+    } else {
+      eAdvanced.innerHTML = 'Hide advanced settings';
+      eTokenDiv.style.display = '';
+    }
   });
 
   eSummarizePage.addEventListener("click", async () => {
@@ -211,6 +209,7 @@ async function setup() {
 
       const { url } = tab;
 
+      eSummaryResult.classList.remove('error');
       eSummaryResult.style.display = "";
       eSummaryResult.innerHTML = 'Summarizing...';
 
@@ -234,6 +233,11 @@ async function setup() {
       eTokenDiv.style.display = 'none';
       eAdvanced.style.display = '';
     } else if (data.type === "summary_finished") {
+      if (data.success) {
+        eSummaryResult.classList.remove('error');
+      } else {
+        eSummaryResult.classList.add('error');
+      }
       eSummaryResult.style.display = "";
       eSummaryResult.innerHTML = data.summary.replaceAll(/\n/g, '<br />');
     }
