@@ -104,7 +104,8 @@ h3 {
 }
 
 #incognito {
-  max-width: 70%;
+  max-width: 100%;
+  padding: 0 15px;
 }
 
 .setting_row {
@@ -255,7 +256,7 @@ p {
 #summarize .setting_row {
   margin-top: 10px;
   padding: 0;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
 #summarize .setting_row > div {
@@ -293,7 +294,9 @@ p {
   max-width: 150px;
   font-size: 0.9375rem;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 0;
+  margin-bottom: 10px;
+  margin-right: 10px;
 }
 
 #summarize_page:hover {

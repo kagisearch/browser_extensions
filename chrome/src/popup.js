@@ -46,18 +46,6 @@ async function setup() {
 
   eTokenInput.addEventListener("click", () => this.value ? this.setSelectionRange(0, this.value.length) : null);
 
-  const eApiTokenInput = document.querySelector("#api_token_input");
-  if (!eApiTokenInput) {
-    console.error("Could not set API token because no input exists");
-    return;
-  }
-
-  eApiTokenInput.addEventListener("focus", (e) => {
-    e.target.select();
-  });
-
-  eApiTokenInput.addEventListener("click", () => this.value ? this.setSelectionRange(0, this.value.length) : null);
-
   const eStatus = document.querySelector("#status");
 
   const eAdvanced = document.querySelector("#advanced");
@@ -90,13 +78,6 @@ async function setup() {
   chrome.runtime.sendMessage({ type: "get_data" }, (response) => {
     if (!response) return;
 
-    if (response.api_token) {
-      eSummarize.style.display = "";
-      eApiTokenInput.value = response.api_token;
-    } else {
-      eSummarize.style.display = "none";
-    }
-
     if (response.token && eStatus) {
       eStatus.classList.remove('status_error');
       eStatus.classList.add('status_good');
@@ -109,31 +90,31 @@ async function setup() {
         setStatus("manual_token");
 
       chrome.extension.isAllowedIncognitoAccess()
-      .then((isAllowedAccess) => {
-        if (isAllowedAccess)
-          return;
+        .then((isAllowedAccess) => {
+          if (isAllowedAccess)
+            return;
 
-        const eIncognito = document.querySelector("#incognito");
-        if (!eIncognito) {
-          console.error('No div to place text?');
-          return;
-        }
-
-        eIncognito.style.display = "";
-
-        // NOTE: slight little hack to make the chrome://extensions link not be blocked.
-        if (response.browser === "chrome") {
-          const eChromeLink = document.querySelector("#chrome_link");
-          if (eChromeLink) {
-            eChromeLink.addEventListener("click", async () => {
-              chrome.runtime.sendMessage({type: "open_extension"}, (response) => {
-                if (!response)
-                  console.error('error opening extension: ', chrome.runtime.lastError.message);
-              });
-            });
+          const eIncognito = document.querySelector("#incognito");
+          if (!eIncognito) {
+            console.error('No div to place text?');
+            return;
           }
-        }
-      });
+
+          eIncognito.style.display = "";
+
+          // NOTE: slight little hack to make the chrome://extensions link not be blocked.
+          if (response.browser === "chrome") {
+            const eChromeLink = document.querySelector("#chrome_link");
+            if (eChromeLink) {
+              eChromeLink.addEventListener("click", async () => {
+                chrome.runtime.sendMessage({type: "open_extension"}, (response) => {
+                  if (!response)
+                    console.error('error opening extension: ', chrome.runtime.lastError.message);
+                });
+              });
+            }
+          }
+        });
     }
   });
 
@@ -159,15 +140,7 @@ async function setup() {
       if (token) eToken.value = token;
     }
 
-    const eApiToken = document.querySelector("#api_token_input");
-    if (!eApiToken) {
-      console.error("No API token input found.");
-      return;
-    }
-
-    const apiToken = eApiToken.value;
-
-    chrome.runtime.sendMessage({ type: "save_token", token: token, api_token: apiToken }, (response) => {
+    chrome.runtime.sendMessage({ type: "save_token", token: token }, (response) => {
       if (!response)
         console.error('error saving token: ', chrome.runtime.lastError.message);
     });
@@ -196,14 +169,6 @@ async function setup() {
       return;
     }
 
-    const eApiToken = document.querySelector("#api_token_input");
-    if (!eApiToken) {
-      console.error("No API token input found.");
-      return;
-    }
-
-    const apiToken = eApiToken.value;
-
     chrome.tabs.query({ active: true }, (tabs) => {
       const tab = tabs[0];
 
@@ -213,7 +178,7 @@ async function setup() {
       eSummaryResult.style.display = "";
       eSummaryResult.innerHTML = 'Summarizing...';
 
-      chrome.runtime.sendMessage({ type: "summarize_page", api_token: apiToken, url, summary_type: eSummaryType.value, target_language: eTargetLanguage.value }, (response) => {
+      chrome.runtime.sendMessage({ type: "summarize_page", url, summary_type: eSummaryType.value, target_language: eTargetLanguage.value }, (response) => {
         if (!response)
           console.error('error summarizing: ', chrome.runtime.lastError.message);
       });

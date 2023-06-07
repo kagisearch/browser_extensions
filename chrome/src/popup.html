@@ -36,6 +36,10 @@
           </span>
         </p>
 
+        <span id="advanced">Advanced settings</a>
+      </div>
+
+      <div id="token" style="display: none">
         <div id="incognito" style="display: none">
           <span>
             If you want to use Kagi automatically in incognito mode, you need to enable incognito mode in the extension settings.
@@ -47,11 +51,6 @@
             <li>Check the "Allow in incognito" toggle</li>
           </ol>
         </div>
-
-        <span id="advanced">Advanced settings</a>
-      </div>
-
-      <div id="token" style="display: none">
 
         <div class="setting_row">
           <div>
@@ -71,29 +70,12 @@
         </div>
 
         <div class="setting_row">
-          <div>
-            <div class="title">
-              Set your Universal Summarizer API Token to use when summarizing content on the web
-            </div>
-            <div class="desc">
-              You can paste the token from the control center.
-              <br>
-              <a href="https://help.kagi.com/kagi/api/summarizer.html" target="_blank">Learn more about the API</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="setting_row">
-          <input type="password" id="api_token_input" value="" placeholder="my Universal Summarizer API token"/>
-        </div>
-
-        <div class="setting_row">
-          <button id="token_save">Set Tokens</button>
+          <button id="token_save">Set Token</button>
         </div>
 
       </div>
 
-      <div id="summarize" style="display: none">
+      <div id="summarize">
 
         <div class="title">
           Summarize the current page
@@ -143,13 +125,13 @@
               <option value="ZH">Chinese (simplified)</option>
             </select>
           </div>
+
+          <button id="summarize_page">Summarize</button>
         </div>
 
         <div id="summary_result" class="result" style="display: none">
           ...
         </div>
-
-        <button id="summarize_page">Summarize</button>
       </div>
     </div>
     <script type="module" src="popup.js"></script>
