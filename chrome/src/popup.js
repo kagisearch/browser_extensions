@@ -1,3 +1,5 @@
+let summaryTextContents = '';
+
 function setStatus(type) {
   const eNoSession = document.querySelector("#no_session");
   const eManualToken = document.querySelector("#manual_token");
@@ -74,6 +76,14 @@ async function setup() {
 
   eSummaryResult.style.display = "none";
   eSummaryResult.classList.remove('error');
+
+  const eCopySummary = document.querySelector("#copy_summary");
+  if (!eCopySummary) {
+    console.error("Could not find copy summary button");
+    return;
+  }
+
+  eCopySummary.style.display = "none";
 
   chrome.runtime.sendMessage({ type: "get_data" }, (response) => {
     if (!response) return;
@@ -177,12 +187,32 @@ async function setup() {
       eSummaryResult.classList.remove('error');
       eSummaryResult.style.display = "";
       eSummaryResult.innerHTML = 'Summarizing...';
+      eCopySummary.style.display = "none";
+      summaryTextContents = '';
 
       chrome.runtime.sendMessage({ type: "summarize_page", url, summary_type: eSummaryType.value, target_language: eTargetLanguage.value }, (response) => {
         if (!response)
           console.error('error summarizing: ', chrome.runtime.lastError.message);
       });
     });
+  });
+
+  eCopySummary.addEventListener("click", async () => {
+    if (!summaryTextContents) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(summaryTextContents);
+
+      eCopySummary.innerText = "Copied!";
+
+      setTimeout(() => {
+        eCopySummary.innerText = "Copy summary";
+      }, 3000);
+    } catch (error) {
+      console.error('error copying summary to clipboard: ', error);
+    }
   });
 
   chrome.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
@@ -200,11 +230,17 @@ async function setup() {
     } else if (data.type === "summary_finished") {
       if (data.success) {
         eSummaryResult.classList.remove('error');
+        summaryTextContents = data.summary;
+        eCopySummary.style.display = '';
       } else {
         eSummaryResult.classList.add('error');
+        summaryTextContents = '';
+        eCopySummary.style.display = 'none';
       }
       eSummaryResult.style.display = "";
       eSummaryResult.innerHTML = data.summary.replaceAll(/\n/g, '<br />');
+    } else if (data.type === "summarize_page") {
+      eSummarizePage.dispatchEvent('click');
     }
 
     sendResponse(true);
