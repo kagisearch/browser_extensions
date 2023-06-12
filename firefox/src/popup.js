@@ -46,6 +46,8 @@ async function setup() {
     e.target.select();
   });
 
+  eTokenInput.addEventListener("click", () => this.value ? this.setSelectionRange(0, this.value.length) : null);
+
   const eStatus = document.querySelector("#status");
 
   const eAdvanced = document.querySelector("#advanced");
@@ -65,16 +67,29 @@ async function setup() {
     });
   }
 
+  const eSummarize = document.querySelector("#summarize");
+  if (!eSummarize) {
+    console.error("Could not find summarize section");
+    return;
+  }
+
+  const eSummarizePage = document.querySelector("#summarize_page");
+  if (!eSummarizePage) {
+    console.error("Could not find summarize page button");
+    return;
+  }
+
+  const eSummaryResult = document.querySelector("#summary_result");
+  if (!eSummaryResult) {
+    console.error("Could not find summarize result div");
+    return;
+  }
+
+  eSummaryResult.style.display = "none";
+  eSummaryResult.classList.remove('error');
+
   await browser.runtime.sendMessage({ type: "get_data" }).then((response) => {
     if (!response) return;
-
-    if (response.sync_existing) {
-      eTokenDiv.style.display = "none";
-      eAdvanced.style.display = "";
-    } else {
-      eTokenDiv.style.display = "";
-      eAdvanced.style.display = "none";
-    }
 
     if (response.token && eStatus) {
       eStatus.classList.remove('status_error');
@@ -88,39 +103,39 @@ async function setup() {
         setStatus("manual_token");
 
       browser.extension.isAllowedIncognitoAccess()
-      .then((isAllowedAccess) => {
-        if (isAllowedAccess)
-          return;
+        .then((isAllowedAccess) => {
+          if (isAllowedAccess)
+            return;
 
-        const eIncognito = document.querySelector("#incognito");
-        if (!eIncognito) {
-          console.error('No div to place text?');
-          return;
-        }
-
-        eIncognito.style.display = "";
-
-        const eFirefoxExt = document.querySelector("#firefox_ext");
-        const eChromeExt = document.querySelector("#chrome_ext");
-
-        if (response.browser === "firefox") {
-          eFirefoxExt.style.display = "";
-          eChromeExt.style.display = "none";
-        } else if (response.browser === "chrome") {
-          eFirefoxExt.style.display = "none";
-          eChromeExt.style.display = "";
-        }
-
-        // NOTE: slight little hack to make the chrome://extensions link not be blocked.
-        if (response.browser === "chrome") {
-          const eChromeLink = document.querySelector("#chrome_link");
-          if (eChromeLink) {
-            eChromeLink.addEventListener("click", async () => {
-              await browser.runtime.sendMessage({type: "open_extension"});
-            });
+          const eIncognito = document.querySelector("#incognito");
+          if (!eIncognito) {
+            console.error('No div to place text?');
+            return;
           }
-        }
-      });
+
+          eIncognito.style.display = "";
+
+          const eFirefoxExt = document.querySelector("#firefox_ext");
+          const eChromeExt = document.querySelector("#chrome_ext");
+
+          if (response.browser === "firefox") {
+            eFirefoxExt.style.display = "";
+            eChromeExt.style.display = "none";
+          } else if (response.browser === "chrome") {
+            eFirefoxExt.style.display = "none";
+            eChromeExt.style.display = "";
+          }
+
+          // NOTE: slight little hack to make the chrome://extensions link not be blocked.
+          if (response.browser === "chrome") {
+            const eChromeLink = document.querySelector("#chrome_link");
+            if (eChromeLink) {
+              eChromeLink.addEventListener("click", async () => {
+                await browser.runtime.sendMessage({type: "open_extension"});
+              });
+            }
+          }
+        });
     }
   });
 
@@ -150,8 +165,42 @@ async function setup() {
   });
 
   eAdvanced.addEventListener("click", async () => {
-    eAdvanced.style.display = "none";
-    eTokenDiv.style.display = '';
+    if (eTokenDiv.style.display === '') {
+      eAdvanced.innerHTML = 'Advanced settings';
+      eTokenDiv.style.display = 'none';
+    } else {
+      eAdvanced.innerHTML = 'Hide advanced settings';
+      eTokenDiv.style.display = '';
+    }
+  });
+
+  eSummarizePage.addEventListener("click", async () => {
+    const eSummaryType = document.querySelector("#summary_type");
+    if (!eSummaryType) {
+      console.error("No summary type select found.");
+      return;
+    }
+
+    const eTargetLanguage = document.querySelector("#target_language");
+    if (!eTargetLanguage) {
+      console.error("No target language select found.");
+      return;
+    }
+
+    chrome.tabs.query({ active: true }, (tabs) => {
+      const tab = tabs[0];
+
+      const { url } = tab;
+
+      eSummaryResult.classList.remove('error');
+      eSummaryResult.style.display = "";
+      eSummaryResult.innerHTML = 'Summarizing...';
+
+      chrome.runtime.sendMessage({ type: "summarize_page", url, summary_type: eSummaryType.value, target_language: eTargetLanguage.value }, (response) => {
+        if (!response)
+          console.error('error summarizing: ', chrome.runtime.lastError.message);
+      });
+    });
   });
 
   browser.runtime.onMessage.addListener(async (data) => {
@@ -159,12 +208,21 @@ async function setup() {
       setStatus("manual_token");
       eStatus.classList.add('status_good');
       eStatus.classList.remove('status_error');
+      eSummarize.style.display = "";
     } else if (data.type === "reset") {
       setStatus("no_session");
       eStatus.classList.remove('status_good');
       eStatus.classList.add('status_error');
       eTokenDiv.style.display = 'none';
       eAdvanced.style.display = '';
+    } else if (data.type === "summary_finished") {
+      if (data.success) {
+        eSummaryResult.classList.remove('error');
+      } else {
+        eSummaryResult.classList.add('error');
+      }
+      eSummaryResult.style.display = "";
+      eSummaryResult.innerHTML = data.summary.replaceAll(/\n/g, '<br />');
     }
   });
 }
