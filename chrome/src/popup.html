@@ -36,6 +36,10 @@
           </span>
         </p>
 
+        <span id="advanced">Advanced settings</a>
+      </div>
+
+      <div id="token" style="display: none">
         <div id="incognito" style="display: none">
           <span>
             If you want to use Kagi automatically in incognito mode, you need to enable incognito mode in the extension settings.
@@ -47,11 +51,6 @@
             <li>Check the "Allow in incognito" toggle</li>
           </ol>
         </div>
-
-        <span id="advanced">Advanced</a>
-      </div>
-
-      <div id="token" style="display: none">
 
         <div class="setting_row">
           <div>
@@ -67,13 +66,74 @@
         </div>
 
         <div class="setting_row">
-          <input onClick="this.setSelectionRange(0, this.value.length)" type="password" id="token_input" value="" placeholder="my token"/>
+          <input type="password" id="token_input" value="" placeholder="my token"/>
         </div>
 
         <div class="setting_row">
           <button id="token_save">Set Token</button>
         </div>
 
+      </div>
+
+      <div id="summarize">
+
+        <div class="title">
+          Summarize the current page
+        </div>
+
+        <div class="setting_row">
+          <div>
+            <label for="summary_type">Summary Type</label>
+            <select id="summary_type">
+              <option value="summary" selected="selected">Summary</option>
+              <option value="takeaway">Key Moments</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="target_language">Output Language</label>
+            <select id="target_language">
+              <option value="" selected="selected">Default</option>
+              <option value="BG">Bulgarian</option>
+              <option value="CS">Czech</option>
+              <option value="DA">Danish</option>
+              <option value="DE">German</option>
+              <option value="EL">Greek</option>
+              <option value="EN">English</option>
+              <option value="ES">Spanish</option>
+              <option value="ET">Estonian</option>
+              <option value="FI">Finnish</option>
+              <option value="FR">French</option>
+              <option value="HU">Hungarian</option>
+              <option value="ID">Indonesian</option>
+              <option value="IT">Italian</option>
+              <option value="JA">Japanese</option>
+              <option value="KO">Korean</option>
+              <option value="LT">Lithuanian</option>
+              <option value="LV">Latvian</option>
+              <option value="NB">Norwegian</option>
+              <option value="NL">Dutch</option>
+              <option value="PL">Polish</option>
+              <option value="PT">Portuguese</option>
+              <option value="RO">Romanian</option>
+              <option value="RU">Russian</option>
+              <option value="SK">Slovak</option>
+              <option value="SL">Slovenian</option>
+              <option value="SV">Swedish</option>
+              <option value="TR">Turkish</option>
+              <option value="UK">Ukrainian</option>
+              <option value="ZH">Chinese (simplified)</option>
+            </select>
+          </div>
+
+          <button id="summarize_page">Summarize</button>
+        </div>
+
+        <div id="summary_result" class="result" style="display: none">
+          ...
+        </div>
+
+        <button id="copy_summary" style="display: none">Copy summary</button>
       </div>
     </div>
     <script type="module" src="popup.js"></script>

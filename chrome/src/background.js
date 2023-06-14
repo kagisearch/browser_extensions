@@ -2,7 +2,7 @@ let sessionToken = undefined;
 let syncSessionFromExisting = true;
 
 function saveToken(token, manual) {
-  sessionToken = token;
+  sessionToken = token || sessionToken;
 
   let shouldSync = !manual;
   if (sessionToken === undefined || sessionToken.trim().length === 0) {
@@ -35,6 +35,63 @@ function saveToken(token, manual) {
   }
 }
 
+async function summarizePage(token, url, summary_type, target_language) {
+  let summary = '';
+  let success = false;
+
+  try {
+    const requestParams = {
+      url,
+      summary_type,
+    };
+
+    if (target_language) {
+      requestParams.target_language = target_language;
+    }
+    
+    const searchParams = new URLSearchParams(requestParams);
+
+    const response = await fetch(`https://kagi.com/mother/summary_labs?${searchParams.toString()}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `${token}`,
+      },
+      credentials: 'include',
+    });
+
+    if (response.status === 200) {
+      const result = await response.json();
+
+      console.debug('summarize response', result);
+
+      summary = result?.output_text || 'Unknown error';
+      success = Boolean(result) && !Boolean(result.error);
+    } else {
+      console.error('summarize error', response.status, response.statusText);
+
+      if (response.status === 401) {
+        summary = 'Invalid Token! Please set a new one.';
+      } else {
+        summary = `Error: ${response.status} - ${response.statusText}`;
+      }
+    }
+  } catch (error) {
+    summary = error.message ? `Error: ${error.message}` : JSON.stringify(error);
+  }
+  
+  if (summary) {
+    chrome.runtime.sendMessage({
+      type: "summary_finished",
+      summary,
+      success,
+    }, (response) => {
+      if (!response)
+        console.error('error setting summary: ', chrome.runtime.lastError.message);
+    });
+  }
+}
+
 chrome.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
   switch(data.type) {
     case "get_data": {
@@ -51,6 +108,10 @@ chrome.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
     }
     case "open_extension": {
       chrome.tabs.create({'url': `chrome://extensions/?id=${chrome.runtime.id}`});
+      break;
+    }
+    case "summarize_page": {
+      summarizePage(data.token, data.url, data.summary_type, data.target_language);
       break;
     }
     default:
