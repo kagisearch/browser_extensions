@@ -98,9 +98,7 @@ async function setup() {
 
   eCopySummary.style.display = "none";
 
-  await browser.runtime.sendMessage({ type: "get_data" }).then((response) => {
-    if (!response) return;
-
+  async function handleGetData(response) {
     if (response.token && eStatus) {
       eStatus.classList.remove('status_error');
       eStatus.classList.add('status_good');
@@ -147,7 +145,25 @@ async function setup() {
           }
         });
     }
-  });
+  }
+
+  try {
+    browser.runtime.sendMessage({ type: "get_data" }, (response) => {
+      if (!response) return;
+
+      handleGetData(response);
+    });
+  } catch (error) {
+    // Sometimes the background/popup communication fails, but we can still get local info
+    const sessionObject = await chrome.storage.local.get('session_token');
+    const syncObject = await chrome.storage.local.get('sync_existing');
+
+    handleGetData({
+      token: sessionObject?.session_token,
+      sync_existing: typeof syncObject?.sync_existing !== 'undefined' ? syncObject : true,
+      browser: "chrome",
+    });
+  }
 
   const eSaveToken = document.querySelector("#token_save");
   if (!eSaveToken) {
@@ -178,9 +194,13 @@ async function setup() {
     if (eTokenDiv.style.display === '') {
       eAdvanced.innerHTML = 'Advanced settings';
       eTokenDiv.style.display = 'none';
+      eSummarize.style.display = '';
     } else {
       eAdvanced.innerHTML = 'Hide advanced settings';
       eTokenDiv.style.display = '';
+      eSummarize.style.display = 'none';
+      eSummaryResult.style.display = 'none';
+      eCopySummary.style.display = 'none';
     }
   });
 
@@ -198,7 +218,8 @@ async function setup() {
     }
 
     chrome.tabs.query({ active: true }, (tabs) => {
-      const tab = tabs[0];
+      // Chrome/Firefox might give us more than one active tab when something like "chrome://*" or "about:*" is also open
+      const tab = tabs.find((tab) => tab.url.startsWith('http://') || tab.url.startsWith('https://')) || tabs[0];
 
       const { url } = tab;
 
