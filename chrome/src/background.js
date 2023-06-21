@@ -107,7 +107,7 @@ chrome.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
       break;
     }
     case "open_extension": {
-      chrome.tabs.create({'url': `chrome://extensions/?id=${chrome.runtime.id}`});
+      chrome.tabs.create({ url: `chrome://extensions/?id=${chrome.runtime.id}` });
       break;
     }
     case "summarize_page": {
@@ -192,19 +192,17 @@ chrome.webRequest.onBeforeRequest.addListener(
 );
 
 // Set our session token if we have one saved from storage.
-function setup() {
-  chrome.storage.local.get("session_token", (sessionObj) => {
-    if (sessionObj && sessionObj.session_token) {
-      sessionToken = sessionObj.session_token;
-      updateRules();
-    }
-  });
+async function setup() {
+  const sessionObject = await chrome.storage.local.get('session_token');
+  if (sessionObject?.session_token) {
+    sessionToken = sessionObject.session_token;
+    updateRules();
+  }
 
-  chrome.storage.local.get("sync_existing", (syncObj) => {
-    if (syncObj && syncObj.sync_existing != undefined) {
-      syncSessionFromExisting = syncObj.sync_existing;
-    }
-  });
+  const syncObject = await chrome.storage.local.get('sync_existing');
+  if (typeof syncObject?.sync_existing !== 'undefined') {
+    syncSessionFromExisting = syncObject.sync_existing;
+  }
 }
 
 setup();
