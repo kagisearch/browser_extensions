@@ -59,7 +59,7 @@
             </div>
             <div class="desc">
               You can paste the login url from the control center or the raw login token.
-              <br>
+              <br />
               <a href="https://kagi.com/faq#using-login-token" target="_blank">Learn more about login tokens</a>
             </div>
           </div>
@@ -70,7 +70,24 @@
         </div>
 
         <div class="setting_row">
-          <button id="token_save">Set Token</button>
+          <div>
+            <div class="title">
+              Universal Summarizer API key
+            </div>
+            <div class="desc">
+              This enables selection of advanced summarization models available with the <a href="https://kagi.com/summarizer/api.html" target="_blank">Universal Summarizer API</a>.
+              <br />
+              Note: You can still use summarize feature in Kagi extension without any API key, provided you are logged in into your Kagi account.
+            </div>
+          </div>
+        </div>
+
+        <div class="setting_row">
+          <input type="password" id="api_token_input" value="" placeholder="my API key"/>
+        </div>
+
+        <div class="setting_row">
+          <button id="token_save">Set Tokens</button>
         </div>
 
       </div>
@@ -123,6 +140,16 @@
               <option value="TR">Turkish</option>
               <option value="UK">Ukrainian</option>
               <option value="ZH">Chinese (simplified)</option>
+            </select>
+          </div>
+
+          <div class="api_param" style="display: none">
+            <label for="engine">Engine</label>
+            <select id="engine">
+              <option value="cecil" selected="selected">Cecil</option>
+              <option value="agnes">Agnes</option>
+              <option value="daphne">Daphne</option>
+              <option value="muriel">Muriel</option>
             </select>
           </div>
 

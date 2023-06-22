@@ -1,10 +1,12 @@
 let sessionToken = undefined;
 let syncSessionFromExisting = true;
+let sessionApiToken = undefined;
 
-function saveToken(token, manual) {
-  sessionToken = token || sessionToken;
+function saveToken({ token, api_token } = {}, isManual) {
+  sessionToken = typeof token !== 'undefined' ? token : sessionToken;
+  sessionApiToken = typeof api_token !== 'undefined' ? api_token : sessionApiToken;
 
-  let shouldSync = !manual;
+  let shouldSync = !isManual;
   if (sessionToken === undefined || sessionToken.trim().length === 0) {
     shouldSync = true;
     chrome.runtime.sendMessage({
@@ -20,6 +22,7 @@ function saveToken(token, manual) {
   chrome.storage.local.set({
     session_token: token,
     sync_existing: shouldSync,
+    api_token: sessionApiToken,
   });
 
   updateRules();
@@ -28,6 +31,7 @@ function saveToken(token, manual) {
   if (!shouldSync && sessionToken) {
     chrome.runtime.sendMessage({
       type: "synced",
+      api_token: sessionApiToken,
     }, (response) => {
       if (!response)
         console.error('error setting synced: ', chrome.runtime.lastError.message);
@@ -35,9 +39,10 @@ function saveToken(token, manual) {
   }
 }
 
-async function summarizePage(token, url, summary_type, target_language) {
-  let summary = '';
+async function summarizePage({ token, url, summary_type, target_language, engine, api_token }) {
+  let summary = 'Unknown error';
   let success = false;
+  const useApi = Boolean(api_token);
 
   try {
     const requestParams = {
@@ -48,24 +53,39 @@ async function summarizePage(token, url, summary_type, target_language) {
     if (target_language) {
       requestParams.target_language = target_language;
     }
+
+    if (engine && useApi) {
+      requestParams.engine = engine;
+    }
     
     const searchParams = new URLSearchParams(requestParams);
 
-    const response = await fetch(`https://kagi.com/mother/summary_labs?${searchParams.toString()}`, {
+    const requestOptions = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `${token}`,
+        'Authorization': useApi ? `Bot ${api_token}` : `${token}`,
       },
       credentials: 'include',
-    });
+    };
+
+    const response = await fetch(`${useApi ? 'https://kagi.com/api/v0/summarize' : 'https://kagi.com/mother/summary_labs'}?${searchParams.toString()}`, requestOptions);
 
     if (response.status === 200) {
       const result = await response.json();
 
       console.debug('summarize response', result);
 
-      summary = result?.output_text || 'Unknown error';
+      if (useApi) {
+        if (result.data?.output) {
+          summary = result.data.output;
+        } else if (result.error) {
+          summary = JSON.stringify(result.error);
+        }
+      } else {
+        summary = result?.output_text || 'Unknown error';
+      }
+
       success = Boolean(result) && !Boolean(result.error);
     } else {
       console.error('summarize error', response.status, response.statusText);
@@ -97,13 +117,14 @@ chrome.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
     case "get_data": {
       sendResponse({
         token: sessionToken,
+        api_token: sessionApiToken,
         sync_existing: syncSessionFromExisting,
         browser: "chrome",
       });
       break;
     }
     case "save_token": {
-      saveToken(data.token, true);
+      saveToken(data, true);
       break;
     }
     case "open_extension": {
@@ -111,7 +132,7 @@ chrome.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
       break;
     }
     case "summarize_page": {
-      summarizePage(data.token, data.url, data.summary_type, data.target_language);
+      summarizePage(data);
       break;
     }
     default:
@@ -143,7 +164,7 @@ function checkForSession(_request) {
 
     if (sessionToken !== token) {
       sessionToken = token;
-      saveToken(token, false);
+      saveToken({ token }, false);
     }
   });
 }
@@ -202,6 +223,11 @@ async function setup() {
   const syncObject = await chrome.storage.local.get('sync_existing');
   if (typeof syncObject?.sync_existing !== 'undefined') {
     syncSessionFromExisting = syncObject.sync_existing;
+  }
+
+  const apiObject = await chrome.storage.local.get('api_token');
+  if (typeof apiObject !== 'undefined') {
+    sessionApiToken = apiObject.api_token;
   }
 }
 
