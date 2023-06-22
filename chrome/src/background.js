@@ -31,6 +31,7 @@ function saveToken({ token, api_token } = {}, isManual) {
   if (!shouldSync && sessionToken) {
     chrome.runtime.sendMessage({
       type: "synced",
+      token: sessionToken,
       api_token: sessionApiToken,
     }, (response) => {
       if (!response)

@@ -296,6 +296,13 @@ async function setup() {
       eStatus.classList.add('status_good');
       eStatus.classList.remove('status_error');
       eSaveToken.innerText = 'Set Tokens';
+      
+      if (data.token) {
+        eSummarize.style.display = '';
+      } else {
+        eSummarize.style.display = 'none';
+      }
+
       if (data.api_token) {
         eApiParams.forEach((element) => {
           element.style.display = '';
