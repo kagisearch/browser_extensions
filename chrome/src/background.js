@@ -1,10 +1,12 @@
 let sessionToken = undefined;
 let syncSessionFromExisting = true;
 let sessionApiToken = undefined;
+let sessionApiEngine = undefined;
 
-function saveToken({ token, api_token } = {}, isManual) {
+function saveToken({ token, api_token, api_engine } = {}, isManual) {
   sessionToken = typeof token !== 'undefined' ? token : sessionToken;
   sessionApiToken = typeof api_token !== 'undefined' ? api_token : sessionApiToken;
+  sessionApiEngine = typeof api_engine !== 'undefined' ? api_engine : sessionApiEngine;
 
   let shouldSync = !isManual;
   if (sessionToken === undefined || sessionToken.trim().length === 0) {
@@ -23,6 +25,7 @@ function saveToken({ token, api_token } = {}, isManual) {
     session_token: token,
     sync_existing: shouldSync,
     api_token: sessionApiToken,
+    api_engine: sessionApiEngine,
   });
 
   updateRules();
@@ -33,6 +36,7 @@ function saveToken({ token, api_token } = {}, isManual) {
       type: "synced",
       token: sessionToken,
       api_token: sessionApiToken,
+      api_engine: sessionApiEngine,
     }, (response) => {
       if (!response)
         console.error('error setting synced: ', chrome.runtime.lastError.message);
@@ -40,7 +44,7 @@ function saveToken({ token, api_token } = {}, isManual) {
   }
 }
 
-async function summarizePage({ token, url, summary_type, target_language, engine, api_token }) {
+async function summarizePage({ token, url, summary_type, target_language, api_engine, api_token }) {
   let summary = 'Unknown error';
   let success = false;
   const useApi = Boolean(api_token);
@@ -55,8 +59,8 @@ async function summarizePage({ token, url, summary_type, target_language, engine
       requestParams.target_language = target_language;
     }
 
-    if (engine && useApi) {
-      requestParams.engine = engine;
+    if (api_engine && useApi) {
+      requestParams.engine = api_engine;
     }
     
     const searchParams = new URLSearchParams(requestParams);
@@ -119,6 +123,7 @@ chrome.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
       sendResponse({
         token: sessionToken,
         api_token: sessionApiToken,
+        api_engine: sessionApiEngine,
         sync_existing: syncSessionFromExisting,
         browser: "chrome",
       });
@@ -229,6 +234,11 @@ async function setup() {
   const apiObject = await chrome.storage.local.get('api_token');
   if (typeof apiObject !== 'undefined') {
     sessionApiToken = apiObject.api_token;
+  }
+
+  const apiEngineObject = await chrome.storage.local.get('api_engine');
+  if (typeof apiEngineObject !== 'undefined') {
+    sessionApiEngine = apiEngineObject.api_engine;
   }
 }
 

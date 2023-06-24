@@ -60,6 +60,12 @@ async function setup() {
 
   eApiTokenInput.addEventListener("click", () => this.value ? this.setSelectionRange(0, this.value.length) : null);
 
+  const eApiEngineSelect = document.querySelector("#engine");
+  if (!eApiEngineSelect) {
+    console.error("Could not set API engine because no select exists");
+    return;
+  }
+
   const eStatus = document.querySelector("#status");
 
   const eAdvanced = document.querySelector("#advanced");
@@ -107,7 +113,7 @@ async function setup() {
     element.style.display = 'none';
   });
 
-  async function handleGetData({ token, api_token, sync_existing, browser } = {}) {
+  async function handleGetData({ token, api_token, sync_existing, api_engine, browser } = {}) {
     if (token && eStatus) {
       eStatus.classList.remove('status_error');
       eStatus.classList.add('status_good');
@@ -125,6 +131,10 @@ async function setup() {
         eApiParams.forEach((element) => {
           element.style.display = '';
         });
+      }
+
+      if (api_engine) {
+        eApiEngineSelect.value = api_engine;
       }
 
       chrome.extension.isAllowedIncognitoAccess()
@@ -167,11 +177,13 @@ async function setup() {
     const sessionObject = await chrome.storage.local.get('session_token');
     const syncObject = await chrome.storage.local.get('sync_existing');
     const apiObject = await chrome.storage.local.get('api_token');
+    const apiEngineObject = await chrome.storage.local.get('api_engine');
 
     handleGetData({
       token: sessionObject?.session_token,
       sync_existing: typeof syncObject?.sync_existing !== 'undefined' ? syncObject : true,
       api_token: apiObject?.api_token,
+      api_engine: apiEngineObject?.api_engine,
       browser: "chrome",
     });
   }
@@ -206,9 +218,17 @@ async function setup() {
 
     const api_token = eApiToken.value;
 
+    const eApiEngine = document.querySelector("#engine");
+    if (!eApiEngine) {
+      console.error("No API engine select found.");
+      return;
+    }
+
+    const api_engine = eApiEngine.value;
+
     eSaveToken.innerText = 'Saving...';
 
-    chrome.runtime.sendMessage({ type: "save_token", token, api_token }, (response) => {
+    chrome.runtime.sendMessage({ type: "save_token", token, api_token, api_engine }, (response) => {
       if (!response)
         console.error('error saving token: ', chrome.runtime.lastError.message);
     });
@@ -265,7 +285,7 @@ async function setup() {
       eCopySummary.style.display = "none";
       summaryTextContents = '';
 
-      chrome.runtime.sendMessage({ type: "summarize_page", url, summary_type: eSummaryType.value, target_language: eTargetLanguage.value, token: eTokenInput.value, api_token: eApiToken.value, engine: eEngine.value }, (response) => {
+      chrome.runtime.sendMessage({ type: "summarize_page", url, summary_type: eSummaryType.value, target_language: eTargetLanguage.value, token: eTokenInput.value, api_token: eApiToken.value, api_engine: eEngine.value }, (response) => {
         if (!response)
           console.error('error summarizing: ', chrome.runtime.lastError.message);
       });
@@ -290,17 +310,29 @@ async function setup() {
     }
   });
 
+  let savingButtonTextTimeout = undefined;
+
   chrome.runtime.onMessage.addListener(async (data, sender, sendResponse) => {
     if (data.type === "synced") {
       setStatus("manual_token");
       eStatus.classList.add('status_good');
       eStatus.classList.remove('status_error');
-      eSaveToken.innerText = 'Set Tokens';
+      eSaveToken.innerText = 'Saved!';
+
+      if (savingButtonTextTimeout) {
+        clearTimeout(savingButtonTextTimeout);
+      }
+
+      savingButtonTextTimeout = setTimeout(() => {
+        eSaveToken.innerText = 'Save settings';
+      }, 2000);
       
-      if (data.token) {
-        eSummarize.style.display = '';
-      } else {
-        eSummarize.style.display = 'none';
+      if (eTokenDiv.style.display === 'none') {
+        if (data.token) {
+          eSummarize.style.display = '';
+        } else {
+          eSummarize.style.display = 'none';
+        }
       }
 
       if (data.api_token) {
