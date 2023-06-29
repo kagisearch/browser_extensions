@@ -2,6 +2,8 @@ import * as polyfill from "./ext/browser_polyfill.js";
 
 let sessionToken = undefined;
 let syncSessionFromExisting = true;
+let sessionApiToken = undefined;
+let sessionApiEngine = undefined;
 const IS_CHROME = chrome.app !== undefined;
 
 browser.runtime.onMessage.addListener(async (data) => {
@@ -9,12 +11,16 @@ browser.runtime.onMessage.addListener(async (data) => {
     case "get_data": {
       return {
         token: sessionToken,
+        api_token: sessionApiToken,
+        api_engine: sessionApiEngine,
         sync_existing: syncSessionFromExisting,
         browser: IS_CHROME ? "chrome" : "firefox"
       };
     }
     case "save_token": {
-      sessionToken = data.token || sessionToken;
+      sessionToken = typeof data.token !== 'undefined' ? data.token : sessionToken;
+      sessionApiToken = typeof data.api_token !== 'undefined' ? data.api_token : sessionApiToken;
+      sessionApiEngine = typeof data.api_engine !== 'undefined' ? data.api_engine : sessionApiEngine;
 
       let shouldSync = false;
       if (sessionToken === undefined || sessionToken.trim().length === 0) {
@@ -29,12 +35,17 @@ browser.runtime.onMessage.addListener(async (data) => {
       browser.storage.local.set({
         session_token: data.token,
         sync_existing: shouldSync,
+        api_token: sessionApiToken,
+        api_engine: sessionApiEngine,
       }).catch(console.error);
 
       // tell the extension popup to update the UI
       if (!shouldSync && sessionToken) {
         await browser.runtime.sendMessage({
           type: "synced",
+          token: sessionToken,
+          api_token: sessionApiToken,
+          api_engine: sessionApiEngine,
         });
       }
       break;
@@ -48,7 +59,7 @@ browser.runtime.onMessage.addListener(async (data) => {
       break;
     }
     case "summarize_page": {
-      summarizePage(data.token, data.url, data.summary_type, data.target_language);
+      summarizePage(data);
       break;
     }
     default:
@@ -57,9 +68,10 @@ browser.runtime.onMessage.addListener(async (data) => {
   }
 });
 
-async function summarizePage(token, url, summary_type, target_language) {
-  let summary = '';
+async function summarizePage({ token, url, summary_type, target_language, api_engine, api_token }) {
+  let summary = 'Unknown error';
   let success = false;
+  const useApi = Boolean(api_token);
 
   try {
     const requestParams = {
@@ -71,23 +83,38 @@ async function summarizePage(token, url, summary_type, target_language) {
       requestParams.target_language = target_language;
     }
 
+    if (api_engine && useApi) {
+      requestParams.engine = api_engine;
+    }
+
     const searchParams = new URLSearchParams(requestParams);
 
-    const response = await fetch(`https://kagi.com/mother/summary_labs?${searchParams.toString()}`, {
+    const requestOptions = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `${token}`,
+        'Authorization': useApi ? `Bot ${api_token}` : `${token}`,
       },
       credentials: 'include',
-    });
+    };
+
+    const response = await fetch(`${useApi ? 'https://kagi.com/api/v0/summarize' : 'https://kagi.com/mother/summary_labs'}?${searchParams.toString()}`, requestOptions);
 
     if (response.status === 200) {
       const result = await response.json();
 
       console.debug('summarize response', result);
 
-      summary = result?.output_text || 'Unknown error';
+      if (useApi) {
+        if (result.data?.output) {
+          summary = result.data.output;
+        } else if (result.error) {
+          summary = JSON.stringify(result.error);
+        }
+      } else {
+        summary = result?.output_text || 'Unknown error';
+      }
+
       success = Boolean(result) && !Boolean(result.error);
     } else {
       console.error('summarize error', response.status, response.statusText);
@@ -107,9 +134,6 @@ async function summarizePage(token, url, summary_type, target_language) {
       type: "summary_finished",
       summary,
       success,
-    }, (response) => {
-      if (!response)
-        console.error('error setting summary: ', chrome.runtime.lastError.message);
     });
   }
 }
@@ -152,6 +176,10 @@ function checkForSession(_request) {
 function injectSessionHeader(details) {
   if (!sessionToken)
     return;
+  
+  if (details.requestHeaders.findIndex((header) => header.name.toLowerCase() === 'authorization') !== -1) {
+    return;
+  } 
 
   details.requestHeaders.push({
     name: "Authorization",
@@ -184,12 +212,21 @@ async function setup() {
   const sessionObject = await chrome.storage.local.get('session_token');
   if (sessionObject?.session_token) {
     sessionToken = sessionObject.session_token;
-    updateRules();
   }
 
   const syncObject = await chrome.storage.local.get('sync_existing');
   if (typeof syncObject?.sync_existing !== 'undefined') {
     syncSessionFromExisting = syncObject.sync_existing;
+  }
+
+  const apiObject = await chrome.storage.local.get('api_token');
+  if (typeof apiObject?.api_token !== 'undefined') {
+    sessionApiToken = apiObject.api_token;
+  }
+
+  const apiEngineObject = await chrome.storage.local.get('api_engine');
+  if (typeof apiEngineObject?.api_engine !== 'undefined') {
+    sessionApiEngine = apiEngineObject.api_engine;
   }
 }
 

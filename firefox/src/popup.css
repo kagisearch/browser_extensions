@@ -125,10 +125,7 @@ h3 {
 .title {
   font-size: 0.875rem;
   font-weight: 700;
-}
-
-.setting_row .desc {
-  max-width: 80%;
+  padding-right: 0.75rem;
 }
 
 p {

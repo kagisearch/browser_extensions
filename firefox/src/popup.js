@@ -50,6 +50,24 @@ async function setup() {
 
   eTokenInput.addEventListener("click", () => this.value ? this.setSelectionRange(0, this.value.length) : null);
 
+  const eApiTokenInput = document.querySelector("#api_token_input");
+  if (!eApiTokenInput) {
+    console.error("Could not set API token because no input exists");
+    return;
+  }
+
+  eApiTokenInput.addEventListener("focus", (e) => {
+    e.target.select();
+  });
+
+  eApiTokenInput.addEventListener("click", () => this.value ? this.setSelectionRange(0, this.value.length) : null);
+
+  const eApiEngineSelect = document.querySelector("#engine");
+  if (!eApiEngineSelect) {
+    console.error("Could not set API engine because no select exists");
+    return;
+  }
+
   const eStatus = document.querySelector("#status");
 
   const eAdvanced = document.querySelector("#advanced");
@@ -98,19 +116,41 @@ async function setup() {
 
   eCopySummary.style.display = "none";
 
-  async function handleGetData(response) {
-    if (response.token && eStatus) {
+  const eApiParams = document.querySelectorAll(".api_param");
+  if (!eApiParams.length) {
+    console.error("Could not find api param divs");
+    return;
+  }
+
+  eApiParams.forEach((element) => {
+    element.style.display = 'none';
+  });
+
+  async function handleGetData({ token, api_token, sync_existing, api_engine, browser } = {}) {
+    if (token && eStatus) {
       eStatus.classList.remove('status_error');
       eStatus.classList.add('status_good');
 
-      eTokenInput.value = response.token;
+      eTokenInput.value = token;
+      eApiTokenInput.value = api_token;
 
-      if (response.sync_existing)
+      if (sync_existing) {
         setStatus("auto_token");
-      else
+      } else {
         setStatus("manual_token");
+      }
 
-      browser.extension.isAllowedIncognitoAccess()
+      if (api_token) {
+        eApiParams.forEach((element) => {
+          element.style.display = '';
+        });
+      }
+
+      if (api_engine) {
+        eApiEngineSelect.value = api_engine;
+      }
+
+      chrome.extension.isAllowedIncognitoAccess()
         .then((isAllowedAccess) => {
           if (isAllowedAccess)
             return;
@@ -126,7 +166,7 @@ async function setup() {
           const eFirefoxExt = document.querySelector("#firefox_ext");
           const eChromeExt = document.querySelector("#chrome_ext");
 
-          if (response.browser === "firefox") {
+          if (browser === "firefox") {
             eFirefoxExt.style.display = "";
             eChromeExt.style.display = "none";
           } else if (response.browser === "chrome") {
@@ -135,7 +175,7 @@ async function setup() {
           }
 
           // NOTE: slight little hack to make the chrome://extensions link not be blocked.
-          if (response.browser === "chrome") {
+          if (browser === "chrome") {
             const eChromeLink = document.querySelector("#chrome_link");
             if (eChromeLink) {
               eChromeLink.addEventListener("click", async () => {
@@ -157,17 +197,21 @@ async function setup() {
     // Sometimes the background/popup communication fails, but we can still get local info
     const sessionObject = await chrome.storage.local.get('session_token');
     const syncObject = await chrome.storage.local.get('sync_existing');
+    const apiObject = await chrome.storage.local.get('api_token');
+    const apiEngineObject = await chrome.storage.local.get('api_engine');
 
     handleGetData({
       token: sessionObject?.session_token,
       sync_existing: typeof syncObject?.sync_existing !== 'undefined' ? syncObject : true,
+      api_token: apiObject?.api_token,
+      api_engine: apiEngineObject?.api_engine,
       browser: "chrome",
     });
   }
 
   const eSaveToken = document.querySelector("#token_save");
   if (!eSaveToken) {
-    console.error("Could not find save token button");
+    console.error("Could not find save settings button");
     return;
   }
 
@@ -187,7 +231,25 @@ async function setup() {
       if (token) eToken.value = token;
     }
 
-    await browser.runtime.sendMessage({ type: "save_token", token: token });
+    const eApiToken = document.querySelector("#api_token_input");
+    if (!eApiToken) {
+      console.error("No API token input found.");
+      return;
+    }
+
+    const api_token = eApiToken.value;
+
+    const eApiEngine = document.querySelector("#engine");
+    if (!eApiEngine) {
+      console.error("No API engine select found.");
+      return;
+    }
+
+    const api_engine = eApiEngine.value;
+
+    eSaveToken.innerText = 'Saving...';
+
+    await browser.runtime.sendMessage({ type: "save_token", token, api_token, api_engine });
   });
 
   eAdvanced.addEventListener("click", async () => {
@@ -217,6 +279,18 @@ async function setup() {
       return;
     }
 
+    const eEngine = document.querySelector("#engine");
+    if (!eEngine) {
+      console.error("No engine select found.");
+      return;
+    }
+
+    const eApiToken = document.querySelector("#api_token_input");
+    if (!eApiToken) {
+      console.error("No API token input found.");
+      return;
+    }
+
     chrome.tabs.query({ active: true }, (tabs) => {
       // Chrome/Firefox might give us more than one active tab when something like "chrome://*" or "about:*" is also open
       const tab = tabs.find((tab) => tab.url.startsWith('http://') || tab.url.startsWith('https://')) || tabs[0];
@@ -229,10 +303,7 @@ async function setup() {
       eCopySummary.style.display = "none";
       summaryTextContents = '';
 
-      chrome.runtime.sendMessage({ type: "summarize_page", url, summary_type: eSummaryType.value, target_language: eTargetLanguage.value }, (response) => {
-        if (!response)
-          console.error('error summarizing: ', chrome.runtime.lastError.message);
-      });
+      chrome.runtime.sendMessage({ type: "summarize_page", url, summary_type: eSummaryType.value, target_language: eTargetLanguage.value, token: eTokenInput.value, api_token: eApiToken.value, api_engine: eEngine.value });
     });
   });
 
@@ -254,12 +325,40 @@ async function setup() {
     }
   });
 
+  let savingButtonTextTimeout = undefined;
+
   browser.runtime.onMessage.addListener(async (data) => {
     if (data.type === "synced") {
       setStatus("manual_token");
       eStatus.classList.add('status_good');
       eStatus.classList.remove('status_error');
-      eSummarize.style.display = "";
+      eSaveToken.innerText = 'Saved!';
+
+      if (savingButtonTextTimeout) {
+        clearTimeout(savingButtonTextTimeout);
+      }
+
+      savingButtonTextTimeout = setTimeout(() => {
+        eSaveToken.innerText = 'Save settings';
+      }, 2000);
+
+      if (eTokenDiv.style.display === 'none') {
+        if (data.token) {
+          eSummarize.style.display = '';
+        } else {
+          eSummarize.style.display = 'none';
+        }
+      }
+
+      if (data.api_token) {
+        eApiParams.forEach((element) => {
+          element.style.display = '';
+        });
+      } else {
+        eApiParams.forEach((element) => {
+          element.style.display = 'none';
+        });
+      }
     } else if (data.type === "reset") {
       setStatus("no_session");
       eStatus.classList.remove('status_good');
