@@ -1,54 +1,54 @@
 {
-	"manifest_version": 3,
-	"name": "Kagi Search for Firefox",
-	"version": "0.3",
-	"description": "A simple helper extension for setting Kagi as a default search engine, and automatically logging in to Kagi in incognito browsing windows.",
-	"background": {
-		"page": "src/background_page.html"
-	},
-	"icons": {
-		"16": "icons/icon_16px.png",
-		"32": "icons/icon_32px.png",
-		"48": "icons/favicon-48.png",
-		"180": "icons/icon_180px.png"
-	},
-	"action": {
-		"default_icon": "icons/icon_32px.png",
-		"default_title": "Kagi Search",
-		"default_popup": "src/popup.html"
-	},
-	"permissions": [
-		"declarativeNetRequest",
-		"webRequest",
-		"webRequestBlocking",
-		"cookies",
-		"storage",
-		"tabs"
-	],
-	"host_permissions": ["https://kagi.com/"],
-	"chrome_settings_overrides": {
-		"search_provider": {
-			"name": "Kagi",
-			"search_url": "https://kagi.com/search?q={searchTerms}",
-			"favicon_url": "icons/icon_32px.png",
-			"keyword": "@kagi",
-			"is_default": true,
-			"suggest_url": "https://kagi.com/api/autosuggest?q={searchTerms}",
-			"encoding": "UTF-8"
-		}
-	},
-	"incognito": "spanning",
-	"commands": {
-		"_execute_action": {
-			"suggested_key": {
-				"default": "Ctrl+Shift+L",
-				"mac": "Command+Shift+L"
-			}
-		}
-	},
-	"browser_specific_settings": {
-		"gecko": {
-			"id": "search@kagi.com"
-		}
-	}
+  "manifest_version": 3,
+  "name": "Kagi Search for Firefox",
+  "version": "0.3",
+  "description": "A simple helper extension for setting Kagi as a default search engine, and automatically logging in to Kagi in incognito browsing windows.",
+  "background": {
+    "page": "src/background_page.html"
+  },
+  "icons": {
+    "16": "icons/icon_16px.png",
+    "32": "icons/icon_32px.png",
+    "48": "icons/favicon-48.png",
+    "180": "icons/icon_180px.png"
+  },
+  "action": {
+    "default_icon": "icons/icon_32px.png",
+    "default_title": "Kagi Search",
+    "default_popup": "src/popup.html"
+  },
+  "permissions": [
+    "declarativeNetRequest",
+    "webRequest",
+    "webRequestBlocking",
+    "cookies",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": ["https://kagi.com/"],
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "Kagi",
+      "search_url": "https://kagi.com/search?q={searchTerms}",
+      "favicon_url": "icons/icon_32px.png",
+      "keyword": "@kagi",
+      "is_default": true,
+      "suggest_url": "https://kagi.com/api/autosuggest?q={searchTerms}",
+      "encoding": "UTF-8"
+    }
+  },
+  "incognito": "spanning",
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      }
+    }
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "search@kagi.com"
+    }
+  }
 }

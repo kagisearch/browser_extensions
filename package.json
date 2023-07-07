@@ -9,7 +9,7 @@
     "build": "npm run build-firefox && npm run build-chrome",
     "build-firefox": "node build.js firefox",
     "build-chrome": "node build.js chrome",
-    "format": "rome format --write .",
+    "format": "rome format --write . && rome check --apply .",
     "lint": "rome check .",
     "test": "npm run lint"
   },
