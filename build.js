@@ -12,6 +12,8 @@ if (extension !== 'firefox' && extension !== 'chrome') {
   process.exit(1);
 }
 
+const isWatching = args[1] === 'watch';
+
 // Load the manifest json to grab version information and name.
 const manifest = require(`./${extension}/manifest.json`);
 const version = manifest.version;
@@ -23,8 +25,13 @@ const version = manifest.version;
  * And! It's cross-platform!
  */
 const zip = new AdmZip();
-zip.addLocalFolder(`shared`);
+zip.addLocalFolder('shared');
 zip.addLocalFolder(extension);
 
 zip.writeZip(`${__dirname}/built/kagi_${extension}_${version}.zip`);
 console.log(`Done: built/kagi_${extension}_${version}.zip`);
+
+if (isWatching) {
+  zip.extractAllTo(`${__dirname}/built/`, true);
+  console.log(`Done: Extracted built/kagi_${extension}_${version}.zip`);
+}

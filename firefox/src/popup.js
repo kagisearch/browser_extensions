@@ -1,29 +1,29 @@
-import * as polyfill from "./ext/browser_polyfill.js";
+import * as polyfill from './ext/browser_polyfill.js';
 
 let summaryTextContents = '';
 
 function setStatus(type) {
-  const eNoSession = document.querySelector("#no_session");
-  const eManualToken = document.querySelector("#manual_token");
-  const eAutoToken = document.querySelector("#auto_token");
+  const eNoSession = document.querySelector('#no_session');
+  const eManualToken = document.querySelector('#manual_token');
+  const eAutoToken = document.querySelector('#auto_token');
 
   switch (type) {
-    case "no_session": {
-      eNoSession.style.display = "";
-      eManualToken.style.display = "none";
-      eAutoToken.style.display = "none";
+    case 'no_session': {
+      eNoSession.style.display = '';
+      eManualToken.style.display = 'none';
+      eAutoToken.style.display = 'none';
       break;
     }
-    case "manual_token": {
-      eNoSession.style.display = "none";
-      eManualToken.style.display = "";
-      eAutoToken.style.display = "none";
+    case 'manual_token': {
+      eNoSession.style.display = 'none';
+      eManualToken.style.display = '';
+      eAutoToken.style.display = 'none';
       break;
     }
-    case "auto_token": {
-      eNoSession.style.display = "none";
-      eManualToken.style.display = "none";
-      eAutoToken.style.display = "";
+    case 'auto_token': {
+      eNoSession.style.display = 'none';
+      eManualToken.style.display = 'none';
+      eAutoToken.style.display = '';
       break;
     }
     default:
@@ -32,93 +32,97 @@ function setStatus(type) {
 }
 
 async function setup() {
-  const eTokenDiv = document.querySelector("#token");
+  const eTokenDiv = document.querySelector('#token');
   if (!eTokenDiv) {
-    console.error("Could not find token div");
+    console.error('Could not find token div');
     return;
   }
 
-  const eTokenInput = document.querySelector("#token_input");
+  const eTokenInput = document.querySelector('#token_input');
   if (!eTokenInput) {
-    console.error("Could not set token because no input exists");
+    console.error('Could not set token because no input exists');
     return;
   }
 
-  eTokenInput.addEventListener("focus", (e) => {
+  eTokenInput.addEventListener('focus', (e) => {
     e.target.select();
   });
 
-  eTokenInput.addEventListener("click", () => this.value ? this.setSelectionRange(0, this.value.length) : null);
+  eTokenInput.addEventListener('click', () =>
+    this.value ? this.setSelectionRange(0, this.value.length) : null,
+  );
 
-  const eApiTokenInput = document.querySelector("#api_token_input");
+  const eApiTokenInput = document.querySelector('#api_token_input');
   if (!eApiTokenInput) {
-    console.error("Could not set API token because no input exists");
+    console.error('Could not set API token because no input exists');
     return;
   }
 
-  eApiTokenInput.addEventListener("focus", (e) => {
+  eApiTokenInput.addEventListener('focus', (e) => {
     e.target.select();
   });
 
-  eApiTokenInput.addEventListener("click", () => this.value ? this.setSelectionRange(0, this.value.length) : null);
+  eApiTokenInput.addEventListener('click', () =>
+    this.value ? this.setSelectionRange(0, this.value.length) : null,
+  );
 
-  const eApiEngineSelect = document.querySelector("#engine");
+  const eApiEngineSelect = document.querySelector('#engine');
   if (!eApiEngineSelect) {
-    console.error("Could not set API engine because no select exists");
+    console.error('Could not set API engine because no select exists');
     return;
   }
 
-  const eStatus = document.querySelector("#status");
+  const eStatus = document.querySelector('#status');
 
-  const eAdvanced = document.querySelector("#advanced");
+  const eAdvanced = document.querySelector('#advanced');
   if (!eAdvanced) {
-    console.error("Could not find advanced toggle");
+    console.error('Could not find advanced toggle');
     return;
   }
 
-  const eKagiLink = document.querySelector("#kagi_link");
+  const eKagiLink = document.querySelector('#kagi_link');
   if (eKagiLink) {
-    eKagiLink.addEventListener("click", () => {
+    eKagiLink.addEventListener('click', () => {
       browser.tabs.create({
-        url:"https://kagi.com/",
-        active: true
+        url: 'https://kagi.com/',
+        active: true,
       });
       window.close();
     });
   }
 
-  const eSummarize = document.querySelector("#summarize");
+  const eSummarize = document.querySelector('#summarize');
   if (!eSummarize) {
-    console.error("Could not find summarize section");
+    console.error('Could not find summarize section');
     return;
   }
 
-  const eSummarizePage = document.querySelector("#summarize_page");
+  const eSummarizePage = document.querySelector('#summarize_page');
   if (!eSummarizePage) {
-    console.error("Could not find summarize page button");
+    console.error('Could not find summarize page button');
     return;
   }
 
-  const eSummaryResult = document.querySelector("#summary_result");
+  const eSummaryResult = document.querySelector('#summary_result');
   if (!eSummaryResult) {
-    console.error("Could not find summarize result div");
+    console.error('Could not find summarize result div');
     return;
   }
 
-  eSummaryResult.style.display = "none";
+  eSummaryResult.style.display = 'none';
   eSummaryResult.classList.remove('error');
 
-  const eCopySummary = document.querySelector("#copy_summary");
+  const eCopySummary = document.querySelector('#copy_summary');
   if (!eCopySummary) {
-    console.error("Could not find copy summary button");
+    console.error('Could not find copy summary button');
     return;
   }
 
-  eCopySummary.style.display = "none";
+  eCopySummary.style.display = 'none';
 
-  const eApiParams = document.querySelectorAll(".api_param");
+  const eApiParams = document.querySelectorAll('.api_param');
   if (!eApiParams.length) {
-    console.error("Could not find api param divs");
+    console.error('Could not find api param divs');
     return;
   }
 
@@ -126,7 +130,13 @@ async function setup() {
     element.style.display = 'none';
   });
 
-  async function handleGetData({ token, api_token, sync_existing, api_engine, browser } = {}) {
+  async function handleGetData({
+    token,
+    api_token,
+    sync_existing,
+    api_engine,
+    browser,
+  } = {}) {
     if (token && eStatus) {
       eStatus.classList.remove('status_error');
       eStatus.classList.add('status_good');
@@ -135,9 +145,9 @@ async function setup() {
       eApiTokenInput.value = api_token;
 
       if (sync_existing) {
-        setStatus("auto_token");
+        setStatus('auto_token');
       } else {
-        setStatus("manual_token");
+        setStatus('manual_token');
       }
 
       if (api_token) {
@@ -150,45 +160,43 @@ async function setup() {
         eApiEngineSelect.value = api_engine;
       }
 
-      chrome.extension.isAllowedIncognitoAccess()
-        .then((isAllowedAccess) => {
-          if (isAllowedAccess)
-            return;
+      chrome.extension.isAllowedIncognitoAccess().then((isAllowedAccess) => {
+        if (isAllowedAccess) return;
 
-          const eIncognito = document.querySelector("#incognito");
-          if (!eIncognito) {
-            console.error('No div to place text?');
-            return;
+        const eIncognito = document.querySelector('#incognito');
+        if (!eIncognito) {
+          console.error('No div to place text?');
+          return;
+        }
+
+        eIncognito.style.display = '';
+
+        const eFirefoxExt = document.querySelector('#firefox_ext');
+        const eChromeExt = document.querySelector('#chrome_ext');
+
+        if (browser === 'firefox') {
+          eFirefoxExt.style.display = '';
+          eChromeExt.style.display = 'none';
+        } else if (response.browser === 'chrome') {
+          eFirefoxExt.style.display = 'none';
+          eChromeExt.style.display = '';
+        }
+
+        // NOTE: slight little hack to make the chrome://extensions link not be blocked.
+        if (browser === 'chrome') {
+          const eChromeLink = document.querySelector('#chrome_link');
+          if (eChromeLink) {
+            eChromeLink.addEventListener('click', async () => {
+              await browser.runtime.sendMessage({ type: 'open_extension' });
+            });
           }
-
-          eIncognito.style.display = "";
-
-          const eFirefoxExt = document.querySelector("#firefox_ext");
-          const eChromeExt = document.querySelector("#chrome_ext");
-
-          if (browser === "firefox") {
-            eFirefoxExt.style.display = "";
-            eChromeExt.style.display = "none";
-          } else if (response.browser === "chrome") {
-            eFirefoxExt.style.display = "none";
-            eChromeExt.style.display = "";
-          }
-
-          // NOTE: slight little hack to make the chrome://extensions link not be blocked.
-          if (browser === "chrome") {
-            const eChromeLink = document.querySelector("#chrome_link");
-            if (eChromeLink) {
-              eChromeLink.addEventListener("click", async () => {
-                await browser.runtime.sendMessage({type: "open_extension"});
-              });
-            }
-          }
-        });
+        }
+      });
     }
   }
 
   try {
-    browser.runtime.sendMessage({ type: "get_data" }, (response) => {
+    browser.runtime.sendMessage({ type: 'get_data' }, (response) => {
       if (!response) return;
 
       handleGetData(response);
@@ -202,46 +210,47 @@ async function setup() {
 
     handleGetData({
       token: sessionObject?.session_token,
-      sync_existing: typeof syncObject?.sync_existing !== 'undefined' ? syncObject : true,
+      sync_existing:
+        typeof syncObject?.sync_existing !== 'undefined' ? syncObject : true,
       api_token: apiObject?.api_token,
       api_engine: apiEngineObject?.api_engine,
-      browser: "chrome",
+      browser: 'chrome',
     });
   }
 
-  const eSaveToken = document.querySelector("#token_save");
+  const eSaveToken = document.querySelector('#token_save');
   if (!eSaveToken) {
-    console.error("Could not find save settings button");
+    console.error('Could not find save settings button');
     return;
   }
 
-  eSaveToken.addEventListener("click", async () => {
-    const eToken = document.querySelector("#token_input");
+  eSaveToken.addEventListener('click', async () => {
+    const eToken = document.querySelector('#token_input');
     if (!eToken) {
-      console.error("No token input found.");
+      console.error('No token input found.');
       return;
     }
 
     let token = eToken.value;
 
-    if (token.startsWith("https://kagi.com")) {
+    if (token.startsWith('https://kagi.com')) {
       const url = new URL(token);
-      token = url.searchParams.get("token");
+      token = url.searchParams.get('token');
 
       if (token) eToken.value = token;
     }
 
-    const eApiToken = document.querySelector("#api_token_input");
+    const eApiToken = document.querySelector('#api_token_input');
     if (!eApiToken) {
-      console.error("No API token input found.");
+      console.error('No API token input found.');
       return;
     }
 
     const api_token = eApiToken.value;
 
-    const eApiEngine = document.querySelector("#engine");
+    const eApiEngine = document.querySelector('#engine');
     if (!eApiEngine) {
-      console.error("No API engine select found.");
+      console.error('No API engine select found.');
       return;
     }
 
@@ -249,10 +258,15 @@ async function setup() {
 
     eSaveToken.innerText = 'Saving...';
 
-    await browser.runtime.sendMessage({ type: "save_token", token, api_token, api_engine });
+    await browser.runtime.sendMessage({
+      type: 'save_token',
+      token,
+      api_token,
+      api_engine,
+    });
   });
 
-  eAdvanced.addEventListener("click", async () => {
+  eAdvanced.addEventListener('click', async () => {
     if (eTokenDiv.style.display === '') {
       eAdvanced.innerHTML = 'Advanced settings';
       eTokenDiv.style.display = 'none';
@@ -266,48 +280,60 @@ async function setup() {
     }
   });
 
-  eSummarizePage.addEventListener("click", async () => {
-    const eSummaryType = document.querySelector("#summary_type");
+  eSummarizePage.addEventListener('click', async () => {
+    const eSummaryType = document.querySelector('#summary_type');
     if (!eSummaryType) {
-      console.error("No summary type select found.");
+      console.error('No summary type select found.');
       return;
     }
 
-    const eTargetLanguage = document.querySelector("#target_language");
+    const eTargetLanguage = document.querySelector('#target_language');
     if (!eTargetLanguage) {
-      console.error("No target language select found.");
+      console.error('No target language select found.');
       return;
     }
 
-    const eEngine = document.querySelector("#engine");
+    const eEngine = document.querySelector('#engine');
     if (!eEngine) {
-      console.error("No engine select found.");
+      console.error('No engine select found.');
       return;
     }
 
-    const eApiToken = document.querySelector("#api_token_input");
+    const eApiToken = document.querySelector('#api_token_input');
     if (!eApiToken) {
-      console.error("No API token input found.");
+      console.error('No API token input found.');
       return;
     }
 
     chrome.tabs.query({ active: true }, (tabs) => {
       // Chrome/Firefox might give us more than one active tab when something like "chrome://*" or "about:*" is also open
-      const tab = tabs.find((tab) => tab.url.startsWith('http://') || tab.url.startsWith('https://')) || tabs[0];
+      const tab =
+        tabs.find(
+          (tab) =>
+            tab.url.startsWith('http://') || tab.url.startsWith('https://'),
+        ) || tabs[0];
 
       const { url } = tab;
 
       eSummaryResult.classList.remove('error');
-      eSummaryResult.style.display = "";
+      eSummaryResult.style.display = '';
       eSummaryResult.innerHTML = 'Summarizing...';
-      eCopySummary.style.display = "none";
+      eCopySummary.style.display = 'none';
       summaryTextContents = '';
 
-      chrome.runtime.sendMessage({ type: "summarize_page", url, summary_type: eSummaryType.value, target_language: eTargetLanguage.value, token: eTokenInput.value, api_token: eApiToken.value, api_engine: eEngine.value });
+      chrome.runtime.sendMessage({
+        type: 'summarize_page',
+        url,
+        summary_type: eSummaryType.value,
+        target_language: eTargetLanguage.value,
+        token: eTokenInput.value,
+        api_token: eApiToken.value,
+        api_engine: eEngine.value,
+      });
     });
   });
 
-  eCopySummary.addEventListener("click", async () => {
+  eCopySummary.addEventListener('click', async () => {
     if (!summaryTextContents) {
       return;
     }
@@ -315,10 +341,10 @@ async function setup() {
     try {
       await navigator.clipboard.writeText(summaryTextContents);
 
-      eCopySummary.innerText = "Copied!";
+      eCopySummary.innerText = 'Copied!';
 
       setTimeout(() => {
-        eCopySummary.innerText = "Copy summary";
+        eCopySummary.innerText = 'Copy summary';
       }, 3000);
     } catch (error) {
       console.error('error copying summary to clipboard: ', error);
@@ -328,8 +354,8 @@ async function setup() {
   let savingButtonTextTimeout = undefined;
 
   browser.runtime.onMessage.addListener(async (data) => {
-    if (data.type === "synced") {
-      setStatus("manual_token");
+    if (data.type === 'synced') {
+      setStatus('manual_token');
       eStatus.classList.add('status_good');
       eStatus.classList.remove('status_error');
       eSaveToken.innerText = 'Saved!';
@@ -359,13 +385,13 @@ async function setup() {
           element.style.display = 'none';
         });
       }
-    } else if (data.type === "reset") {
-      setStatus("no_session");
+    } else if (data.type === 'reset') {
+      setStatus('no_session');
       eStatus.classList.remove('status_good');
       eStatus.classList.add('status_error');
       eTokenDiv.style.display = 'none';
       eAdvanced.style.display = '';
-    } else if (data.type === "summary_finished") {
+    } else if (data.type === 'summary_finished') {
       if (data.success) {
         eSummaryResult.classList.remove('error');
         summaryTextContents = data.summary;
@@ -375,12 +401,12 @@ async function setup() {
         summaryTextContents = '';
         eCopySummary.style.display = 'none';
       }
-      eSummaryResult.style.display = "";
+      eSummaryResult.style.display = '';
       eSummaryResult.innerHTML = data.summary.replaceAll(/\n/g, '<br />');
-    } else if (data.type === "summarize_page") {
+    } else if (data.type === 'summarize_page') {
       eSummarizePage.dispatchEvent('click');
     }
   });
 }
 
-document.addEventListener("DOMContentLoaded", setup);
+document.addEventListener('DOMContentLoaded', setup);

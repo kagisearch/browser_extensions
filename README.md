@@ -19,6 +19,8 @@ Get it for your browser here:
 - [Contributing](#contributing)
   - [Accepted Contributions](#accepted-contributions)
   - [Instructions](#instructions)
+  - [Development](#development)
+  - [Testing/sharing/debugging](#testing-sharing-debugging)
 
 ## Extension Features
 
@@ -88,3 +90,23 @@ You can inquire about new features or report bugs here:
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+### Development
+
+Check the recommended and required `node` and `npm` versions in the `package.json` and `.nvmrc` files.
+
+```sh
+npm ci  # install dependencies
+npm run watch-firefox  # builds the firefox zip file and unzips it into the `built/` directory every time a file changes
+npm run watch-chrome  # builds the chrome zip file and unzips it into the `built/` directory every time a file changes
+npm run format  # formats the code
+```
+
+### Testing/sharing/debugging
+
+```sh
+npm run test  # runs the linter & formatter checks
+npm run build  # builds the chrome and firefox zip files in the `built/` directory
+npm run build-firefox  # builds the firefox zip file in the `built/` directory
+npm run build-chrome  # builds the chrome zip file in the `built/` directory
+```
