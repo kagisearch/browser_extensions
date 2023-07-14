@@ -1,6 +1,14 @@
-import * as polyfill from './ext/browser_polyfill.js';
+if (!globalThis.browser) {
+  globalThis.browser = chrome;
+}
 
 let summaryTextContents = '';
+let IS_CHROME = true;
+
+// Very hacky, but currently works flawlessly
+if (typeof browser.runtime.getBrowserInfo === 'function') {
+  IS_CHROME = false;
+}
 
 function setStatus(type) {
   const eNoSession = document.querySelector('#no_session');
@@ -80,17 +88,6 @@ async function setup() {
     return;
   }
 
-  const eKagiLink = document.querySelector('#kagi_link');
-  if (eKagiLink) {
-    eKagiLink.addEventListener('click', () => {
-      browser.tabs.create({
-        url: 'https://kagi.com/',
-        active: true,
-      });
-      window.close();
-    });
-  }
-
   const eSummarize = document.querySelector('#summarize');
   if (!eSummarize) {
     console.error('Could not find summarize section');
@@ -129,94 +126,6 @@ async function setup() {
   eApiParams.forEach((element) => {
     element.style.display = 'none';
   });
-
-  async function handleGetData({
-    token,
-    api_token,
-    sync_existing,
-    api_engine,
-    browser,
-  } = {}) {
-    if (token && eStatus) {
-      eStatus.classList.remove('status_error');
-      eStatus.classList.add('status_good');
-
-      eTokenInput.value = token;
-      eApiTokenInput.value = api_token;
-
-      if (sync_existing) {
-        setStatus('auto_token');
-      } else {
-        setStatus('manual_token');
-      }
-
-      if (api_token) {
-        eApiParams.forEach((element) => {
-          element.style.display = '';
-        });
-      }
-
-      if (api_engine) {
-        eApiEngineSelect.value = api_engine;
-      }
-
-      chrome.extension.isAllowedIncognitoAccess().then((isAllowedAccess) => {
-        if (isAllowedAccess) return;
-
-        const eIncognito = document.querySelector('#incognito');
-        if (!eIncognito) {
-          console.error('No div to place text?');
-          return;
-        }
-
-        eIncognito.style.display = '';
-
-        const eFirefoxExt = document.querySelector('#firefox_ext');
-        const eChromeExt = document.querySelector('#chrome_ext');
-
-        if (browser === 'firefox') {
-          eFirefoxExt.style.display = '';
-          eChromeExt.style.display = 'none';
-        } else if (response.browser === 'chrome') {
-          eFirefoxExt.style.display = 'none';
-          eChromeExt.style.display = '';
-        }
-
-        // NOTE: slight little hack to make the chrome://extensions link not be blocked.
-        if (browser === 'chrome') {
-          const eChromeLink = document.querySelector('#chrome_link');
-          if (eChromeLink) {
-            eChromeLink.addEventListener('click', async () => {
-              await browser.runtime.sendMessage({ type: 'open_extension' });
-            });
-          }
-        }
-      });
-    }
-  }
-
-  try {
-    browser.runtime.sendMessage({ type: 'get_data' }, (response) => {
-      if (!response) return;
-
-      handleGetData(response);
-    });
-  } catch (error) {
-    // Sometimes the background/popup communication fails, but we can still get local info
-    const sessionObject = await chrome.storage.local.get('session_token');
-    const syncObject = await chrome.storage.local.get('sync_existing');
-    const apiObject = await chrome.storage.local.get('api_token');
-    const apiEngineObject = await chrome.storage.local.get('api_engine');
-
-    handleGetData({
-      token: sessionObject?.session_token,
-      sync_existing:
-        typeof syncObject?.sync_existing !== 'undefined' ? syncObject : true,
-      api_token: apiObject?.api_token,
-      api_engine: apiEngineObject?.api_engine,
-      browser: 'chrome',
-    });
-  }
 
   const eSaveToken = document.querySelector('#token_save');
   if (!eSaveToken) {
@@ -305,31 +214,31 @@ async function setup() {
       return;
     }
 
-    chrome.tabs.query({ active: true }, (tabs) => {
-      // Chrome/Firefox might give us more than one active tab when something like "chrome://*" or "about:*" is also open
-      const tab =
-        tabs.find(
-          (tab) =>
-            tab.url.startsWith('http://') || tab.url.startsWith('https://'),
-        ) || tabs[0];
+    const tabs = await browser.tabs.query({ active: true });
 
-      const { url } = tab;
+    // Chrome/Firefox might give us more than one active tab when something like "chrome://*" or "about:*" is also open
+    const tab =
+      tabs.find(
+        (tab) =>
+          tab.url.startsWith('http://') || tab.url.startsWith('https://'),
+      ) || tabs[0];
 
-      eSummaryResult.classList.remove('error');
-      eSummaryResult.style.display = '';
-      eSummaryResult.innerHTML = 'Summarizing...';
-      eCopySummary.style.display = 'none';
-      summaryTextContents = '';
+    const { url } = tab;
 
-      chrome.runtime.sendMessage({
-        type: 'summarize_page',
-        url,
-        summary_type: eSummaryType.value,
-        target_language: eTargetLanguage.value,
-        token: eTokenInput.value,
-        api_token: eApiToken.value,
-        api_engine: eEngine.value,
-      });
+    eSummaryResult.classList.remove('error');
+    eSummaryResult.style.display = '';
+    eSummaryResult.innerHTML = 'Summarizing...';
+    eCopySummary.style.display = 'none';
+    summaryTextContents = '';
+
+    await browser.runtime.sendMessage({
+      type: 'summarize_page',
+      url,
+      summary_type: eSummaryType.value,
+      target_language: eTargetLanguage.value,
+      token: eTokenInput.value,
+      api_token: eApiToken.value,
+      api_engine: eEngine.value,
     });
   });
 
@@ -349,6 +258,87 @@ async function setup() {
     } catch (error) {
       console.error('error copying summary to clipboard: ', error);
     }
+  });
+
+  async function handleGetData({
+    token,
+    api_token,
+    sync_existing,
+    api_engine,
+  } = {}) {
+    if (token && eStatus) {
+      eStatus.classList.remove('status_error');
+      eStatus.classList.add('status_good');
+
+      eTokenInput.value = token;
+      eApiTokenInput.value = api_token;
+
+      if (sync_existing) {
+        setStatus('auto_token');
+      } else {
+        setStatus('manual_token');
+      }
+
+      if (api_token) {
+        eApiParams.forEach((element) => {
+          element.style.display = '';
+        });
+      }
+
+      if (api_engine) {
+        eApiEngineSelect.value = api_engine;
+      }
+
+      const hasIncognitoAccess =
+        await browser.extension.isAllowedIncognitoAccess();
+
+      if (!hasIncognitoAccess) {
+        const eIncognito = document.querySelector('#incognito');
+
+        if (!eIncognito) {
+          console.error('No incognito div to place text');
+          return;
+        }
+
+        eIncognito.style.display = '';
+
+        const eFirefoxExt = document.querySelector('#firefox_ext');
+        const eChromeExt = document.querySelector('#chrome_ext');
+
+        if (!IS_CHROME) {
+          eFirefoxExt.style.display = '';
+          eChromeExt.style.display = 'none';
+        } else {
+          eFirefoxExt.style.display = 'none';
+          eChromeExt.style.display = '';
+        }
+
+        // NOTE: slight little hack to make the chrome://extensions link not be blocked.
+        if (IS_CHROME) {
+          const eChromeLink = document.querySelector('#chrome_link');
+          if (eChromeLink) {
+            eChromeLink.addEventListener('click', async () => {
+              await browser.runtime.sendMessage({ type: 'open_extension' });
+            });
+          }
+        }
+      }
+    }
+  }
+
+  const sessionObject = await browser.storage.local.get('session_token');
+  const syncObject = await browser.storage.local.get('sync_existing');
+  const apiObject = await browser.storage.local.get('api_token');
+  const apiEngineObject = await browser.storage.local.get('api_engine');
+
+  await handleGetData({
+    token: sessionObject?.session_token,
+    sync_existing:
+      typeof syncObject?.sync_existing !== 'undefined'
+        ? syncObject.sync_existing
+        : true,
+    api_token: apiObject?.api_token,
+    api_engine: apiEngineObject?.api_engine,
   });
 
   let savingButtonTextTimeout = undefined;

@@ -4,7 +4,7 @@
     "enabled": false
   },
   "files": {
-    "ignore": ["built/", "**/browser_polyfill.js"]
+    "ignore": ["built/"]
   },
   "linter": {
     "enabled": true,
