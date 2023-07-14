@@ -66,34 +66,6 @@ async function summarizePage(options) {
 }
 
 /*
- * Attempts to grab sessions from existing Kagi windows.
- * This allows us to track the users last session without
- * having to force them to input it in to the extension.
- */
-async function checkForSession(_request) {
-  if (!syncSessionFromExisting) return;
-
-  const cookie = await browser.cookies.get({
-    url: 'https://kagi.com',
-    name: 'kagi_session',
-  });
-
-  if (!cookie || !cookie.value) return;
-
-  const token = cookie.value;
-
-  if (sessionToken !== token) {
-    sessionToken = token;
-
-    await browser.runtime.sendMessage({
-      type: 'save_token',
-      token: token,
-      sync: true,
-    });
-  }
-}
-
-/*
  * Adds an Authorization header to all Kagi requests.
  * This allows us to provide authentication without having to
  * track if the user is logged in between incognito and normal windows.
@@ -124,6 +96,34 @@ async function updateRules() {
     ],
     removeRuleIds: [1],
   });
+}
+
+/*
+ * Attempts to grab sessions from existing Kagi windows.
+ * This allows us to track the users last session without
+ * having to force them to input it in to the extension.
+ */
+async function checkForSession(_request) {
+  if (!syncSessionFromExisting) return;
+
+  const cookie = await browser.cookies.get({
+    url: 'https://kagi.com',
+    name: 'kagi_session',
+  });
+
+  if (!cookie || !cookie.value) return;
+
+  const token = cookie.value;
+
+  if (sessionToken !== token) {
+    sessionToken = token;
+
+    await browser.runtime.sendMessage({
+      type: 'save_token',
+      token,
+      sync: true,
+    });
+  }
 }
 
 browser.webRequest.onBeforeRequest.addListener(
