@@ -16,7 +16,7 @@ if (typeof browser.runtime.getBrowserInfo === 'function') {
 }
 
 async function saveToken(
-  { token, api_token, api_engine } = {},
+  { token, api_token, api_engine, sync } = {},
   isManual = false,
 ) {
   sessionToken = typeof token !== 'undefined' ? token : sessionToken;
@@ -25,7 +25,7 @@ async function saveToken(
   sessionApiEngine =
     typeof api_engine !== 'undefined' ? api_engine : sessionApiEngine;
 
-  let shouldSync = !isManual;
+  let shouldSync = sync || !isManual;
   if (typeof sessionToken === 'undefined' || sessionToken.trim().length === 0) {
     shouldSync = true;
     await browser.runtime.sendMessage({ type: 'reset' });
@@ -103,7 +103,7 @@ async function updateRules() {
  * This allows us to track the users last session without
  * having to force them to input it in to the extension.
  */
-async function checkForSession(_request) {
+async function checkForSession() {
   if (!syncSessionFromExisting) return;
 
   const cookie = await browser.cookies.get({
@@ -118,11 +118,7 @@ async function checkForSession(_request) {
   if (sessionToken !== token) {
     sessionToken = token;
 
-    await browser.runtime.sendMessage({
-      type: 'save_token',
-      token,
-      sync: true,
-    });
+    await saveToken({ token, sync: true });
   }
 }
 
