@@ -40,16 +40,26 @@
       </div>
 
       <div id="token" style="display: none">
+
         <div id="incognito" style="display: none">
           <span>
             If you want to use Kagi automatically in incognito mode, you need to enable incognito mode in the extension settings.
           </span>
           <br>
-
-          <ol>
-            <li> Go to <a id="chrome_link" href="#">the extension settings</a></li>
-            <li>Check the "Allow in incognito" toggle</li>
-          </ol>
+          <div id="firefox_ext" style="display: none">
+            <ol>
+              <li>Go to <b>about:addons</b></li>
+              <li>find the Kagi extension and click the 3 dots (...) on the right side</li>
+              <li>Click "Manage"</li>
+              <li>check the "Allow" box next to "Run in Private Windows"</li>
+            </ol>
+          </div>
+          <div id="chrome_ext" style="display: none">
+            <ol>
+              <li> Go to <a id="chrome_link" href="#">the extension settings</a></li>
+              <li>Check the "Allow in incognito" toggle</li>
+            </ol>
+          </div>
         </div>
 
         <div class="setting_row">
@@ -118,7 +128,7 @@
               <option value="takeaway">Key Moments</option>
             </select>
           </div>
-          
+
           <div>
             <label for="target_language">Output Language</label>
             <select id="target_language">

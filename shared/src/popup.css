@@ -64,6 +64,7 @@ input[type="password"]:focus {
 .logo {
   width: 58px;
   height: 29px;
+  margin-top: 10px;
 }
 
 .logo svg {
