@@ -18,6 +18,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 483px;
 }
 
 #token {
@@ -46,56 +47,94 @@ input[type="password"]:focus {
   outline: 1px solid #ffb319;
 }
 
-#status {
-  font-size: 0.875rem;
-  width: 90%;
-}
-
-.status_good {
-  color: #00a854;
-  font-weight: 700;
-}
-
-.status_error {
-  color: #fd6820;
-  font-weight: 700;
+#header {
+  margin: 10px 25px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo {
   width: 58px;
   height: 29px;
-  margin-top: 10px;
+  flex: 1;
+  justify-content: flex-start;
+  display: flex;
 }
 
 .logo svg {
-  width: 100%;
   height: 100%;
 }
 
-#header {
-  margin-bottom: 10px;
-  width: 100%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+#status {
+  font-size: 0.875rem;
+  flex: 0;
+}
+
+#status svg {
+  width: 24px;
+  height: 24px;
+}
+
+#status svg:first-child {
+  color: #fd6820;
+  fill: #fd6820;
+  font-weight: 700;
+}
+
+#status svg#loading {
+  font-size: 0.875rem;
+  flex: 0;
+}
+
+#status svg:last-child {
+  color: #00a854;
+  fill: #00a854;
+  font-weight: 700;
 }
 
 #header #advanced {
-  align-self: flex-end;
   cursor: pointer;
   text-decoration: underline;
   font-size: 14px;
-  margin-right: 25px;
+  margin-left: 5px;
+  flex: 0;
+}
+
+#header #advanced svg:first-child {
+  width: 30px;
+  height: 30px;
+  margin: 3px;
+}
+
+#header #advanced svg:last-child {
+  width: 36px;
+  height: 36px;
+}
+
+#status_error_message {
+  color: #fd6820;
+}
+
+#status_error_message, #status_loading_message {
+  margin: 10px;
+  font-weight: 700;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.2rem;
+}
+
+#status_error_message a {
+  display: block;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  margin: 1rem auto;
 }
 
 h3 {
   font-weight: 400;
-}
-
-#header h3 {
-  margin-top: 5px;
-  font-weight: 700;
 }
 
 #sync_checkbox {

@@ -11,27 +11,43 @@ if (typeof browser.runtime.getBrowserInfo === 'function') {
 }
 
 function setStatus(type) {
-  const eNoSession = document.querySelector('#no_session');
-  const eManualToken = document.querySelector('#manual_token');
-  const eAutoToken = document.querySelector('#auto_token');
+  const statusElement = document.querySelector('#status');
+  const statusErrorMessageElement = document.querySelector(
+    '#status_error_message',
+  );
+  const statusLoadingMessageElement = document.querySelector(
+    '#status_loading_message',
+  );
+
+  const statusIcons = statusElement.querySelectorAll('svg');
+
+  const statusErrorIcon = statusIcons[0];
+  const statusLoadingIcon = statusIcons[1];
+  const statusGoodIcon = statusIcons[2];
+
+  statusLoadingMessageElement.style.display = 'none';
+  statusLoadingIcon.style.display = 'none';
 
   switch (type) {
     case 'no_session': {
-      eNoSession.style.display = '';
-      eManualToken.style.display = 'none';
-      eAutoToken.style.display = 'none';
+      statusErrorMessageElement.style.display = '';
+      statusErrorIcon.style.display = '';
+      statusGoodIcon.style.display = 'none';
+      statusElement.setAttribute('title', 'No session found!');
       break;
     }
     case 'manual_token': {
-      eNoSession.style.display = 'none';
-      eManualToken.style.display = '';
-      eAutoToken.style.display = 'none';
+      statusErrorMessageElement.style.display = 'none';
+      statusErrorIcon.style.display = 'none';
+      statusGoodIcon.style.display = '';
+      statusElement.setAttribute('title', 'Token found!');
       break;
     }
     case 'auto_token': {
-      eNoSession.style.display = 'none';
-      eManualToken.style.display = 'none';
-      eAutoToken.style.display = '';
+      statusErrorMessageElement.style.display = 'none';
+      statusErrorIcon.style.display = 'none';
+      statusGoodIcon.style.display = '';
+      statusElement.setAttribute('title', 'Session found!');
       break;
     }
     default:
@@ -79,8 +95,6 @@ async function setup() {
     console.error('Could not set API engine because no select exists');
     return;
   }
-
-  const eStatus = document.querySelector('#status');
 
   const eAdvanced = document.querySelector('#advanced');
   if (!eAdvanced) {
@@ -176,16 +190,26 @@ async function setup() {
   });
 
   eAdvanced.addEventListener('click', async () => {
+    const icons = eAdvanced.querySelectorAll('svg');
+    const showSettingsIcon = icons[0];
+    const closeSettingsIcon = icons[1];
+
     if (eTokenDiv.style.display === '') {
-      eAdvanced.innerHTML = 'Advanced settings';
+      showSettingsIcon.style.display = '';
+      closeSettingsIcon.style.display = 'none';
       eTokenDiv.style.display = 'none';
-      eSummarize.style.display = '';
+      if (eTokenInput.value) {
+        eSummarize.style.display = '';
+      }
+      eAdvanced.setAttribute('title', 'Advanced settings');
     } else {
-      eAdvanced.innerHTML = 'Hide advanced settings';
+      showSettingsIcon.style.display = 'none';
+      closeSettingsIcon.style.display = '';
       eTokenDiv.style.display = '';
       eSummarize.style.display = 'none';
       eSummaryResult.style.display = 'none';
       eCopySummary.style.display = 'none';
+      eAdvanced.setAttribute('title', 'Close advanced settings');
     }
   });
 
@@ -266,12 +290,11 @@ async function setup() {
     sync_existing,
     api_engine,
   } = {}) {
-    if (token && eStatus) {
-      eStatus.classList.remove('status_error');
-      eStatus.classList.add('status_good');
-
+    if (token) {
       eTokenInput.value = token;
       eApiTokenInput.value = api_token;
+
+      eSummarize.style.display = '';
 
       if (sync_existing) {
         setStatus('auto_token');
@@ -323,6 +346,8 @@ async function setup() {
           }
         }
       }
+    } else {
+      setStatus('no_session');
     }
   }
 
@@ -346,8 +371,6 @@ async function setup() {
   browser.runtime.onMessage.addListener(async (data) => {
     if (data.type === 'synced') {
       setStatus('manual_token');
-      eStatus.classList.add('status_good');
-      eStatus.classList.remove('status_error');
       eSaveToken.innerText = 'Saved!';
 
       if (savingButtonTextTimeout) {
@@ -377,8 +400,6 @@ async function setup() {
       }
     } else if (data.type === 'reset') {
       setStatus('no_session');
-      eStatus.classList.remove('status_good');
-      eStatus.classList.add('status_error');
       eTokenDiv.style.display = 'none';
       eAdvanced.style.display = '';
     } else if (data.type === 'summary_finished') {

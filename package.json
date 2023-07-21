@@ -5,8 +5,8 @@
   "main": "build.js",
   "private": true,
   "scripts": {
-    "watch-firefox": "nodemon build.js firefox watch",
-    "watch-chrome": "nodemon build.js chrome watch",
+    "watch-firefox": "nodemon --ext js,json,css,html build.js firefox watch",
+    "watch-chrome": "nodemon --ext js,json,css,html build.js chrome watch",
     "build": "npm run build-firefox && npm run build-chrome",
     "build-firefox": "node build.js firefox",
     "build-chrome": "node build.js chrome",
