@@ -292,7 +292,10 @@ async function setup() {
   } = {}) {
     if (token) {
       eTokenInput.value = token;
-      eApiTokenInput.value = api_token;
+
+      if (api_token) {
+        eApiTokenInput.value = api_token;
+      }
 
       eSummarize.style.display = '';
 
