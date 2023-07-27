@@ -123,7 +123,7 @@ async function checkForSession() {
 browser.webRequest.onBeforeRequest.addListener(
   checkForSession,
   { urls: ['https://kagi.com/*'] },
-  IS_CHROME ? [] : ['blocking'],
+  [],
 );
 
 browser.runtime.onMessage.addListener(async (data) => {
