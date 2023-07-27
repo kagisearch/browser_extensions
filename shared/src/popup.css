@@ -114,6 +114,7 @@ input[type="password"]:focus {
   height: 36px;
 }
 
+#status_permission_message,
 #status_error_message {
   color: #fd6820;
 }

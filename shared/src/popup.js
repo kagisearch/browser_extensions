@@ -12,6 +12,9 @@ if (typeof browser.runtime.getBrowserInfo === 'function') {
 
 function setStatus(type) {
   const statusElement = document.querySelector('#status');
+  const statusPermissionMessageElement = document.querySelector(
+    '#status_permission_message',
+  );
   const statusErrorMessageElement = document.querySelector(
     '#status_error_message',
   );
@@ -42,6 +45,8 @@ function setStatus(type) {
             browser.tabs.create({
               url: 'https://kagi.com/',
             });
+          } else {
+            statusPermissionMessageElement.style.display = '';
           }
         };
       });
