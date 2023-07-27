@@ -25,7 +25,7 @@
     "storage",
     "tabs"
   ],
-  "host_permissions": ["https://kagi.com/"],
+  "host_permissions": ["https://kagi.com/*"],
   "chrome_settings_overrides": {
     "search_provider": {
       "name": "Kagi",
