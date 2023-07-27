@@ -30,6 +30,21 @@ function setStatus(type) {
 
   switch (type) {
     case 'no_session': {
+      const openKagiElement = document.querySelector('#open_kagi');
+      const permission = {
+        origins: ['https://kagi.com/*'],
+      };
+      browser.permissions.contains(permission).then((hasPermission) => {
+        openKagiElement.onclick = async (e) => {
+          e.preventDefault();
+          const grant = await browser.permissions.request(permission);
+          if (grant) {
+            browser.tabs.create({
+              url: 'https://kagi.com/',
+            });
+          }
+        };
+      });
       statusErrorMessageElement.style.display = '';
       statusErrorIcon.style.display = '';
       statusGoodIcon.style.display = 'none';
