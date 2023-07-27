@@ -19,11 +19,12 @@
     "default_popup": "src/popup.html"
   },
   "permissions": [
-    "declarativeNetRequest",
+    "activeTab",
+    "declarativeNetRequestWithHostAccess",
     "webRequest",
+    "webRequestBlocking",
     "cookies",
-    "storage",
-    "tabs"
+    "storage"
   ],
   "host_permissions": ["https://kagi.com/*"],
   "chrome_settings_overrides": {
