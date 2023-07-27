@@ -209,12 +209,12 @@ async function setup() {
     });
   });
 
-  eAdvanced.addEventListener('click', async () => {
+  function toggleAdvancedDisplay(forceState) {
     const icons = eAdvanced.querySelectorAll('svg');
     const showSettingsIcon = icons[0];
     const closeSettingsIcon = icons[1];
 
-    if (eTokenDiv.style.display === '') {
+    if (forceState === 'close' || eTokenDiv.style.display === '') {
       showSettingsIcon.style.display = '';
       closeSettingsIcon.style.display = 'none';
       eTokenDiv.style.display = 'none';
@@ -231,7 +231,8 @@ async function setup() {
       eCopySummary.style.display = 'none';
       eAdvanced.setAttribute('title', 'Close advanced settings');
     }
-  });
+  }
+  eAdvanced.addEventListener('click', () => toggleAdvancedDisplay());
 
   eSummarizePage.addEventListener('click', async () => {
     const eSummaryType = document.querySelector('#summary_type');
@@ -425,6 +426,7 @@ async function setup() {
       setStatus('no_session');
       eTokenDiv.style.display = 'none';
       eAdvanced.style.display = '';
+      toggleAdvancedDisplay('close');
     } else if (data.type === 'summary_finished') {
       if (data.success) {
         eSummaryResult.classList.remove('error');
