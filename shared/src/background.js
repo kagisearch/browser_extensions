@@ -89,7 +89,7 @@ async function updateRules() {
           ],
         },
         condition: {
-          urlFilter: '||kagi.com/',
+          urlFilter: '|https://kagi.com/*',
           resourceTypes: ['main_frame'],
         },
       },
