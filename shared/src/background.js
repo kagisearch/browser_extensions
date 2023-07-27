@@ -43,14 +43,12 @@ async function saveToken(
   await updateRules();
 
   // tell the extension popup to update the UI
-  if (!shouldSync && sessionToken) {
-    await browser.runtime.sendMessage({
-      type: 'synced',
-      token: sessionToken,
-      api_token: sessionApiToken,
-      api_engine: sessionApiEngine,
-    });
-  }
+  await browser.runtime.sendMessage({
+    type: 'synced',
+    token: sessionToken,
+    api_token: sessionApiToken,
+    api_engine: sessionApiEngine,
+  });
 }
 
 async function summarizePage(options) {

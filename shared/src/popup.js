@@ -375,20 +375,24 @@ async function setup() {
     }
   }
 
-  const sessionObject = await browser.storage.local.get('session_token');
-  const syncObject = await browser.storage.local.get('sync_existing');
-  const apiObject = await browser.storage.local.get('api_token');
-  const apiEngineObject = await browser.storage.local.get('api_engine');
+  async function updateSettings() {
+    const sessionObject = await browser.storage.local.get('session_token');
+    const syncObject = await browser.storage.local.get('sync_existing');
+    const apiObject = await browser.storage.local.get('api_token');
+    const apiEngineObject = await browser.storage.local.get('api_engine');
 
-  await handleGetData({
-    token: sessionObject?.session_token,
-    sync_existing:
-      typeof syncObject?.sync_existing !== 'undefined'
-        ? syncObject.sync_existing
-        : true,
-    api_token: apiObject?.api_token,
-    api_engine: apiEngineObject?.api_engine,
-  });
+    await handleGetData({
+      token: sessionObject?.session_token,
+      sync_existing:
+        typeof syncObject?.sync_existing !== 'undefined'
+          ? syncObject.sync_existing
+          : true,
+      api_token: apiObject?.api_token,
+      api_engine: apiEngineObject?.api_engine,
+    });
+  }
+
+  await updateSettings();
 
   let savingButtonTextTimeout = undefined;
 
@@ -396,6 +400,8 @@ async function setup() {
     if (data.type === 'synced') {
       setStatus('manual_token');
       eSaveToken.innerText = 'Saved!';
+
+      await updateSettings();
 
       if (savingButtonTextTimeout) {
         clearTimeout(savingButtonTextTimeout);
