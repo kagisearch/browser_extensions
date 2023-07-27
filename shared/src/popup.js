@@ -12,6 +12,9 @@ if (typeof browser.runtime.getBrowserInfo === 'function') {
 
 function setStatus(type) {
   const statusElement = document.querySelector('#status');
+  const statusPermissionMessageElement = document.querySelector(
+    '#status_permission_message',
+  );
   const statusErrorMessageElement = document.querySelector(
     '#status_error_message',
   );
@@ -30,6 +33,23 @@ function setStatus(type) {
 
   switch (type) {
     case 'no_session': {
+      const openKagiElement = document.querySelector('#open_kagi');
+      const permission = {
+        origins: ['https://kagi.com/*'],
+      };
+      browser.permissions.contains(permission).then((hasPermission) => {
+        openKagiElement.onclick = async (e) => {
+          e.preventDefault();
+          const grant = await browser.permissions.request(permission);
+          if (grant) {
+            browser.tabs.create({
+              url: 'https://kagi.com/',
+            });
+          } else {
+            statusPermissionMessageElement.style.display = '';
+          }
+        };
+      });
       statusErrorMessageElement.style.display = '';
       statusErrorIcon.style.display = '';
       statusGoodIcon.style.display = 'none';
@@ -189,12 +209,12 @@ async function setup() {
     });
   });
 
-  eAdvanced.addEventListener('click', async () => {
+  function toggleAdvancedDisplay(forceState) {
     const icons = eAdvanced.querySelectorAll('svg');
     const showSettingsIcon = icons[0];
     const closeSettingsIcon = icons[1];
 
-    if (eTokenDiv.style.display === '') {
+    if (forceState === 'close' || eTokenDiv.style.display === '') {
       showSettingsIcon.style.display = '';
       closeSettingsIcon.style.display = 'none';
       eTokenDiv.style.display = 'none';
@@ -211,7 +231,8 @@ async function setup() {
       eCopySummary.style.display = 'none';
       eAdvanced.setAttribute('title', 'Close advanced settings');
     }
-  });
+  }
+  eAdvanced.addEventListener('click', () => toggleAdvancedDisplay());
 
   eSummarizePage.addEventListener('click', async () => {
     const eSummaryType = document.querySelector('#summary_type');
@@ -292,7 +313,10 @@ async function setup() {
   } = {}) {
     if (token) {
       eTokenInput.value = token;
-      eApiTokenInput.value = api_token;
+
+      if (api_token) {
+        eApiTokenInput.value = api_token;
+      }
 
       eSummarize.style.display = '';
 
@@ -351,20 +375,24 @@ async function setup() {
     }
   }
 
-  const sessionObject = await browser.storage.local.get('session_token');
-  const syncObject = await browser.storage.local.get('sync_existing');
-  const apiObject = await browser.storage.local.get('api_token');
-  const apiEngineObject = await browser.storage.local.get('api_engine');
+  async function updateSettings() {
+    const sessionObject = await browser.storage.local.get('session_token');
+    const syncObject = await browser.storage.local.get('sync_existing');
+    const apiObject = await browser.storage.local.get('api_token');
+    const apiEngineObject = await browser.storage.local.get('api_engine');
 
-  await handleGetData({
-    token: sessionObject?.session_token,
-    sync_existing:
-      typeof syncObject?.sync_existing !== 'undefined'
-        ? syncObject.sync_existing
-        : true,
-    api_token: apiObject?.api_token,
-    api_engine: apiEngineObject?.api_engine,
-  });
+    await handleGetData({
+      token: sessionObject?.session_token,
+      sync_existing:
+        typeof syncObject?.sync_existing !== 'undefined'
+          ? syncObject.sync_existing
+          : true,
+      api_token: apiObject?.api_token,
+      api_engine: apiEngineObject?.api_engine,
+    });
+  }
+
+  await updateSettings();
 
   let savingButtonTextTimeout = undefined;
 
@@ -372,6 +400,8 @@ async function setup() {
     if (data.type === 'synced') {
       setStatus('manual_token');
       eSaveToken.innerText = 'Saved!';
+
+      await updateSettings();
 
       if (savingButtonTextTimeout) {
         clearTimeout(savingButtonTextTimeout);
@@ -402,6 +432,7 @@ async function setup() {
       setStatus('no_session');
       eTokenDiv.style.display = 'none';
       eAdvanced.style.display = '';
+      toggleAdvancedDisplay('close');
     } else if (data.type === 'summary_finished') {
       if (data.success) {
         eSummaryResult.classList.remove('error');
