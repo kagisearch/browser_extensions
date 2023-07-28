@@ -1,8 +1,9 @@
+import { updateSettings } from './lib/utils.js';
+
 if (!globalThis.browser) {
   globalThis.browser = chrome;
 }
 
-let summaryTextContents = '';
 let IS_CHROME = true;
 
 // Very hacky, but currently works flawlessly
@@ -134,23 +135,6 @@ async function setup() {
     return;
   }
 
-  const eSummaryResult = document.querySelector('#summary_result');
-  if (!eSummaryResult) {
-    console.error('Could not find summarize result div');
-    return;
-  }
-
-  eSummaryResult.style.display = 'none';
-  eSummaryResult.classList.remove('error');
-
-  const eCopySummary = document.querySelector('#copy_summary');
-  if (!eCopySummary) {
-    console.error('Could not find copy summary button');
-    return;
-  }
-
-  eCopySummary.style.display = 'none';
-
   const eApiParams = document.querySelectorAll('.api_param');
   if (!eApiParams.length) {
     console.error('Could not find api param divs');
@@ -227,14 +211,15 @@ async function setup() {
       closeSettingsIcon.style.display = '';
       eTokenDiv.style.display = '';
       eSummarize.style.display = 'none';
-      eSummaryResult.style.display = 'none';
-      eCopySummary.style.display = 'none';
       eAdvanced.setAttribute('title', 'Close advanced settings');
     }
   }
   eAdvanced.addEventListener('click', () => toggleAdvancedDisplay());
 
-  eSummarizePage.addEventListener('click', async () => {
+  eSummarizePage.addEventListener('click', async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     const eSummaryType = document.querySelector('#summary_type');
     if (!eSummaryType) {
       console.error('No summary type select found.');
@@ -270,39 +255,28 @@ async function setup() {
 
     const { url } = tab;
 
-    eSummaryResult.classList.remove('error');
-    eSummaryResult.style.display = '';
-    eSummaryResult.innerHTML = 'Summarizing...';
-    eCopySummary.style.display = 'none';
-    summaryTextContents = '';
-
-    await browser.runtime.sendMessage({
-      type: 'summarize_page',
+    const searchParams = {
       url,
       summary_type: eSummaryType.value,
       target_language: eTargetLanguage.value,
       token: eTokenInput.value,
       api_token: eApiToken.value,
       api_engine: eEngine.value,
+    };
+
+    const urlSearchParams = new URLSearchParams({ ...searchParams });
+
+    await browser.windows.create({
+      url: `${browser.runtime.getURL(
+        'src/summarize_result.html',
+      )}?${urlSearchParams.toString()}`,
+      focused: true,
+      width: 600,
+      height: 500,
+      type: 'popup',
     });
-  });
 
-  eCopySummary.addEventListener('click', async () => {
-    if (!summaryTextContents) {
-      return;
-    }
-
-    try {
-      await navigator.clipboard.writeText(summaryTextContents);
-
-      eCopySummary.innerText = 'Copied!';
-
-      setTimeout(() => {
-        eCopySummary.innerText = 'Copy summary';
-      }, 3000);
-    } catch (error) {
-      console.error('error copying summary to clipboard: ', error);
-    }
+    window.close();
   });
 
   async function handleGetData({
@@ -375,24 +349,7 @@ async function setup() {
     }
   }
 
-  async function updateSettings() {
-    const sessionObject = await browser.storage.local.get('session_token');
-    const syncObject = await browser.storage.local.get('sync_existing');
-    const apiObject = await browser.storage.local.get('api_token');
-    const apiEngineObject = await browser.storage.local.get('api_engine');
-
-    await handleGetData({
-      token: sessionObject?.session_token,
-      sync_existing:
-        typeof syncObject?.sync_existing !== 'undefined'
-          ? syncObject.sync_existing
-          : true,
-      api_token: apiObject?.api_token,
-      api_engine: apiEngineObject?.api_engine,
-    });
-  }
-
-  await updateSettings();
+  await updateSettings(handleGetData);
 
   let savingButtonTextTimeout = undefined;
 
@@ -433,20 +390,6 @@ async function setup() {
       eTokenDiv.style.display = 'none';
       eAdvanced.style.display = '';
       toggleAdvancedDisplay('close');
-    } else if (data.type === 'summary_finished') {
-      if (data.success) {
-        eSummaryResult.classList.remove('error');
-        summaryTextContents = data.summary;
-        eCopySummary.style.display = '';
-      } else {
-        eSummaryResult.classList.add('error');
-        summaryTextContents = '';
-        eCopySummary.style.display = 'none';
-      }
-      eSummaryResult.style.display = '';
-      eSummaryResult.innerHTML = data.summary.replaceAll(/\n/g, '<br />');
-    } else if (data.type === 'summarize_page') {
-      eSummarizePage.dispatchEvent('click');
     }
   });
 }

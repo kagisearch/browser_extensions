@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Kagi Search for Firefox",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A simple helper extension for setting Kagi as a default search engine, and automatically logging in to Kagi in incognito browsing windows.",
   "background": {
     "page": "src/background_page.html"
@@ -19,9 +19,9 @@
   },
   "permissions": [
     "activeTab",
+    "cookies",
     "declarativeNetRequestWithHostAccess",
     "webRequest",
-    "cookies",
     "storage"
   ],
   "host_permissions": ["https://kagi.com/*"],
@@ -39,10 +39,10 @@
   "incognito": "spanning",
   "commands": {
     "_execute_action": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+L",
-        "mac": "Command+Shift+L"
-      }
+      "description": "Open the Kagi extension"
+    },
+    "summarize-active-page": {
+      "description": "Summarize the currently active page"
     }
   },
   "browser_specific_settings": {
