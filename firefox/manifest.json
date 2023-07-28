@@ -39,17 +39,9 @@
   "incognito": "spanning",
   "commands": {
     "_execute_action": {
-      "suggested_key": {
-        "default": "Ctrl+Alt+K",
-        "mac": "Command+Alt+K"
-      },
       "description": "Open the Kagi extension"
     },
     "summarize-active-page": {
-      "suggested_key": {
-        "default": "Ctrl+Alt+S",
-        "mac": "Command+Alt+S"
-      },
       "description": "Summarize the currently active page"
     }
   },

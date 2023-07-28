@@ -266,7 +266,7 @@ async function setup() {
 
     const urlSearchParams = new URLSearchParams({ ...searchParams });
 
-    browser.windows.create({
+    await browser.windows.create({
       url: `${browser.runtime.getURL(
         'src/summarize_result.html',
       )}?${urlSearchParams.toString()}`,
@@ -275,6 +275,8 @@ async function setup() {
       height: 500,
       type: 'popup',
     });
+
+    window.close();
   });
 
   async function handleGetData({
