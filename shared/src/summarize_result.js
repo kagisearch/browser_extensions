@@ -81,10 +81,14 @@ async function setup() {
       const tab =
         tabs.find(
           (tab) =>
-            tab.url.startsWith('http://') || tab.url.startsWith('https://'),
+            tab?.url?.startsWith('http://') || tab?.url?.startsWith('https://'),
         ) || tabs[0];
 
-      const { url } = tab;
+      if (!tab) {
+        console.error('No tab/url found.');
+        console.error(tabs);
+        return;
+      }
 
       searchParams.set('url', url);
 
