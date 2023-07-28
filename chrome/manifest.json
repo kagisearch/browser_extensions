@@ -48,8 +48,8 @@
     },
     "summarize-active-page": {
       "suggested_key": {
-        "default": "Ctrl+Shift+L",
-        "mac": "Command+Shift+L"
+        "default": "Ctrl+Shift+X",
+        "mac": "Command+Shift+X"
       },
       "description": "Summarize the currently active page"
     }
