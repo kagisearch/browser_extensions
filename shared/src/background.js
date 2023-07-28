@@ -155,9 +155,6 @@ browser.runtime.onMessage.addListener(async (data) => {
 });
 
 browser.commands.onCommand.addListener(async (command) => {
-  // TODO: Remove this
-  console.log('==== File.method', command);
-
   if (command === 'summarize-active-page') {
     await browser.windows.create({
       url: browser.runtime.getURL('src/summarize_result.html'),
