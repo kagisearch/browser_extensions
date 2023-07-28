@@ -1,3 +1,7 @@
+if (!globalThis.browser) {
+  globalThis.browser = chrome;
+}
+
 export async function summarizeContent({
   url,
   text,
@@ -89,4 +93,21 @@ export async function summarizeContent({
     summary,
     success,
   };
+}
+
+export async function updateSettings(handleGetData) {
+  const sessionObject = await browser.storage.local.get('session_token');
+  const syncObject = await browser.storage.local.get('sync_existing');
+  const apiObject = await browser.storage.local.get('api_token');
+  const apiEngineObject = await browser.storage.local.get('api_engine');
+
+  await handleGetData({
+    token: sessionObject?.session_token,
+    sync_existing:
+      typeof syncObject?.sync_existing !== 'undefined'
+        ? syncObject.sync_existing
+        : true,
+    api_token: apiObject?.api_token,
+    api_engine: apiEngineObject?.api_engine,
+  });
 }

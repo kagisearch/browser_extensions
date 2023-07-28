@@ -154,6 +154,21 @@ browser.runtime.onMessage.addListener(async (data) => {
   }
 });
 
+browser.commands.onCommand.addListener(async (command) => {
+  // TODO: Remove this
+  console.log('==== File.method', command);
+
+  if (command === 'summarize-active-page') {
+    await browser.windows.create({
+      url: browser.runtime.getURL('src/summarize_result.html'),
+      focused: true,
+      width: 600,
+      height: 500,
+      type: 'popup',
+    });
+  }
+});
+
 async function loadStorageData() {
   const sessionObject = await browser.storage.local.get('session_token');
   if (sessionObject?.session_token) {
