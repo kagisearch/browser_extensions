@@ -244,7 +244,7 @@ async function setup() {
       return;
     }
 
-    const tabs = await browser.tabs.query({ active: true });
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
 
     // Chrome/Firefox might give us more than one active tab when something like "chrome://*" or "about:*" is also open
     const tab =
