@@ -23,6 +23,7 @@
     "cookies",
     "declarativeNetRequestWithHostAccess",
     "webRequest",
+    "tabs",
     "storage"
   ],
   "host_permissions": ["https://kagi.com/*"],
