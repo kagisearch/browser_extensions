@@ -1,4 +1,4 @@
-import { summarizeContent } from './lib/utils.js';
+import { summarizeContent, fetchSettings } from './lib/utils.js';
 
 if (!globalThis.browser) {
   globalThis.browser = chrome;
@@ -167,25 +167,12 @@ browser.commands.onCommand.addListener(async (command) => {
 });
 
 async function loadStorageData() {
-  const sessionObject = await browser.storage.local.get('session_token');
-  if (sessionObject?.session_token) {
-    sessionToken = sessionObject.session_token;
-  }
+  const { token, sync_existing, api_token, api_engine } = await fetchSettings();
 
-  const syncObject = await browser.storage.local.get('sync_existing');
-  if (typeof syncObject?.sync_existing !== 'undefined') {
-    syncSessionFromExisting = syncObject.sync_existing;
-  }
-
-  const apiObject = await browser.storage.local.get('api_token');
-  if (typeof apiObject?.api_token !== 'undefined') {
-    sessionApiToken = apiObject.api_token;
-  }
-
-  const apiEngineObject = await browser.storage.local.get('api_engine');
-  if (typeof apiEngineObject?.api_engine !== 'undefined') {
-    sessionApiEngine = apiEngineObject.api_engine;
-  }
+  sessionToken = token;
+  syncSessionFromExisting = sync_existing;
+  sessionApiToken = api_token;
+  sessionApiEngine = api_engine;
 }
 
 loadStorageData();

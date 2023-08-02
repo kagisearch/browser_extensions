@@ -1,4 +1,4 @@
-import { updateSettings } from './lib/utils.js';
+import { fetchSettings, getActiveTab } from './lib/utils.js';
 
 if (!globalThis.browser) {
   globalThis.browser = chrome;
@@ -54,7 +54,10 @@ async function setup() {
 
       if (data.success) {
         summaryResultElement.classList.remove('error');
-        summaryTextContents = data.summary;
+        summaryTextContents = new DOMParser().parseFromString(
+          data.summary.replaceAll(/<br>/g, '\n'),
+          'text/html',
+        ).documentElement.textContent;
         copySummaryElement.style.display = '';
       } else {
         summaryResultElement.classList.add('error');
@@ -63,11 +66,23 @@ async function setup() {
       }
 
       summaryResultElement.style.display = '';
-      summaryResultElement.innerHTML = data.summary.replaceAll(/\n/g, '<br />');
+      summaryResultElement.innerText = summaryTextContents;
     }
   });
 
   async function requestPageSummary() {
+    const hasTabAccess = await browser.permissions.contains({
+      permissions: ['activeTab'],
+    });
+
+    if (!hasTabAccess) {
+      summaryResultElement.style.display = '';
+      summaryResultElement.classList.add('error');
+      summaryResultElement.innerText =
+        "You can't summarize without allowing access to the currently active tab.";
+      return;
+    }
+
     const searchParams = new URLSearchParams(window.location.search);
 
     // If there's no URL, get the currently active tab and default params
@@ -75,38 +90,26 @@ async function setup() {
       searchParams.set('summary_type', 'summary');
       searchParams.set('target_language', '');
 
-      const tabs = await browser.tabs.query({ active: true });
-
-      // Chrome/Firefox might give us more than one active tab when something like "chrome://*" or "about:*" is also open
-      const tab =
-        tabs.find(
-          (tab) =>
-            tab?.url?.startsWith('http://') || tab?.url?.startsWith('https://'),
-        ) || tabs[0];
+      const tab = await getActiveTab();
 
       if (!tab) {
         console.error('No tab/url found.');
-        console.error(tabs);
         return;
       }
 
       searchParams.set('url', url);
 
-      await updateSettings(async function handleGetData({
-        token,
-        api_token,
-        api_engine,
-      } = {}) {
-        if (token) {
-          searchParams.set('token', token);
-        }
-        if (api_token) {
-          searchParams.set('api_token', api_token);
-        }
-        if (api_engine) {
-          searchParams.set('api_engine', api_engine);
-        }
-      });
+      const { token, api_token, api_engine } = await fetchSettings();
+
+      if (token) {
+        searchParams.set('token', token);
+      }
+      if (api_token) {
+        searchParams.set('api_token', api_token);
+      }
+      if (api_engine) {
+        searchParams.set('api_engine', api_engine);
+      }
     }
 
     loadingElement.style.display = '';

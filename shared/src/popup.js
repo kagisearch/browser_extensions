@@ -1,4 +1,4 @@
-import { updateSettings } from './lib/utils.js';
+import { fetchSettings, getActiveTab } from './lib/utils.js';
 
 if (!globalThis.browser) {
   globalThis.browser = chrome;
@@ -34,23 +34,24 @@ function setStatus(type) {
 
   switch (type) {
     case 'no_session': {
-      const openKagiElement = document.querySelector('#open_kagi');
-      const permission = {
-        origins: ['https://kagi.com/*'],
-      };
-      browser.permissions.contains(permission).then((hasPermission) => {
-        openKagiElement.onclick = async (e) => {
-          e.preventDefault();
-          const grant = await browser.permissions.request(permission);
-          if (grant) {
-            browser.tabs.create({
-              url: 'https://kagi.com/',
-            });
-          } else {
-            statusPermissionMessageElement.style.display = '';
-          }
-        };
+      const openKagiLinkElement = document.querySelector('#open_kagi');
+
+      openKagiLinkElement.addEventListener('click', async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const grant = await browser.permissions.request({
+          origins: ['https://kagi.com/*'],
+        });
+        if (grant) {
+          browser.tabs.create({
+            url: 'https://kagi.com/',
+          });
+        } else {
+          statusPermissionMessageElement.style.display = '';
+        }
       });
+
       statusErrorMessageElement.style.display = '';
       statusErrorIcon.style.display = '';
       statusGoodIcon.style.display = 'none';
@@ -77,113 +78,135 @@ function setStatus(type) {
 }
 
 async function setup() {
-  const eTokenDiv = document.querySelector('#token');
-  if (!eTokenDiv) {
+  const tokenDiv = document.querySelector('#token');
+  if (!tokenDiv) {
     console.error('Could not find token div');
     return;
   }
 
-  const eTokenInput = document.querySelector('#token_input');
-  if (!eTokenInput) {
+  const tokenInput = document.querySelector('#token_input');
+  if (!tokenInput) {
     console.error('Could not set token because no input exists');
     return;
   }
 
-  eTokenInput.addEventListener('focus', (e) => {
-    e.target.select();
+  tokenInput.addEventListener('focus', (event) => {
+    event.target.select();
   });
 
-  eTokenInput.addEventListener('click', () =>
+  tokenInput.addEventListener('click', () =>
     this.value ? this.setSelectionRange(0, this.value.length) : null,
   );
 
-  const eApiTokenInput = document.querySelector('#api_token_input');
-  if (!eApiTokenInput) {
+  const apiTokenInput = document.querySelector('#api_token_input');
+  if (!apiTokenInput) {
     console.error('Could not set API token because no input exists');
     return;
   }
 
-  eApiTokenInput.addEventListener('focus', (e) => {
-    e.target.select();
+  apiTokenInput.addEventListener('focus', (event) => {
+    event.target.select();
   });
 
-  eApiTokenInput.addEventListener('click', () =>
+  apiTokenInput.addEventListener('click', () =>
     this.value ? this.setSelectionRange(0, this.value.length) : null,
   );
 
-  const eApiEngineSelect = document.querySelector('#engine');
-  if (!eApiEngineSelect) {
+  const apiEngineSelect = document.querySelector('#engine');
+  if (!apiEngineSelect) {
     console.error('Could not set API engine because no select exists');
     return;
   }
 
-  const eAdvanced = document.querySelector('#advanced');
-  if (!eAdvanced) {
+  const advancedToggle = document.querySelector('#advanced');
+  if (!advancedToggle) {
     console.error('Could not find advanced toggle');
     return;
   }
 
-  const eSummarize = document.querySelector('#summarize');
-  if (!eSummarize) {
+  const summarizeSection = document.querySelector('#summarize');
+  if (!summarizeSection) {
     console.error('Could not find summarize section');
     return;
   }
 
-  const eSummarizePage = document.querySelector('#summarize_page');
-  if (!eSummarizePage) {
+  const summarizePageButton = document.querySelector('#summarize_page');
+  if (!summarizePageButton) {
     console.error('Could not find summarize page button');
     return;
   }
 
-  const eApiParams = document.querySelectorAll('.api_param');
-  if (!eApiParams.length) {
+  const apiParamElements = document.querySelectorAll('.api_param');
+  if (!apiParamElements.length) {
     console.error('Could not find api param divs');
     return;
   }
 
-  eApiParams.forEach((element) => {
+  apiParamElements.forEach((element) => {
     element.style.display = 'none';
   });
 
-  const eSaveToken = document.querySelector('#token_save');
-  if (!eSaveToken) {
+  const saveTokenButton = document.querySelector('#token_save');
+  if (!saveTokenButton) {
     console.error('Could not find save settings button');
     return;
   }
 
-  eSaveToken.addEventListener('click', async () => {
-    const eToken = document.querySelector('#token_input');
-    if (!eToken) {
-      console.error('No token input found.');
-      return;
-    }
+  const summaryTypeSelect = document.querySelector('#summary_type');
+  if (!summaryTypeSelect) {
+    console.error('No summary type select found.');
+    return;
+  }
 
-    let token = eToken.value;
+  const targetLanguageSelect = document.querySelector('#target_language');
+  if (!targetLanguageSelect) {
+    console.error('No target language select found.');
+    return;
+  }
+
+  const engineSelect = document.querySelector('#engine');
+  if (!engineSelect) {
+    console.error('No engine select found.');
+    return;
+  }
+
+  const summarizeOptions = document.querySelectorAll('.summarize_option');
+  if (summarizeOptions.length === 0) {
+    console.error('No summarize options found.');
+    return;
+  }
+
+  const requestPermissionsSection = document.querySelector(
+    '#request_permissions',
+  );
+  if (!requestPermissionsSection) {
+    console.error('No request permissions section found.');
+    return;
+  }
+
+  const requestPermissionsButton = document.querySelector(
+    '#request_permissions_button',
+  );
+  if (!requestPermissionsButton) {
+    console.error('No request permissions button found.');
+    return;
+  }
+
+  saveTokenButton.addEventListener('click', async () => {
+    let token = tokenInput.value;
 
     if (token.startsWith('https://kagi.com')) {
       const url = new URL(token);
       token = url.searchParams.get('token');
 
-      if (token) eToken.value = token;
+      if (token) tokenInput.value = token;
     }
 
-    const eApiToken = document.querySelector('#api_token_input');
-    if (!eApiToken) {
-      console.error('No API token input found.');
-      return;
-    }
+    const api_token = apiTokenInput.value;
 
-    const api_token = eApiToken.value;
+    const api_engine = apiEngineSelect.value;
 
-    const eApiEngine = document.querySelector('#engine');
-    if (!eApiEngine) {
-      console.error('No API engine select found.');
-      return;
-    }
-
-    const api_engine = eApiEngine.value;
-
-    eSaveToken.innerText = 'Saving...';
+    saveTokenButton.innerText = 'Saving...';
 
     await browser.runtime.sendMessage({
       type: 'save_token',
@@ -193,69 +216,48 @@ async function setup() {
     });
   });
 
-  function toggleAdvancedDisplay(forceState) {
-    const icons = eAdvanced.querySelectorAll('svg');
+  async function toggleAdvancedDisplay(forceState) {
+    const icons = advancedToggle.querySelectorAll('svg');
     const showSettingsIcon = icons[0];
     const closeSettingsIcon = icons[1];
 
-    if (forceState === 'close' || eTokenDiv.style.display === '') {
+    if (forceState === 'close' || tokenDiv.style.display === '') {
       showSettingsIcon.style.display = '';
       closeSettingsIcon.style.display = 'none';
-      eTokenDiv.style.display = 'none';
-      if (eTokenInput.value) {
-        eSummarize.style.display = '';
+      tokenDiv.style.display = 'none';
+      if (tokenInput.value) {
+        const hasPermissions = await browser.permissions.contains({
+          permissions: ['activeTab'],
+        });
+
+        if (!hasPermissions) {
+          summarizeSection.style.display = 'none';
+          requestPermissionsSection.style.display = '';
+        } else {
+          summarizeSection.style.display = '';
+          requestPermissionsSection.style.display = 'none';
+        }
       }
-      eAdvanced.setAttribute('title', 'Advanced settings');
+      advancedToggle.setAttribute('title', 'Advanced settings');
     } else {
       showSettingsIcon.style.display = 'none';
       closeSettingsIcon.style.display = '';
-      eTokenDiv.style.display = '';
-      eSummarize.style.display = 'none';
-      eAdvanced.setAttribute('title', 'Close advanced settings');
+      tokenDiv.style.display = '';
+      summarizeSection.style.display = 'none';
+      requestPermissionsSection.style.display = 'none';
+      advancedToggle.setAttribute('title', 'Close advanced settings');
     }
   }
-  eAdvanced.addEventListener('click', () => toggleAdvancedDisplay());
+  advancedToggle.addEventListener('click', () => toggleAdvancedDisplay());
 
-  eSummarizePage.addEventListener('click', async (event) => {
+  async function handleSummarizePageButtonClick(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    const eSummaryType = document.querySelector('#summary_type');
-    if (!eSummaryType) {
-      console.error('No summary type select found.');
-      return;
-    }
-
-    const eTargetLanguage = document.querySelector('#target_language');
-    if (!eTargetLanguage) {
-      console.error('No target language select found.');
-      return;
-    }
-
-    const eEngine = document.querySelector('#engine');
-    if (!eEngine) {
-      console.error('No engine select found.');
-      return;
-    }
-
-    const eApiToken = document.querySelector('#api_token_input');
-    if (!eApiToken) {
-      console.error('No API token input found.');
-      return;
-    }
-
-    const tabs = await browser.tabs.query({ active: true });
-
-    // Chrome/Firefox might give us more than one active tab when something like "chrome://*" or "about:*" is also open
-    const tab =
-      tabs.find(
-        (tab) =>
-          tab?.url?.startsWith('http://') || tab?.url?.startsWith('https://'),
-      ) || tabs[0];
+    const tab = await getActiveTab();
 
     if (!tab) {
       console.error('No tab/url found.');
-      console.error(tabs);
       return;
     }
 
@@ -263,11 +265,11 @@ async function setup() {
 
     const searchParams = {
       url,
-      summary_type: eSummaryType.value,
-      target_language: eTargetLanguage.value,
-      token: eTokenInput.value,
-      api_token: eApiToken.value,
-      api_engine: eEngine.value,
+      summary_type: summaryTypeSelect.value,
+      target_language: targetLanguageSelect.value,
+      token: tokenInput.value,
+      api_token: apiTokenInput.value,
+      api_engine: engineSelect.value,
     };
 
     const urlSearchParams = new URLSearchParams({ ...searchParams });
@@ -283,7 +285,31 @@ async function setup() {
     });
 
     window.close();
-  });
+  }
+
+  summarizePageButton.addEventListener('click', handleSummarizePageButtonClick);
+
+  async function handleRequestPermissionsButtonClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const permissionGranted = await browser.permissions.request({
+      permissions: ['activeTab'],
+    });
+
+    if (!permissionGranted) {
+      alert(
+        "You can't summarize without allowing access to the currently active tab.",
+      );
+    }
+
+    window.close();
+  }
+
+  requestPermissionsButton.addEventListener(
+    'click',
+    handleRequestPermissionsButtonClick,
+  );
 
   async function handleGetData({
     token,
@@ -292,13 +318,25 @@ async function setup() {
     api_engine,
   } = {}) {
     if (token) {
-      eTokenInput.value = token;
+      tokenInput.value = token;
 
       if (api_token) {
-        eApiTokenInput.value = api_token;
+        apiTokenInput.value = api_token;
       }
 
-      eSummarize.style.display = '';
+      if (tokenDiv.style.display === 'none') {
+        const hasPermissions = await browser.permissions.contains({
+          permissions: ['activeTab'],
+        });
+
+        if (!hasPermissions) {
+          summarizeSection.style.display = 'none';
+          requestPermissionsSection.style.display = '';
+        } else {
+          summarizeSection.style.display = '';
+          requestPermissionsSection.style.display = 'none';
+        }
+      }
 
       if (sync_existing) {
         setStatus('auto_token');
@@ -307,44 +345,44 @@ async function setup() {
       }
 
       if (api_token) {
-        eApiParams.forEach((element) => {
+        apiParamElements.forEach((element) => {
           element.style.display = '';
         });
       }
 
       if (api_engine) {
-        eApiEngineSelect.value = api_engine;
+        apiEngineSelect.value = api_engine;
       }
 
       const hasIncognitoAccess =
         await browser.extension.isAllowedIncognitoAccess();
 
       if (!hasIncognitoAccess) {
-        const eIncognito = document.querySelector('#incognito');
+        const incognitoSection = document.querySelector('#incognito');
 
-        if (!eIncognito) {
+        if (!incognitoSection) {
           console.error('No incognito div to place text');
           return;
         }
 
-        eIncognito.style.display = '';
+        incognitoSection.style.display = '';
 
-        const eFirefoxExt = document.querySelector('#firefox_ext');
-        const eChromeExt = document.querySelector('#chrome_ext');
+        const firefoxExtensionSection = document.querySelector('#firefox_ext');
+        const chromeExtensionSection = document.querySelector('#chrome_ext');
 
         if (!IS_CHROME) {
-          eFirefoxExt.style.display = '';
-          eChromeExt.style.display = 'none';
+          firefoxExtensionSection.style.display = '';
+          chromeExtensionSection.style.display = 'none';
         } else {
-          eFirefoxExt.style.display = 'none';
-          eChromeExt.style.display = '';
+          firefoxExtensionSection.style.display = 'none';
+          chromeExtensionSection.style.display = '';
         }
 
         // NOTE: slight little hack to make the chrome://extensions link not be blocked.
         if (IS_CHROME) {
-          const eChromeLink = document.querySelector('#chrome_link');
-          if (eChromeLink) {
-            eChromeLink.addEventListener('click', async () => {
+          const chromeLinkElement = document.querySelector('#chrome_link');
+          if (chromeLinkElement) {
+            chromeLinkElement.addEventListener('click', async () => {
               await browser.runtime.sendMessage({ type: 'open_extension' });
             });
           }
@@ -355,46 +393,59 @@ async function setup() {
     }
   }
 
-  await updateSettings(handleGetData);
+  const fetchedSettings = await fetchSettings();
+  await handleGetData(fetchedSettings);
 
   let savingButtonTextTimeout = undefined;
 
   browser.runtime.onMessage.addListener(async (data) => {
     if (data.type === 'synced') {
       setStatus('manual_token');
-      eSaveToken.innerText = 'Saved!';
+      saveTokenButton.innerText = 'Saved!';
 
-      await updateSettings();
+      const newlyFetchedSettings = await fetchSettings();
+      await handleGetData(newlyFetchedSettings);
 
       if (savingButtonTextTimeout) {
         clearTimeout(savingButtonTextTimeout);
       }
 
       savingButtonTextTimeout = setTimeout(() => {
-        eSaveToken.innerText = 'Save settings';
+        saveTokenButton.innerText = 'Save settings';
       }, 2000);
 
-      if (eTokenDiv.style.display === 'none') {
+      if (tokenDiv.style.display === 'none') {
         if (data.token) {
-          eSummarize.style.display = '';
+          const hasPermissions = await browser.permissions.contains({
+            permissions: ['activeTab'],
+          });
+
+          if (!hasPermissions) {
+            summarizeSection.style.display = 'none';
+            requestPermissionsSection.style.display = '';
+          } else {
+            summarizeSection.style.display = '';
+            requestPermissionsSection.style.display = 'none';
+          }
         } else {
-          eSummarize.style.display = 'none';
+          summarizeSection.style.display = 'none';
+          requestPermissionsSection.style.display = 'none';
         }
       }
 
       if (data.api_token) {
-        eApiParams.forEach((element) => {
+        apiParamElements.forEach((element) => {
           element.style.display = '';
         });
       } else {
-        eApiParams.forEach((element) => {
+        apiParamElements.forEach((element) => {
           element.style.display = 'none';
         });
       }
     } else if (data.type === 'reset') {
       setStatus('no_session');
-      eTokenDiv.style.display = 'none';
-      eAdvanced.style.display = '';
+      tokenDiv.style.display = 'none';
+      advancedToggle.style.display = '';
       toggleAdvancedDisplay('close');
     }
   });

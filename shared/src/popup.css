@@ -147,6 +147,7 @@ h3 {
 #incognito {
   max-width: 100%;
   padding: 0 15px;
+  font-size: 0.9rem;
 }
 
 .setting_row {
@@ -285,19 +286,19 @@ p {
   right: 2px;
 }
 
-#summarize {
+#summarize, #request_permissions {
   margin-top: 10px;
   width: 100%;
   padding: 0 15px;
 }
 
-#summarize .setting_row {
+#summarize .setting_row, #request_permissions .setting_row {
   margin-top: 10px;
   padding: 0;
   justify-content: space-between;
 }
 
-#summarize .setting_row > div {
+#summarize .setting_row > div, #request_permissions .setting_row > div {
   margin-right: 10px;
 }
 
@@ -306,7 +307,7 @@ p {
   margin-bottom: 5px;
 }
 
-#summarize_page {
+#summarize_page, #request_permissions_button {
   background-color: #ffb319;
   border: 1px solid #ffb319;
   color: #191919;
@@ -320,7 +321,13 @@ p {
   margin-right: 10px;
 }
 
-#summarize_page:hover {
+#request_permissions_button {
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#summarize_page:hover, #request_permissions_button:hover {
   background-color: #f7a808;
   border: 1px solid #d9950d;
 }
