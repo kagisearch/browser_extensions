@@ -152,7 +152,7 @@
           <div>
             <label class="title" for="engine">API Summarizer Engine</label>
             <select id="engine">
-              <option value="cecil" selected="selected">Cecil</option>
+              <option value="cecil" selected="selected">Cecil (free)</option>
               <option value="agnes">Agnes</option>
               <option value="daphne">Daphne</option>
               <option value="muriel">Muriel</option>
@@ -173,7 +173,7 @@
         </div>
 
         <div class="setting_row">
-          <div>
+          <div class="summarize_option">
             <label for="summary_type">Summary Type</label>
             <select id="summary_type">
               <option value="summary" selected="selected">Summary</option>
@@ -181,7 +181,7 @@
             </select>
           </div>
 
-          <div>
+          <div class="summarize_option">
             <label for="target_language">Output Language</label>
             <select id="target_language">
               <option value="" selected="selected">Default</option>
@@ -220,6 +220,20 @@
           <button id="summarize_page">Summarize</button>
         </div>
       </div>
+      
+      <div id="request_permissions" style="display: none">
+
+        <div class="title">
+          Summarize the current page
+        </div>
+
+        <div class="desc">Allow accessing the currently active tab, so it can be summarized.</div>
+
+        <div class="setting_row">
+          <button id="request_permissions_button">Request access</button>
+        </div>
+      </div>
+
     </div>
     <script type="module" src="popup.js"></script>
   </body>

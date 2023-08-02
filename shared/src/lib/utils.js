@@ -13,7 +13,9 @@ export async function summarizeContent({
 }) {
   let summary = 'Unknown error';
   let success = false;
-  const useApi = Boolean(api_token);
+  const useApi = Boolean(
+    api_token && ((api_engine && api_engine !== 'cecil') || text),
+  );
 
   try {
     const requestParams = {
@@ -95,13 +97,13 @@ export async function summarizeContent({
   };
 }
 
-export async function updateSettings(handleGetData) {
+export async function fetchSettings() {
   const sessionObject = await browser.storage.local.get('session_token');
   const syncObject = await browser.storage.local.get('sync_existing');
   const apiObject = await browser.storage.local.get('api_token');
   const apiEngineObject = await browser.storage.local.get('api_engine');
 
-  await handleGetData({
+  return {
     token: sessionObject?.session_token,
     sync_existing:
       typeof syncObject?.sync_existing !== 'undefined'
@@ -109,5 +111,27 @@ export async function updateSettings(handleGetData) {
         : true,
     api_token: apiObject?.api_token,
     api_engine: apiEngineObject?.api_engine,
+  };
+}
+
+export async function getActiveTab() {
+  const tabs = await browser.tabs.query({
+    active: true,
+    lastFocusedWindow: true,
   });
+
+  // Chrome/Firefox might give us more than one active tab when something like "chrome://*" or "about:*" is also open
+  const tab =
+    tabs.find(
+      (tab) =>
+        tab?.url?.startsWith('http://') || tab?.url?.startsWith('https://'),
+    ) || tabs[0];
+
+  if (!tab || !tab.url) {
+    console.error('No tab/url found.');
+    console.error(tabs);
+    return null;
+  }
+
+  return tab;
 }
