@@ -306,10 +306,26 @@ async function setup() {
     window.close();
   }
 
-  requestPermissionsButton.addEventListener(
-    'click',
-    handleRequestPermissionsButtonClick,
-  );
+  const platformInfo = await browser.runtime.getPlatformInfo();
+  const browserInfo =
+    typeof browser.runtime.getBrowserInfo === 'function' &&
+    (await browser.runtime.getBrowserInfo());
+
+  // Note, _hoping_ by 119 this works, but there's no guarantee.
+  if (
+    platformInfo.os === 'android' &&
+    browserInfo?.version &&
+    parseInt(browserInfo.version, 10) <= 118
+  ) {
+    requestPermissionsButton.addEventListener('click', () => {
+      alert('Cannot request activeTab permission on Android yet.');
+    });
+  } else {
+    requestPermissionsButton.addEventListener(
+      'click',
+      handleRequestPermissionsButtonClick,
+    );
+  }
 
   async function handleGetData({
     token,
