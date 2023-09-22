@@ -114,11 +114,18 @@ export async function fetchSettings() {
   };
 }
 
-export async function getActiveTab() {
-  const tabs = await browser.tabs.query({
+export async function getActiveTab(fetchingFromShortcut = false) {
+  const tabsQuery = {
     active: true,
     lastFocusedWindow: true,
-  });
+  };
+
+  // Don't look just in the last focused window if we're opening from the shortcut
+  if (fetchingFromShortcut) {
+    tabsQuery.lastFocusedWindow = undefined;
+  }
+
+  const tabs = await browser.tabs.query(tabsQuery);
 
   // Chrome/Firefox might give us more than one active tab when something like "chrome://*" or "about:*" is also open
   const tab =
@@ -129,7 +136,7 @@ export async function getActiveTab() {
 
   if (!tab || !tab.url) {
     console.error('No tab/url found.');
-    console.error(tabs);
+    console.error(JSON.stringify(tabs));
     return null;
   }
 

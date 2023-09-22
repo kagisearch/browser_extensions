@@ -59,6 +59,7 @@ async function summarizePage(options) {
       type: 'summary_finished',
       summary,
       success,
+      url: options.url,
     });
   }
 }
