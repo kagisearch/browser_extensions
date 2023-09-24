@@ -49,7 +49,10 @@ async function setup() {
   });
 
   browser.runtime.onMessage.addListener(async (data) => {
-    if (data.type === 'summary_finished') {
+    const searchParams = new URLSearchParams(window.location.search);
+    const url = searchParams.get('url');
+
+    if (data.type === 'summary_finished' && data.url === url) {
       loadingElement.style.display = 'none';
 
       if (data.success) {
@@ -90,14 +93,19 @@ async function setup() {
       searchParams.set('summary_type', 'summary');
       searchParams.set('target_language', '');
 
-      const tab = await getActiveTab();
+      const tab = await getActiveTab(true);
 
       if (!tab) {
         console.error('No tab/url found.');
         return;
       }
 
-      searchParams.set('url', url);
+      searchParams.set('url', tab.url);
+
+      // Add ?url=<tab.url> to the window, so it receives the proper summary
+      const popupUrl = new URL(window.location.href);
+      popupUrl.searchParams.set('url', tab.url);
+      window.history.replaceState(null, '', popupUrl.toString());
 
       const { token, api_token, api_engine } = await fetchSettings();
 
