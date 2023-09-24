@@ -30,7 +30,7 @@
     "search_provider": {
       "name": "Kagi",
       "search_url": "https://kagi.com/search?q={searchTerms}",
-      "favicon_url": "https://kagi.com/favicon.ico",
+      "favicon_url": "https://assets.kagi.com/v2/favicon-32x32.png",
       "keyword": "@kagi",
       "is_default": true,
       "suggest_url": "https://kagi.com/api/autosuggest?q={searchTerms}",
