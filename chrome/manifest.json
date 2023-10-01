@@ -22,7 +22,9 @@
     "cookies",
     "declarativeNetRequestWithHostAccess",
     "webRequest",
-    "storage"
+    "storage",
+	"contextMenus",
+	"tabs"
   ],
   "optional_permissions": ["activeTab"],
   "host_permissions": ["https://kagi.com/*"],
