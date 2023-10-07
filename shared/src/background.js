@@ -181,7 +181,7 @@ loadStorageData();
 
 // The function kagiSummarize is called when clicking the context menu item.
 function kagiSummarize(info, tab) {
-  let url = info.linkUrl;
+  const url = info.linkUrl;
   browser.tabs.create({url: `https://kagi.com/summarizer/index.html?url=${encodeURIComponent(url)}`});
 }
 
