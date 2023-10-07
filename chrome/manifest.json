@@ -24,7 +24,7 @@
     "webRequest",
     "storage",
 	"contextMenus",
-	"tabs"
+	"activeTab"
   ],
   "optional_permissions": ["activeTab"],
   "host_permissions": ["https://kagi.com/*"],
