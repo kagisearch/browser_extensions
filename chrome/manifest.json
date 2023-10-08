@@ -23,7 +23,7 @@
     "declarativeNetRequestWithHostAccess",
     "webRequest",
     "storage",
-	"contextMenus"
+    "contextMenus"
   ],
   "optional_permissions": ["activeTab"],
   "host_permissions": ["https://kagi.com/*"],
