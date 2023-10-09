@@ -189,10 +189,10 @@ function kagiSummarize(info, tab) {
 }
 
 function kagiImageSearch(info, tab) {
-  const imageUrl = info.srcUrl
+  const imageUrl = info.srcUrl;
   browser.tabs.create({
-    url: `https://kagi.com/images?q=${encodeURIComponent(imageUrl)}`
-  })
+    url: `https://kagi.com/images?q=${encodeURIComponent(imageUrl)}`,
+  });
 }
 
 // Create a context menu item.
@@ -205,14 +205,14 @@ browser.contextMenus.create({
 browser.contextMenus.create({
   id: 'kagi-image-search',
   title: 'Kagi Image Search',
-  contexts: ['image']
-})
+  contexts: ['image'],
+});
 
 // Add a listener for the context menu item.
 browser.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === 'kagi-summarize') {
     kagiSummarize(info, tab);
   } else if (info.menuItemId === 'kagi-image-search') {
-    kagiImageSearch(info, tab)
+    kagiImageSearch(info, tab);
   }
 });
