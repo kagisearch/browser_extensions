@@ -180,7 +180,8 @@ loadStorageData();
 
 // The function kagiSummarize is called when clicking the context menu item.
 function kagiSummarize(info, tab) {
-  const url = info.linkUrl;
+  // The linkUrl will be undefined if function is triggered by a page event. In that case, the url is taken from pageUrl
+  const url = info.linkUrl || info.pageUrl;
   browser.tabs.create({
     url: `https://kagi.com/summarizer/index.html?url=${encodeURIComponent(
       url,
@@ -192,7 +193,7 @@ function kagiSummarize(info, tab) {
 browser.contextMenus.create({
   id: 'kagi-summarize',
   title: 'Kagi Summarize',
-  contexts: ['link'], // Only show the menu item for links.
+  contexts: ['link', 'page'], // Show the menu item when clicked on a link or elsewhere on page with no matching contexts
 });
 
 // Add a listener for the context menu item.
