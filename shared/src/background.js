@@ -195,6 +195,12 @@ browser.contextMenus.create({
   contexts: ['link'], // Only show the menu item for links.
 });
 
+browser.contextMenus.create({
+  id: 'kagi-image-search',
+  title: 'Kagi Image Search',
+  contexts: ['image']
+})
+
 // Add a listener for the context menu item.
 browser.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === 'kagi-summarize') {
