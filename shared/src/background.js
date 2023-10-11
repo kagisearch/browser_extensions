@@ -192,7 +192,7 @@ function kagiSummarize(info, tab) {
 function kagiImageSearch(info, tab) {
   const imageUrl = info.srcUrl;
   browser.tabs.create({
-    url: `https://kagi.com/images?q=${encodeURIComponent(imageUrl)}`,
+    url: `https://kagi.com/images?q=${encodeURIComponent(imageUrl)}&reverse=reference`,
   });
 }
 
