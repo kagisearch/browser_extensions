@@ -206,6 +206,10 @@ async function setup() {
 
     const api_engine = apiEngineSelect.value;
 
+    const summary_type = summaryTypeSelect.value;
+
+    const target_language = targetLanguageSelect.value;
+
     saveTokenButton.innerText = 'Saving...';
 
     await browser.runtime.sendMessage({
@@ -213,6 +217,8 @@ async function setup() {
       token,
       api_token,
       api_engine,
+      summary_type,
+      target_language,
     });
   });
 
@@ -284,7 +290,18 @@ async function setup() {
       type: 'popup',
     });
 
-    window.close();
+    // Save new summary_type preferences
+    await browser.runtime.sendMessage({
+      type: 'save_token',
+      token: searchParams.token,
+      api_token: searchParams.api_token,
+      api_engine: searchParams.api_engine,
+      summary_type: searchParams.summary_type,
+      target_language: searchParams.target_language,
+    });
+
+    // Give the browser time to save the info before closing the window (when await isn't respected)
+    setTimeout(() => window.close(), 100);
   }
 
   summarizePageButton.addEventListener('click', handleSummarizePageButtonClick);
@@ -332,6 +349,8 @@ async function setup() {
     api_token,
     sync_existing,
     api_engine,
+    summary_type,
+    target_language,
   } = {}) {
     if (token) {
       tokenInput.value = token;
@@ -368,6 +387,14 @@ async function setup() {
 
       if (api_engine) {
         apiEngineSelect.value = api_engine;
+      }
+
+      if (summary_type) {
+        summaryTypeSelect.value = summary_type;
+      }
+
+      if (target_language) {
+        targetLanguageSelect.value = target_language;
       }
 
       const hasIncognitoAccess =

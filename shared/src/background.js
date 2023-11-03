@@ -8,6 +8,8 @@ let sessionToken = undefined;
 let syncSessionFromExisting = true;
 let sessionApiToken = undefined;
 let sessionApiEngine = undefined;
+let sessionSummaryType = undefined;
+let sessionTargetLanguage = undefined;
 let IS_CHROME = true;
 
 // Very hacky, but currently works flawlessly
@@ -16,7 +18,7 @@ if (typeof browser.runtime.getBrowserInfo === 'function') {
 }
 
 async function saveToken(
-  { token, api_token, api_engine, sync } = {},
+  { token, api_token, api_engine, sync, summary_type, target_language } = {},
   isManual = false,
 ) {
   sessionToken = typeof token !== 'undefined' ? token : sessionToken;
@@ -24,6 +26,12 @@ async function saveToken(
     typeof api_token !== 'undefined' ? api_token : sessionApiToken;
   sessionApiEngine =
     typeof api_engine !== 'undefined' ? api_engine : sessionApiEngine;
+  sessionSummaryType =
+    typeof summary_type !== 'undefined' ? summary_type : sessionSummaryType;
+  sessionTargetLanguage =
+    typeof target_language !== 'undefined'
+      ? target_language
+      : sessionTargetLanguage;
 
   let shouldSync = sync || !isManual;
   if (typeof sessionToken === 'undefined' || sessionToken.trim().length === 0) {
@@ -38,6 +46,8 @@ async function saveToken(
     sync_existing: shouldSync,
     api_token: sessionApiToken,
     api_engine: sessionApiEngine,
+    summary_type: sessionSummaryType,
+    target_language: sessionTargetLanguage,
   });
 
   await updateRules();
@@ -48,6 +58,8 @@ async function saveToken(
     token: sessionToken,
     api_token: sessionApiToken,
     api_engine: sessionApiEngine,
+    summary_type: sessionSummaryType,
+    target_language: sessionTargetLanguage,
   });
 }
 
@@ -168,12 +180,21 @@ browser.commands?.onCommand.addListener(async (command) => {
 });
 
 async function loadStorageData() {
-  const { token, sync_existing, api_token, api_engine } = await fetchSettings();
+  const {
+    token,
+    sync_existing,
+    api_token,
+    api_engine,
+    summary_type,
+    target_language,
+  } = await fetchSettings();
 
   sessionToken = token;
   syncSessionFromExisting = sync_existing;
   sessionApiToken = api_token;
   sessionApiEngine = api_engine;
+  sessionSummaryType = summary_type;
+  sessionTargetLanguage = target_language;
 }
 
 loadStorageData();

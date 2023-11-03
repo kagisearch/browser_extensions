@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Kagi Search for Chrome",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "A simple extension for setting Kagi as a default search engine, and automatically logging in to Kagi in incognito browsing windows",
   "background": {
     "service_worker": "src/background.js",
