@@ -107,7 +107,8 @@ async function setup() {
       popupUrl.searchParams.set('url', tab.url);
       window.history.replaceState(null, '', popupUrl.toString());
 
-      const { token, api_token, api_engine } = await fetchSettings();
+      const { token, api_token, api_engine, summary_type, target_language } =
+        await fetchSettings();
 
       if (token) {
         searchParams.set('token', token);
@@ -117,6 +118,12 @@ async function setup() {
       }
       if (api_engine) {
         searchParams.set('api_engine', api_engine);
+      }
+      if (summary_type) {
+        searchParams.set('summary_type', summary_type);
+      }
+      if (target_language) {
+        searchParams.set('target_language', target_language);
       }
     }
 
