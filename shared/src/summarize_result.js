@@ -36,7 +36,8 @@ async function setup() {
     }
 
     try {
-      await navigator.clipboard.writeText(summaryTextContents);
+      const summaryToCopy = summaryTextContents.trim().replaceAll('\n', '\n\n');
+      await navigator.clipboard.writeText(summaryToCopy);
 
       copySummaryElement.innerText = 'Copied!';
 
