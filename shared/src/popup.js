@@ -170,6 +170,12 @@ async function setup() {
     return;
   }
 
+  const engineDescription = document.getElementById('engine_description');
+  if (!engineDescription) {
+    console.error('No engine description found.');
+    return;
+  }
+
   const summarizeOptions = document.querySelectorAll('.summarize_option');
   if (summarizeOptions.length === 0) {
     console.error('No summarize options found.');
@@ -220,6 +226,23 @@ async function setup() {
       summary_type,
       target_language,
     });
+  });
+
+  // Show additional engine information based on the selected engine
+  engineSelect.addEventListener('change', function () {
+    const selectedValue = this.value;
+    const template = document.getElementById(
+      `engine_description_${selectedValue}`,
+    );
+
+    if (!template) {
+      console.error(
+        `No engine description template found for ${selectedValue}`,
+      );
+      return;
+    }
+
+    engineDescription.innerHTML = template.innerHTML;
   });
 
   async function toggleAdvancedDisplay(forceState) {

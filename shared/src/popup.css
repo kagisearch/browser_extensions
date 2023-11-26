@@ -287,6 +287,17 @@ p {
   right: 2px;
 }
 
+.api_param {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.engine_description p {
+  text-align: left;
+  width: 100%;
+}
+
 #summarize, #request_permissions {
   margin-top: 10px;
   width: 100%;

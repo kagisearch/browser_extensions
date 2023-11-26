@@ -1,29 +1,64 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="popup.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="popup.css" />
   </head>
 
   <body>
     <div id="content">
       <div id="header">
         <div class="logo">
-          <svg width="80" height="40" viewBox="0 0 105 55" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M81.6028 44.0705H71.5065C68.7746 44.0705 68.2995 41.1325 68.7746 39.9573C69.0122 39.3697 69.6061 38.547 70.0812 37.9594C71.9816 39.0171 74.2385 39.6047 76.614 39.6047C84.2159 39.6047 90.2737 33.4936 90.2737 26.0897C90.2737 22.094 88.492 18.5684 85.7601 15.9829L86.1164 15.6303C86.8291 14.9252 87.8981 14.4551 88.9671 14.5727L90.63 14.6902V8.2265H87.7793C84.4535 8.2265 81.7216 10.2244 80.5338 13.0449C79.346 12.6923 78.0394 12.4573 76.7328 12.4573C69.1309 12.4573 63.0732 18.5684 63.0732 25.9722C63.0732 28.9103 64.0234 31.7308 65.6863 33.9637C65.4488 34.1987 65.0924 34.4338 64.8549 34.5513C64.7361 34.6688 64.6173 34.7863 64.4985 34.9039C61.7666 37.4893 60.46 40.7799 61.1727 44.5406C61.5291 46.5385 63.3107 48.6539 65.0924 49.8291C66.2802 50.6517 67.8244 51.0043 69.3685 51.0043L80.7713 50.5342C82.0779 50.5342 83.2657 51.1218 83.9784 52.297L85.4037 55L92.4117 52.6496L91.2239 50.0641C89.4422 46.4209 85.7601 44.0705 81.6028 44.0705ZM76.7328 19.6261C80.2962 19.6261 83.2657 22.5641 83.2657 26.0897C83.2657 29.6154 80.2962 32.5534 76.7328 32.5534C73.1694 32.5534 70.2 29.6154 70.2 26.0897C70.2 22.4466 73.0507 19.6261 76.7328 19.6261Z" fill="currentColor"></path>
-            <path d="M41.8124 12.3398C34.6856 12.6923 28.7466 18.3334 28.2715 25.3846C27.6776 33.7286 34.3293 40.6624 42.525 40.6624C45.257 40.6624 47.7513 39.1346 49.8894 37.8419V40.3098H56.8974V25.9722C56.541 18.0983 49.8894 11.9872 41.8124 12.3398ZM42.525 34.0812C38.249 34.0812 34.9232 30.6731 34.9232 26.5598C34.9232 22.3291 38.3678 19.0385 42.525 19.0385C46.8011 19.0385 50.1269 22.4466 50.1269 26.5598C50.2457 30.6731 46.8011 34.0812 42.525 34.0812Z" fill="currentColor"></path>
-            <path d="M28.3883 12.8098H18.5296L9.97747 21.2714L7.00799 24.2094V7.99145H0V40.3098H7.00799V28.2051L9.97747 31.1432V31.0256L19.2423 40.3098H29.101L14.016 26.2073L28.3883 12.8098Z" fill="currentColor"></path>
-            <path d="M97.0414 37.8418V40.1923H104.049V12.8098H97.0414V37.8418Z" fill="currentColor"></path>
-            <path d="M100.486 8.93162C102.979 8.93162 105 6.93221 105 4.46581C105 1.99941 102.979 0 100.486 0C97.9936 0 95.9728 1.99941 95.9728 4.46581C95.9728 6.93221 97.9936 8.93162 100.486 8.93162Z" fill="currentColor"></path>
-            </svg>
+          <svg
+            width="80"
+            height="40"
+            viewBox="0 0 105 55"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M81.6028 44.0705H71.5065C68.7746 44.0705 68.2995 41.1325 68.7746 39.9573C69.0122 39.3697 69.6061 38.547 70.0812 37.9594C71.9816 39.0171 74.2385 39.6047 76.614 39.6047C84.2159 39.6047 90.2737 33.4936 90.2737 26.0897C90.2737 22.094 88.492 18.5684 85.7601 15.9829L86.1164 15.6303C86.8291 14.9252 87.8981 14.4551 88.9671 14.5727L90.63 14.6902V8.2265H87.7793C84.4535 8.2265 81.7216 10.2244 80.5338 13.0449C79.346 12.6923 78.0394 12.4573 76.7328 12.4573C69.1309 12.4573 63.0732 18.5684 63.0732 25.9722C63.0732 28.9103 64.0234 31.7308 65.6863 33.9637C65.4488 34.1987 65.0924 34.4338 64.8549 34.5513C64.7361 34.6688 64.6173 34.7863 64.4985 34.9039C61.7666 37.4893 60.46 40.7799 61.1727 44.5406C61.5291 46.5385 63.3107 48.6539 65.0924 49.8291C66.2802 50.6517 67.8244 51.0043 69.3685 51.0043L80.7713 50.5342C82.0779 50.5342 83.2657 51.1218 83.9784 52.297L85.4037 55L92.4117 52.6496L91.2239 50.0641C89.4422 46.4209 85.7601 44.0705 81.6028 44.0705ZM76.7328 19.6261C80.2962 19.6261 83.2657 22.5641 83.2657 26.0897C83.2657 29.6154 80.2962 32.5534 76.7328 32.5534C73.1694 32.5534 70.2 29.6154 70.2 26.0897C70.2 22.4466 73.0507 19.6261 76.7328 19.6261Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M41.8124 12.3398C34.6856 12.6923 28.7466 18.3334 28.2715 25.3846C27.6776 33.7286 34.3293 40.6624 42.525 40.6624C45.257 40.6624 47.7513 39.1346 49.8894 37.8419V40.3098H56.8974V25.9722C56.541 18.0983 49.8894 11.9872 41.8124 12.3398ZM42.525 34.0812C38.249 34.0812 34.9232 30.6731 34.9232 26.5598C34.9232 22.3291 38.3678 19.0385 42.525 19.0385C46.8011 19.0385 50.1269 22.4466 50.1269 26.5598C50.2457 30.6731 46.8011 34.0812 42.525 34.0812Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M28.3883 12.8098H18.5296L9.97747 21.2714L7.00799 24.2094V7.99145H0V40.3098H7.00799V28.2051L9.97747 31.1432V31.0256L19.2423 40.3098H29.101L14.016 26.2073L28.3883 12.8098Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M97.0414 37.8418V40.1923H104.049V12.8098H97.0414V37.8418Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M100.486 8.93162C102.979 8.93162 105 6.93221 105 4.46581C105 1.99941 102.979 0 100.486 0C97.9936 0 95.9728 1.99941 95.9728 4.46581C95.9728 6.93221 97.9936 8.93162 100.486 8.93162Z"
+              fill="currentColor"
+            ></path>
+          </svg>
         </div>
-        
+
         <span id="status" title="Loading...">
-          <svg style="display: none" aria-hidden="true" height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            style="display: none"
+            aria-hidden="true"
+            height="100%"
+            width="100%"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <g opacity="0.5">
-            <path d="M15.9682 7.50003L7.5 15.9683L8.31882 16.7871L16.787 8.31885L15.9682 7.50003Z" fill="currentColor"></path>
-            <path d="M8.31882 7.50003L7.5 8.31885L15.9682 16.7871L16.787 15.9683L8.31882 7.50003Z" fill="currentColor"></path>
+              <path
+                d="M15.9682 7.50003L7.5 15.9683L8.31882 16.7871L16.787 8.31885L15.9682 7.50003Z"
+                fill="currentColor"
+              ></path>
+              <path
+                d="M8.31882 7.50003L7.5 8.31885L15.9682 16.7871L16.787 15.9683L8.31882 7.50003Z"
+                fill="currentColor"
+              ></path>
             </g>
           </svg>
           <svg
@@ -54,62 +89,118 @@
               />
             </path>
           </svg>
-          <svg style="display: none" aria-hidden="true" height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            style="display: none"
+            aria-hidden="true"
+            height="100%"
+            width="100%"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <g>
-              <path fill="none" d="M0 0h24v24H0z"/>
-              <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-.997-4L6.76 11.757l1.414-1.414 2.829 2.829 5.656-5.657 1.415 1.414L11.003 16z"/>
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path
+                d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-.997-4L6.76 11.757l1.414-1.414 2.829 2.829 5.656-5.657 1.415 1.414L11.003 16z"
+              />
             </g>
           </svg>
         </span>
 
         <span id="advanced" title="Advanced settings">
-          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path d="M16.2 17.4H7.5V18.6H16.2V17.4Z" fill="currentColor"></path>
-            <path d="M28.4999 17.4H23.0999V18.6H28.4999V17.4Z" fill="currentColor"></path>
-            <path d="M28.4999 23.4H14.0999V24.6H28.4999V23.4Z" fill="currentColor"></path>
-            <path d="M26.289 10.461C25.458 10.461 24.783 11.136 24.783 11.967C24.783 12.798 25.458 13.473 26.289 13.473C27.12 13.473 27.795 12.798 27.795 11.967C27.795 11.136 27.117 10.461 26.289 10.461ZM26.289 14.628C24.819 14.628 23.625 13.434 23.625 11.964C23.625 10.494 24.819 9.30002 26.289 9.30002C27.759 9.30002 28.953 10.494 28.953 11.964C28.953 13.434 27.756 14.628 26.289 14.628Z" fill="currentColor"></path>
-            <path d="M18.4079 16.5001C17.5769 16.5001 16.9019 17.1751 16.9019 18.0061C16.9019 18.8371 17.5769 19.5121 18.4079 19.5121C19.2389 19.5121 19.9139 18.8371 19.9139 18.0061C19.9139 17.1751 19.2389 16.5001 18.4079 16.5001ZM18.4079 20.6671C16.9379 20.6671 15.7439 19.4731 15.7439 18.0031C15.7439 16.5331 16.9379 15.3391 18.4079 15.3391C19.8779 15.3391 21.0719 16.5331 21.0719 18.0031C21.0719 19.4731 19.8779 20.6671 18.4079 20.6671Z" fill="currentColor"></path>
+            <path
+              d="M28.4999 17.4H23.0999V18.6H28.4999V17.4Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M28.4999 23.4H14.0999V24.6H28.4999V23.4Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M26.289 10.461C25.458 10.461 24.783 11.136 24.783 11.967C24.783 12.798 25.458 13.473 26.289 13.473C27.12 13.473 27.795 12.798 27.795 11.967C27.795 11.136 27.117 10.461 26.289 10.461ZM26.289 14.628C24.819 14.628 23.625 13.434 23.625 11.964C23.625 10.494 24.819 9.30002 26.289 9.30002C27.759 9.30002 28.953 10.494 28.953 11.964C28.953 13.434 27.756 14.628 26.289 14.628Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M18.4079 16.5001C17.5769 16.5001 16.9019 17.1751 16.9019 18.0061C16.9019 18.8371 17.5769 19.5121 18.4079 19.5121C19.2389 19.5121 19.9139 18.8371 19.9139 18.0061C19.9139 17.1751 19.2389 16.5001 18.4079 16.5001ZM18.4079 20.6671C16.9379 20.6671 15.7439 19.4731 15.7439 18.0031C15.7439 16.5331 16.9379 15.3391 18.4079 15.3391C19.8779 15.3391 21.0719 16.5331 21.0719 18.0031C21.0719 19.4731 19.8779 20.6671 18.4079 20.6671Z"
+              fill="currentColor"
+            ></path>
             <path d="M21.6 11.4H7.5V12.6H21.6V11.4Z" fill="currentColor"></path>
-            <path d="M9.56415 22.5391C8.73315 22.5391 8.05815 23.2141 8.05815 24.0451C8.05815 24.8761 8.73315 25.5511 9.56415 25.5511C10.3951 25.5511 11.0701 24.8761 11.0701 24.0451C11.0701 23.2141 10.3951 22.5391 9.56415 22.5391ZM9.56415 26.7061C8.09415 26.7061 6.90015 25.5121 6.90015 24.0421C6.90015 22.5721 8.09415 21.3781 9.56415 21.3781C11.0341 21.3781 12.2281 22.5721 12.2281 24.0421C12.2281 25.5121 11.0341 26.7061 9.56415 26.7061Z" fill="currentColor"></path>
+            <path
+              d="M9.56415 22.5391C8.73315 22.5391 8.05815 23.2141 8.05815 24.0451C8.05815 24.8761 8.73315 25.5511 9.56415 25.5511C10.3951 25.5511 11.0701 24.8761 11.0701 24.0451C11.0701 23.2141 10.3951 22.5391 9.56415 22.5391ZM9.56415 26.7061C8.09415 26.7061 6.90015 25.5121 6.90015 24.0421C6.90015 22.5721 8.09415 21.3781 9.56415 21.3781C11.0341 21.3781 12.2281 22.5721 12.2281 24.0421C12.2281 25.5121 11.0341 26.7061 9.56415 26.7061Z"
+              fill="currentColor"
+            ></path>
           </svg>
-          <svg style="display: none" aria-hidden="true" height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15.9682 7.50003L7.5 15.9683L8.31882 16.7871L16.787 8.31885L15.9682 7.50003Z" fill="currentColor"></path>
-            <path d="M8.31882 7.50003L7.5 8.31885L15.9682 16.7871L16.787 15.9683L8.31882 7.50003Z" fill="currentColor"></path>
+          <svg
+            style="display: none"
+            aria-hidden="true"
+            height="100%"
+            width="100%"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15.9682 7.50003L7.5 15.9683L8.31882 16.7871L16.787 8.31885L15.9682 7.50003Z"
+              fill="currentColor"
+            ></path>
+            <path
+              d="M8.31882 7.50003L7.5 8.31885L15.9682 16.7871L16.787 15.9683L8.31882 7.50003Z"
+              fill="currentColor"
+            ></path>
           </svg>
         </span>
       </div>
 
       <span id="status_error_message" style="display: none">
         No kagi session found.<br />
-        Login to Kagi or open a Kagi tab and the extension should automatically configure.<br />
-        <a id="open_kagi" href="https://kagi.com" target="_blank" rel="noopener noreferrer">Let's go!</a>
+        Login to Kagi or open a Kagi tab and the extension should automatically
+        configure.<br />
+        <a
+          id="open_kagi"
+          href="https://kagi.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Let's go!</a
+        >
         <span id="status_permission_message" style="display: none">
-          To automatically configure the extension, please allow access to kagi.com.
+          To automatically configure the extension, please allow access to
+          kagi.com.
         </span>
       </span>
 
-      <span id="status_loading_message">
-        Loading session...
-      </span>
+      <span id="status_loading_message"> Loading session... </span>
 
       <div id="token" style="display: none">
-
         <div id="incognito" style="display: none">
           <span>
-            If you want to use Kagi automatically in incognito mode, you need to enable incognito mode in the extension settings.
+            If you want to use Kagi automatically in incognito mode, you need to
+            enable incognito mode in the extension settings.
           </span>
           <br />
           <div id="firefox_ext" style="display: none">
             <ol>
               <li>Go to <strong>about:addons</strong></li>
-              <li>find the Kagi extension and click the 3 dots (...) on the right side</li>
+              <li>
+                find the Kagi extension and click the 3 dots (...) on the right
+                side
+              </li>
               <li>Click "Manage"</li>
               <li>check the "Allow" box next to "Run in Private Windows"</li>
             </ol>
           </div>
           <div id="chrome_ext" style="display: none">
             <ol>
-              <li> Go to <a id="chrome_link" href="#">the extension settings</a></li>
+              <li>
+                Go to <a id="chrome_link" href="#">the extension settings</a>
+              </li>
               <li>Check the "Allow in incognito" toggle</li>
             </ol>
           </div>
@@ -121,57 +212,96 @@
               Set your login token to use in private browsing tabs
             </div>
             <div class="desc">
-              You can paste the login url from the control center or the raw login token.
+              You can paste the login url from the control center or the raw
+              login token.
               <br />
-              <a href="https://help.kagi.com/kagi/faq/faq.html#using-login-token" target="_blank" rel="noopener noreferrer">Learn more about login tokens</a>
+              <a
+                href="https://help.kagi.com/kagi/faq/faq.html#using-login-token"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Learn more about login tokens</a
+              >
             </div>
           </div>
         </div>
 
         <div class="setting_row">
-          <input type="password" id="token_input" value="" placeholder="my token"/>
+          <input
+            type="password"
+            id="token_input"
+            value=""
+            placeholder="my token"
+          />
         </div>
 
         <div class="setting_row">
           <div>
-            <div class="title">
-              Universal Summarizer API key
-            </div>
+            <div class="title">Universal Summarizer API key</div>
             <div class="desc">
-              This enables selection of advanced summarization models available with the <a href="https://kagi.com/summarizer/api.html" target="_blank" rel="noopener noreferrer">Universal Summarizer API</a>.
+              This enables selection of advanced summarization models available
+              with the
+              <a
+                href="https://kagi.com/summarizer/api.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Universal Summarizer API</a
+              >.
               <br />
-              Note: You can still use summarize feature in Kagi extension without any API key, provided you are logged in into your Kagi account.
+              Note: You can still use summarize feature in Kagi extension
+              without any API key, provided you are logged in into your Kagi
+              account.
             </div>
           </div>
         </div>
 
         <div class="setting_row">
-          <input type="password" id="api_token_input" value="" placeholder="my API key"/>
+          <input
+            type="password"
+            id="api_token_input"
+            value=""
+            placeholder="my API key"
+          />
         </div>
 
         <div class="setting_row api_param" style="display: none">
           <div>
             <label class="title" for="engine">API Summarizer Engine</label>
-            <select id="engine">
+            <select id="engine" aria-describedby="engine_description">
               <option value="cecil" selected="selected">Cecil (free)</option>
               <option value="agnes">Agnes</option>
               <option value="daphne">Daphne</option>
-              <option value="muriel">Muriel</option>
+              <option value="muriel">Muriel (enterprise)</option>
             </select>
           </div>
+
+          <div class="engine_description desc" id="engine_description" aria-live="polite">
+            <p><strong>Cecil</strong> is the free, general-purpose summarizer engine.</p>
+          </div>
+
+          <template id="engine_description_cecil">
+            <p><strong>Cecil</strong> is the free, general-purpose summarizer engine.</p>
+          </template>
+          <template id="engine_description_agnes">
+            <p><strong>Agnes</strong> is formal, technical, and analytical.<p>
+            <p><strong>Pricing:</strong> $0.03 / 1,000 tokens, capped at $0.30 / summary</strong> (<a href="https://help.kagi.com/kagi/api/summarizer.html#pricing" target="_blank" rel="noopener noreferrer">Pricing details</a>)</p>
+          </template>
+          <template id="engine_description_daphne">
+            <p><strong>Daphne</strong> is informal, creative, and friendly.</p>
+            <p><strong>Pricing:</strong> $0.03 / 1,000 tokens, capped at $0.30 / summary</strong> (<a href="https://help.kagi.com/kagi/api/summarizer.html#pricing" target="_blank" rel="noopener noreferrer">Pricing details</a>)</p>
+          </template>
+          <template id="engine_description_muriel">
+            <p><strong>Muriel</strong> is our enterprise-grade summarizer engine. It features summaries of unprecedented quality. Ideal for teams where high-quality summaries are imperative, such as newsrooms and legal teams. <a href="https://blog.kagi.com/universal-summarizer#muriel">See how Muriel compares</a></p>
+            <p><strong>Pricing:</strong> $1 / summary (<a href="https://help.kagi.com/kagi/api/summarizer.html#pricing" target="_blank" rel="noopener noreferrer">Pricing details</a>)</p>
+          </template>
         </div>
 
         <div class="setting_row">
           <button id="token_save">Save settings</button>
         </div>
-
       </div>
 
       <div id="summarize" style="display: none">
-
-        <div class="title">
-          Summarize the current page
-        </div>
+        <div class="title">Summarize the current page</div>
 
         <div class="setting_row">
           <div class="summarize_option">
@@ -221,20 +351,18 @@
           <button id="summarize_page">Summarize</button>
         </div>
       </div>
-      
+
       <div id="request_permissions" style="display: none">
+        <div class="title">Summarize the current page</div>
 
-        <div class="title">
-          Summarize the current page
+        <div class="desc">
+          Allow accessing the currently active tab, so it can be summarized.
         </div>
-
-        <div class="desc">Allow accessing the currently active tab, so it can be summarized.</div>
 
         <div class="setting_row">
           <button id="request_permissions_button">Request access</button>
         </div>
       </div>
-
     </div>
     <script type="module" src="popup.js"></script>
   </body>
