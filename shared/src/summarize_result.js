@@ -65,7 +65,7 @@ async function setup() {
         copySummaryElement.style.display = '';
       } else {
         summaryResultElement.classList.add('error');
-        summaryTextContents = '';
+        summaryTextContents = data.summary;
         copySummaryElement.style.display = 'none';
       }
 
