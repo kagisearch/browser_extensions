@@ -41,14 +41,24 @@ async function saveToken(
 
   syncSessionFromExisting = shouldSync;
 
-  await browser.storage.local.set({
-    session_token: token,
-    sync_existing: shouldSync,
-    api_token: sessionApiToken,
-    api_engine: sessionApiEngine,
-    summary_type: sessionSummaryType,
-    target_language: sessionTargetLanguage,
-  });
+  try {
+    await browser.storage.local.set({
+      session_token: token,
+      sync_existing: shouldSync,
+      api_token: sessionApiToken,
+      api_engine: sessionApiEngine,
+      summary_type: sessionSummaryType,
+      target_language: sessionTargetLanguage,
+    });
+  } catch (error) {
+    console.error(error);
+
+    await browser.runtime.sendMessage({
+      type: 'save-error',
+    });
+
+    return;
+  }
 
   await updateRules();
 
@@ -142,7 +152,7 @@ browser.webRequest.onBeforeRequest.addListener(
 browser.runtime.onMessage.addListener(async (data) => {
   switch (data.type) {
     case 'save_token': {
-      saveToken(data, true);
+      await saveToken(data, true);
       break;
     }
     case 'open_extension': {
@@ -158,7 +168,7 @@ browser.runtime.onMessage.addListener(async (data) => {
       break;
     }
     case 'summarize_page': {
-      summarizePage(data);
+      await summarizePage(data);
       break;
     }
     default:
