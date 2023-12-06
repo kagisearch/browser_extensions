@@ -103,9 +103,8 @@ export async function fetchSettings() {
   const apiObject = await browser.storage.local.get('api_token');
   const apiEngineObject = await browser.storage.local.get('api_engine');
   const summaryTypeObject = await browser.storage.local.get('summary_type');
-  const targetLanguageObject = await browser.storage.local.get(
-    'target_language',
-  );
+  const targetLanguageObject =
+    await browser.storage.local.get('target_language');
 
   return {
     token: sessionObject?.session_token,
@@ -139,6 +138,11 @@ export async function getActiveTab(fetchingFromShortcut = false) {
       (tab) =>
         tab?.url?.startsWith('http://') || tab?.url?.startsWith('https://'),
     ) || tabs[0];
+
+  if (tab?.url?.startsWith('about:reader?url=')) {
+    const newUrl = new URL(tab.url);
+    tab.url = newUrl.searchParams.get('url');
+  }
 
   if (!tab || !tab.url) {
     console.error('No tab/url found.');

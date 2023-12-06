@@ -116,7 +116,8 @@ input[type="password"]:focus {
 }
 
 #status_permission_message,
-#status_error_message {
+#status_error_message,
+#save_error {
   color: #fd6820;
 }
 

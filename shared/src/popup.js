@@ -192,6 +192,12 @@ async function setup() {
     return;
   }
 
+  const saveErrorDiv = document.querySelector('#save_error');
+  if (!saveErrorDiv) {
+    console.error('Could not find save error div');
+    return;
+  }
+
   saveTokenButton.addEventListener('click', async () => {
     let token = tokenInput.value;
 
@@ -445,6 +451,7 @@ async function setup() {
     if (data.type === 'synced') {
       setStatus('manual_token');
       saveTokenButton.innerText = 'Saved!';
+      saveErrorDiv.style.display = 'none';
 
       const newlyFetchedSettings = await fetchSettings();
       await handleGetData(newlyFetchedSettings);
@@ -489,7 +496,27 @@ async function setup() {
       setStatus('no_session');
       tokenDiv.style.display = 'none';
       advancedToggle.style.display = '';
+      saveErrorDiv.style.display = 'none';
       toggleAdvancedDisplay('close');
+    } else if (data.type === 'save-error') {
+      saveTokenButton.innerText = 'Error saving!';
+
+      if (savingButtonTextTimeout) {
+        clearTimeout(savingButtonTextTimeout);
+      }
+
+      savingButtonTextTimeout = setTimeout(() => {
+        saveTokenButton.innerText = 'Save settings';
+      }, 2000);
+
+      if (!IS_CHROME) {
+        const incognitoNameSpan = saveErrorDiv.querySelector('span');
+        if (incognitoNameSpan) {
+          incognitoNameSpan.innerText = 'Run in Private Windows';
+        }
+      }
+
+      saveErrorDiv.style.display = '';
     }
   });
 }
