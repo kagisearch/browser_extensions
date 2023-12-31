@@ -1,0 +1,242 @@
+* {
+/*    -webkit-user-select: none;*/
+    -webkit-user-drag: none;
+    cursor: default;
+}
+a[href] {
+    cursor: pointer;
+}
+
+:root {
+    color-scheme: light dark;
+    
+    --spacing: 10px;
+    
+    --captionColorLight: #494949;
+    --captionColorDark: #B8B8B8;
+    
+    --orionAccent: #8E70FF;
+}
+
+html {
+    height: 100%;
+}
+
+#wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+    gap: var(--spacing);
+    margin: 0 calc(var(--spacing) * 2);
+    height: 100%;
+    
+    font: -apple-system-short-body;
+    text-align: left;
+}
+
+body:not(.platform-mac, .platform-ios) :is(.platform-mac, .platform-ios) {
+    display: none;
+}
+
+body.platform-ios .platform-mac {
+    display: none;
+}
+
+body.platform-mac .platform-ios {
+    display: none;
+}
+
+body.platform-ios .platform-mac {
+    display: none;
+}
+
+body:not(.state-on, .state-off) :is(.state-on, .state-off) {
+    display: none;
+}
+
+body.state-on :is(.state-off, .state-unknown) {
+    display: none;
+}
+
+body.state-off :is(.state-on, .state-unknown) {
+    display: none;
+}
+
+button, input, select, option {
+    font-size: 1em;
+}
+
+input, select, p, label, button {
+    width: 95%;
+}
+.sync-with-safari {
+	width: 85%;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+button.sync-with-safari {
+	font-weight: bold;
+}
+p.sync-with-safari {
+	margin-top: 4px;
+	text-align: center;
+}
+
+p, label {
+	display: block;
+	margin: .5em 0;
+}
+
+fieldset, ol, h1, h2, h3, h4, h5, h6, #wrapper > p {
+	width: 82%;
+}
+fieldset {
+    border: 0;
+}
+
+body.platform-ios fieldset {
+    width: 95%;
+}
+
+body.platform-ios select {
+/*	height: 20px;*/
+}
+
+body.platform-ios select {
+    height: 38px;
+    margin-bottom: 8px;
+}
+
+input {
+	border: solid 1px #aaa;
+	border-radius: 2px;
+}
+
+body.platform-ios input {
+    border-radius: 6px;
+}
+
+body.platform-ios input, body.platform-ios select {
+    margin-bottom: 8px;
+}
+
+body.platform-mac select {
+    -webkit-appearance: menulist-button;
+}
+
+a {
+    color: var(--orionAccent);
+}
+
+a.screenshot {
+    overflow: visible;
+    opacity: .7;
+/*    transition: opacity 1s ease-in-out;*/
+    display: inline-block;
+    width: 16px;
+    height: 14px;
+    position: relative;
+    top: 2px;
+/*    margin-bottom: -2px;*/
+}
+a.screenshot:hover {
+    opacity: 1;
+}
+
+a.screenshot > object {
+    pointer-events: none;
+    overflow: visible;
+    width: 16px;
+    height: 14px;
+/*    fill-opacity: .7;*/
+/*    transition: fill-opacity 0.1s ease-in-out;*/
+}
+a.screenshot:hover > object {
+/*    fill-opacity: 1;*/
+}
+
+hr {
+    border: solid 0.5px var(--captionColorDark);
+    width: 70%;
+}
+
+.caption {
+	font-size: 0.9em;
+    color: var(--captionColorLight);
+    margin-top: 0;
+}
+h2 {
+    margin-bottom: 0;
+}
+#instructions {
+    padding-inline-start: 0;
+    margin-top: 0;
+}
+#instructions li {
+    margin-top: 0.5em;
+}
+#instructions li::marker {
+    color: var(--captionColorLight);
+}
+@media (prefers-color-scheme: dark) {
+    #wrapper {
+        font-weight: 300;
+    }
+    .caption, #instructions li::marker {
+        color: var(--captionColorDark);
+    }
+    hr {
+        border-color: var(--captionColorLight);
+    }
+}
+
+.info {
+	text-indent: -19px;
+/* 	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg>'); */
+}
+.bi-info-circle {
+	position: relative;
+	top: 7px;
+	right: 6px;
+	opacity: 0.5;
+}
+.caption:hover .bi-info-circle {
+	opacity: 1;
+}
+.inlineIcon {
+	-webkit-filter: grayscale(1);
+	position: relative;
+	top: 3px;
+}
+#engines p.allEngines {
+	display: none;
+}
+#engines.allEngines p.allEngines {
+	display: block;
+}
+
+/* basicLightbox styles, minified */
+.basicLightbox.closing {width:100%;}
+.platform-ios .basicLightbox {background:rgba(255,255,255,.8);}
+.platform-mac .basicLightbox {background:rgba(0,0,0,.8);}
+.basicLightbox{position:fixed;display:flex;justify-content:center;align-items:center;top:0;left:0;width:100%;height:100vh;opacity:.01;transition:opacity .4s ease;z-index:1000;will-change:opacity}.basicLightbox--visible{opacity:1}.basicLightbox__placeholder{max-width:100%;-webkit-transform:scale(.9);transform:scale(.9);transition:-webkit-transform .4s ease;transition:transform .4s ease;transition:transform .4s ease,-webkit-transform .4s ease;z-index:1;will-change:transform}.basicLightbox__placeholder>iframe:first-child:last-child,.basicLightbox__placeholder>img:first-child:last-child,.basicLightbox__placeholder>video:first-child:last-child{display:block;position:absolute;top:0;right:0;bottom:0;left:0;margin:auto;max-width:95%;max-height:90vh}.basicLightbox__placeholder>iframe:first-child:last-child,.basicLightbox__placeholder>video:first-child:last-child{pointer-events:auto}.basicLightbox__placeholder>img:first-child:last-child,.basicLightbox__placeholder>video:first-child:last-child{width:auto;height:auto}.basicLightbox--iframe .basicLightbox__placeholder,.basicLightbox--img .basicLightbox__placeholder,.basicLightbox--video .basicLightbox__placeholder{width:100%;height:100%;pointer-events:none}.basicLightbox--visible .basicLightbox__placeholder{-webkit-transform:scale(1);transform:scale(1);overflow-x:scroll;}.basicLightbox--visible .basicLightbox__placeholder::-webkit-scrollbar{display: none;}
+.platform-ios .modal img {
+    display: inline-block;
+}
+.platform-ios .basicLightbox img {
+    box-shadow: 0 0 15px gray;
+    margin: 20px 6px;
+    max-height: 90vh;
+}
+.platform-ios .basicLightbox__placeholder>iframe:first-child:last-child, .platform-ios .basicLightbox__placeholder>img:first-child:last-child, .platform-ios .basicLightbox__placeholder>video:first-child:last-child {
+    margin: 20px 6px;
+}
+@media (prefers-color-scheme: dark) {
+    .platform-ios .basicLightbox {
+        background: rgba(0,0,0,.8);
+    }
+}

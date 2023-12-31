@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Kagi Search for Safari",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Kagi is a 100% privacy-respecting search engine with results augmented by non-commercial indexes.",
+        "description": "Description of what the extension does."
+    }
+}
