@@ -1,0 +1,3 @@
+"info_label" = "How to configure extension:\n1) Open iOS Settings -> Safari -> Extensions\n2) Select \"Kagi Search\"\n3) In \"Permissions for Kagi Search\" below select All Websites -> Allow\n4) (optional) Tap the extension once activated in Safari to add private session link for using Kagi even in private windows";
+"settings_title" = "Open iOS Settings";
+"visit_title" = "Visit kagi.com";

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.Safari.extension</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>$(PRODUCT_MODULE_NAME).SafariExtensionHandler</string>
+		<key>SFSafariToolbarItem</key>
+		<dict>
+			<key>Action</key>
+			<string>Popover</string>
+			<key>Identifier</key>
+			<string>Button</string>
+			<key>Image</key>
+			<string>ToolbarItemIcon.png</string>
+			<key>Label</key>
+			<string>Kagi Search</string>
+		</dict>
+		<key>SFSafariWebsiteAccess</key>
+		<dict>
+			<key>Allowed Domains for Header Injection</key>
+			<array>
+				<string>kagi.com</string>
+			</array>
+			<key>Level</key>
+			<string>All</string>
+		</dict>
+	</dict>
+	<key>NSHumanReadableDescription</key>
+	<string>Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.</string>
+</dict>
+</plist>

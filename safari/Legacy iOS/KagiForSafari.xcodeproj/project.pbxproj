@@ -1,0 +1,642 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		18D6EF9727A809AF0022966C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18D6EF9927A809AF0022966C /* InfoPlist.strings */; };
+		18D6EF9E27A809BF0022966C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18D6EFA027A809BF0022966C /* Localizable.strings */; };
+		18E9AB6427A7EF7F0054A23D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E9AB6327A7EF7F0054A23D /* AppDelegate.swift */; };
+		18E9AB7027A7EF7F0054A23D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E9AB6F27A7EF7F0054A23D /* ViewController.swift */; };
+		18E9AB7327A7EF7F0054A23D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E9AB7127A7EF7F0054A23D /* LaunchScreen.storyboard */; };
+		18E9AB7627A7EF7F0054A23D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E9AB7427A7EF7F0054A23D /* Main.storyboard */; };
+		18E9AB7E27A7EF840054A23D /* KagiForSafari Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 18E9AB7D27A7EF840054A23D /* KagiForSafari Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		18E9AB8327A7EF840054A23D /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E9AB8227A7EF840054A23D /* SafariWebExtensionHandler.swift */; };
+		18E9AB8627A7EF840054A23D /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 18E9AB8527A7EF840054A23D /* _locales */; };
+		18E9AB8827A7EF840054A23D /* images in Resources */ = {isa = PBXBuildFile; fileRef = 18E9AB8727A7EF840054A23D /* images */; };
+		18E9AB8A27A7EF840054A23D /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 18E9AB8927A7EF840054A23D /* manifest.json */; };
+		18E9AB8E27A7EF840054A23D /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = 18E9AB8D27A7EF840054A23D /* content.js */; };
+		18E9AB9027A7EF840054A23D /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 18E9AB8F27A7EF840054A23D /* popup.html */; };
+		18E9AB9427A7EF840054A23D /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 18E9AB9327A7EF840054A23D /* popup.js */; };
+		18E9AB9627A7EF840054A23D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18E9AB7727A7EF830054A23D /* Assets.xcassets */; };
+		18E9ABA927A7FE340054A23D /* lufga-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18E9ABA827A7FE340054A23D /* lufga-regular-webfont.ttf */; };
+		18E9ABAA27A7FE460054A23D /* lufga-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18E9ABA827A7FE340054A23D /* lufga-regular-webfont.ttf */; };
+		FE2862EF27E4FD0500EFA37A /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = FE2862EE27E4FD0500EFA37A /* background.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		18E9AB7F27A7EF840054A23D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18E9AB5827A7EF7F0054A23D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 18E9AB7C27A7EF840054A23D;
+			remoteInfo = "KagiForSafari Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		18E9AB9C27A7EF840054A23D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				18E9AB7E27A7EF840054A23D /* KagiForSafari Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		18D6EF9427A8094D0022966C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		18D6EF9827A809AF0022966C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		18D6EF9F27A809BF0022966C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		18E9AB6027A7EF7F0054A23D /* KagiForSafari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KagiForSafari.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		18E9AB6327A7EF7F0054A23D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		18E9AB6F27A7EF7F0054A23D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		18E9AB7227A7EF7F0054A23D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		18E9AB7527A7EF7F0054A23D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		18E9AB7727A7EF830054A23D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		18E9AB7827A7EF830054A23D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18E9AB7D27A7EF840054A23D /* KagiForSafari Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "KagiForSafari Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		18E9AB8227A7EF840054A23D /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		18E9AB8527A7EF840054A23D /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = _locales; sourceTree = "<group>"; };
+		18E9AB8727A7EF840054A23D /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
+		18E9AB8927A7EF840054A23D /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		18E9AB8D27A7EF840054A23D /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = content.js; sourceTree = "<group>"; };
+		18E9AB8F27A7EF840054A23D /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = popup.html; sourceTree = "<group>"; };
+		18E9AB9327A7EF840054A23D /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = popup.js; sourceTree = "<group>"; };
+		18E9AB9527A7EF840054A23D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18E9ABA827A7FE340054A23D /* lufga-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "lufga-regular-webfont.ttf"; sourceTree = "<group>"; };
+		FE2862EE27E4FD0500EFA37A /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		18E9AB5D27A7EF7F0054A23D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18E9AB7A27A7EF840054A23D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		18D6EFA127A80A900022966C /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				18D6EF9927A809AF0022966C /* InfoPlist.strings */,
+				18D6EFA027A809BF0022966C /* Localizable.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		18E9AB5727A7EF7F0054A23D = {
+			isa = PBXGroup;
+			children = (
+				18E9AB6227A7EF7F0054A23D /* KagiForSafari */,
+				18E9AB8127A7EF840054A23D /* KagiForSafari Extension */,
+				18E9AB6127A7EF7F0054A23D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		18E9AB6127A7EF7F0054A23D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18E9AB6027A7EF7F0054A23D /* KagiForSafari.app */,
+				18E9AB7D27A7EF840054A23D /* KagiForSafari Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		18E9AB6227A7EF7F0054A23D /* KagiForSafari */ = {
+			isa = PBXGroup;
+			children = (
+				18D6EF9427A8094D0022966C /* Config.xcconfig */,
+				18E9AB6327A7EF7F0054A23D /* AppDelegate.swift */,
+				18E9AB6F27A7EF7F0054A23D /* ViewController.swift */,
+				18E9AB7127A7EF7F0054A23D /* LaunchScreen.storyboard */,
+				18E9AB7427A7EF7F0054A23D /* Main.storyboard */,
+				18E9AB7727A7EF830054A23D /* Assets.xcassets */,
+				18E9AB7827A7EF830054A23D /* Info.plist */,
+				18D6EFA127A80A900022966C /* Localization */,
+				18E9AB6527A7EF7F0054A23D /* Resources */,
+			);
+			path = KagiForSafari;
+			sourceTree = "<group>";
+		};
+		18E9AB6527A7EF7F0054A23D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				18E9ABA827A7FE340054A23D /* lufga-regular-webfont.ttf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		18E9AB8127A7EF840054A23D /* KagiForSafari Extension */ = {
+			isa = PBXGroup;
+			children = (
+				18E9AB8227A7EF840054A23D /* SafariWebExtensionHandler.swift */,
+				18E9AB9527A7EF840054A23D /* Info.plist */,
+				18E9AB8427A7EF840054A23D /* Resources */,
+			);
+			path = "KagiForSafari Extension";
+			sourceTree = "<group>";
+		};
+		18E9AB8427A7EF840054A23D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				18E9AB8527A7EF840054A23D /* _locales */,
+				18E9AB8727A7EF840054A23D /* images */,
+				18E9AB8927A7EF840054A23D /* manifest.json */,
+				FE2862EE27E4FD0500EFA37A /* background.js */,
+				18E9AB8D27A7EF840054A23D /* content.js */,
+				18E9AB8F27A7EF840054A23D /* popup.html */,
+				18E9AB9327A7EF840054A23D /* popup.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		18E9AB5F27A7EF7F0054A23D /* KagiForSafari */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18E9AB9D27A7EF840054A23D /* Build configuration list for PBXNativeTarget "KagiForSafari" */;
+			buildPhases = (
+				18E9AB5C27A7EF7F0054A23D /* Sources */,
+				18E9AB5D27A7EF7F0054A23D /* Frameworks */,
+				18E9AB5E27A7EF7F0054A23D /* Resources */,
+				18E9AB9C27A7EF840054A23D /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18E9AB8027A7EF840054A23D /* PBXTargetDependency */,
+			);
+			name = KagiForSafari;
+			productName = KagiForSafari;
+			productReference = 18E9AB6027A7EF7F0054A23D /* KagiForSafari.app */;
+			productType = "com.apple.product-type.application";
+		};
+		18E9AB7C27A7EF840054A23D /* KagiForSafari Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18E9AB9927A7EF840054A23D /* Build configuration list for PBXNativeTarget "KagiForSafari Extension" */;
+			buildPhases = (
+				18E9AB7927A7EF840054A23D /* Sources */,
+				18E9AB7A27A7EF840054A23D /* Frameworks */,
+				18E9AB7B27A7EF840054A23D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "KagiForSafari Extension";
+			productName = "KagiForSafari Extension";
+			productReference = 18E9AB7D27A7EF840054A23D /* KagiForSafari Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		18E9AB5827A7EF7F0054A23D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				KnownAssetTags = (
+					New,
+				);
+				LastSwiftUpdateCheck = 1320;
+				LastUpgradeCheck = 1320;
+				TargetAttributes = {
+					18E9AB5F27A7EF7F0054A23D = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					18E9AB7C27A7EF840054A23D = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 18E9AB5B27A7EF7F0054A23D /* Build configuration list for PBXProject "KagiForSafari" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 18E9AB5727A7EF7F0054A23D;
+			productRefGroup = 18E9AB6127A7EF7F0054A23D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				18E9AB5F27A7EF7F0054A23D /* KagiForSafari */,
+				18E9AB7C27A7EF840054A23D /* KagiForSafari Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		18E9AB5E27A7EF7F0054A23D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18E9AB7627A7EF7F0054A23D /* Main.storyboard in Resources */,
+				18D6EF9E27A809BF0022966C /* Localizable.strings in Resources */,
+				18E9ABA927A7FE340054A23D /* lufga-regular-webfont.ttf in Resources */,
+				18E9AB7327A7EF7F0054A23D /* LaunchScreen.storyboard in Resources */,
+				18E9AB9627A7EF840054A23D /* Assets.xcassets in Resources */,
+				18D6EF9727A809AF0022966C /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18E9AB7B27A7EF840054A23D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE2862EF27E4FD0500EFA37A /* background.js in Resources */,
+				18E9ABAA27A7FE460054A23D /* lufga-regular-webfont.ttf in Resources */,
+				18E9AB9027A7EF840054A23D /* popup.html in Resources */,
+				18E9AB8827A7EF840054A23D /* images in Resources */,
+				18E9AB8A27A7EF840054A23D /* manifest.json in Resources */,
+				18E9AB8627A7EF840054A23D /* _locales in Resources */,
+				18E9AB8E27A7EF840054A23D /* content.js in Resources */,
+				18E9AB9427A7EF840054A23D /* popup.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		18E9AB5C27A7EF7F0054A23D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18E9AB7027A7EF7F0054A23D /* ViewController.swift in Sources */,
+				18E9AB6427A7EF7F0054A23D /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18E9AB7927A7EF840054A23D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18E9AB8327A7EF840054A23D /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		18E9AB8027A7EF840054A23D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 18E9AB7C27A7EF840054A23D /* KagiForSafari Extension */;
+			targetProxy = 18E9AB7F27A7EF840054A23D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		18D6EF9927A809AF0022966C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18D6EF9827A809AF0022966C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		18D6EFA027A809BF0022966C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18D6EF9F27A809BF0022966C /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		18E9AB7127A7EF7F0054A23D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18E9AB7227A7EF7F0054A23D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		18E9AB7427A7EF7F0054A23D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				18E9AB7527A7EF7F0054A23D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		18E9AB9727A7EF840054A23D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		18E9AB9827A7EF840054A23D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D6EF9427A8094D0022966C /* Config.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		18E9AB9A27A7EF840054A23D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D6EF9427A8094D0022966C /* Config.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = TFVG979488;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "KagiForSafari Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi Search";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		18E9AB9B27A7EF840054A23D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = TFVG979488;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "KagiForSafari Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi Search";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		18E9AB9E27A7EF840054A23D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D6EF9427A8094D0022966C /* Config.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = TFVG979488;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KagiForSafari/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi Search";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		18E9AB9F27A7EF840054A23D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18D6EF9427A8094D0022966C /* Config.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = TFVG979488;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KagiForSafari/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi Search";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		18E9AB5B27A7EF7F0054A23D /* Build configuration list for PBXProject "KagiForSafari" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18E9AB9727A7EF840054A23D /* Debug */,
+				18E9AB9827A7EF840054A23D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18E9AB9927A7EF840054A23D /* Build configuration list for PBXNativeTarget "KagiForSafari Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18E9AB9A27A7EF840054A23D /* Debug */,
+				18E9AB9B27A7EF840054A23D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18E9AB9D27A7EF840054A23D /* Build configuration list for PBXNativeTarget "KagiForSafari" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18E9AB9E27A7EF840054A23D /* Debug */,
+				18E9AB9F27A7EF840054A23D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 18E9AB5827A7EF7F0054A23D /* Project object */;
+}

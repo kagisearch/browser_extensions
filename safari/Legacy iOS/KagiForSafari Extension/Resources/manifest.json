@@ -1,0 +1,38 @@
+{
+	"manifest_version": 2,
+	"default_locale": "en",
+
+	"name": "__MSG_extension_name__",
+	"description": "__MSG_extension_description__",
+	"version": "1.0.9",
+
+	"icons": {
+		"48": "images/icon.png",
+		"96": "images/icon.png",
+		"128": "images/icon.png"
+	},
+	
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+
+	"content_scripts": [{
+		"js": [ "content.js" ],
+		"matches": [ "<all_urls>" ],
+		"run_at": "document_start"
+	}],
+
+	"browser_action": {
+		"default_popup": "popup.html",
+		"default_icon": {
+			"16": "images/icon.png",
+			"19": "images/icon.png",
+			"32": "images/icon.png",
+			"48": "images/icon.png",
+			"72": "images/icon.png"
+		}
+	},
+
+	"permissions": [ "<all_urls>", "nativeMessaging", "storage", "webNavigation" ]
+}

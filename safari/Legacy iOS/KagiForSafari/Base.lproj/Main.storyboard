@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="lufga-regular-webfont.ttf">
+            <string>Lufga-Regular</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="KagiForSafari" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main_icon" translatesAutoresizingMaskIntoConstraints="NO" id="kta-b9-3Fy">
+                                <rect key="frame" x="143" y="278" width="128" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="S3l-TI-OSS"/>
+                                    <constraint firstAttribute="width" constant="128" id="cn6-5K-qUt"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="16"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SET TEXT IN LOCALIZABLE.STRINGS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lPt-1e-0Te">
+                                <rect key="frame" x="8" y="438" width="398" height="20"/>
+                                <fontDescription key="fontDescription" name="Lufga-Regular" family="Lufga" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="01F-hS-5bB">
+                                <rect key="frame" x="87" y="518" width="240" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="d57-vs-5TB"/>
+                                    <constraint firstAttribute="width" constant="240" id="mgI-L8-YAZ"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Open iOS Settings">
+                                            <attributes>
+                                                <color key="NSColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <font key="NSFont" metaFont="system" size="17"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="openSettingsTapped" destination="BYZ-38-t0r" eventType="touchUpInside" id="Y4V-Fp-d9e"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qSm-Gb-hJm">
+                                <rect key="frame" x="117" y="818" width="180" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="180" id="FVR-Mh-TWQ"/>
+                                    <constraint firstAttribute="height" constant="44" id="Zg6-bW-T26"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Visit kagi.com"/>
+                                <connections>
+                                    <action selector="visitKagiTapped" destination="BYZ-38-t0r" eventType="touchUpInside" id="HQb-iF-elb"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="lPt-1e-0Te" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="0MR-87-uxK"/>
+                            <constraint firstAttribute="trailing" secondItem="lPt-1e-0Te" secondAttribute="trailing" constant="8" id="3on-Wu-qaV"/>
+                            <constraint firstItem="lPt-1e-0Te" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="4hM-3I-Gy8"/>
+                            <constraint firstItem="qSm-Gb-hJm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BP0-o3-Z16"/>
+                            <constraint firstItem="01F-hS-5bB" firstAttribute="top" secondItem="lPt-1e-0Te" secondAttribute="bottom" constant="60" id="JBU-4A-ssr"/>
+                            <constraint firstItem="01F-hS-5bB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Vyz-IG-vTu"/>
+                            <constraint firstItem="qSm-Gb-hJm" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Yk0-0o-SKi"/>
+                            <constraint firstItem="kta-b9-3Fy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aTw-rL-8K4"/>
+                            <constraint firstItem="lPt-1e-0Te" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="blJ-z6-ezZ"/>
+                            <constraint firstItem="lPt-1e-0Te" firstAttribute="top" secondItem="kta-b9-3Fy" secondAttribute="bottom" constant="32" id="jOr-ld-W68"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="label" destination="lPt-1e-0Te" id="ZfF-J3-oQ9"/>
+                        <outlet property="settingsButton" destination="01F-hS-5bB" id="8Zb-Nd-v8O"/>
+                        <outlet property="visitButton" destination="qSm-Gb-hJm" id="ceO-ru-FmU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52.173913043478265" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="main_icon" width="1024" height="1024"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

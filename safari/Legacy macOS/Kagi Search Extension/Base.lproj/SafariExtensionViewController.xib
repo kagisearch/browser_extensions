@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SafariExtensionViewController" customModule="Kagi_Search_Extension" customModuleProvider="target">
+            <connections>
+                <outlet property="enableExtensionCheckmark" destination="LSC-AC-1HI" id="jmX-01-kaO"/>
+                <outlet property="linkField" destination="lzh-vR-wNa" id="md7-XZ-xkf"/>
+                <outlet property="view" destination="c22-O7-iKe" id="vwT-Xx-Aiz"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="372" height="230"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Iy-aV-wGF">
+                    <rect key="frame" x="18" y="106" width="336" height="64"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="332" id="Z5N-lA-gsm"/>
+                    </constraints>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="2Ec-kd-q2K">
+                        <font key="font" metaFont="system"/>
+                        <string key="title">Use this to search with Kagi even in a private window, logged in to your current account. You can find Session Link in your Kagi Settings -&gt; Privacy menu screen. Do not share this URL with anyone.</string>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lzh-vR-wNa">
+                    <rect key="frame" x="20" y="67" width="332" height="21"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Kagi Private Session Link" drawsBackground="YES" id="q1e-BE-pAS">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yEz-PX-TUB">
+                    <rect key="frame" x="13" y="20" width="166" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="Wvn-nR-v3W"/>
+                    </constraints>
+                    <buttonCell key="cell" type="push" title="Get Your Session Link" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Kog-NV-945">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="getLinkTapped:" target="-2" id="bNN-QD-FZj"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LSC-AC-1HI">
+                    <rect key="frame" x="18" y="189" width="223" height="18"/>
+                    <buttonCell key="cell" type="check" title="Make Kagi default search engine" bezelStyle="regularSquare" imagePosition="left" inset="2" id="NPX-e3-eq0">
+                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="enableExtensionValueChanged:" target="-2" id="1Ox-xn-oZd"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="height" constant="230" id="3sZ-S5-qvf"/>
+                <constraint firstItem="LSC-AC-1HI" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="24" id="3wd-Gm-kPC"/>
+                <constraint firstItem="lzh-vR-wNa" firstAttribute="top" secondItem="4Iy-aV-wGF" secondAttribute="bottom" constant="18" id="ABB-5I-dNa"/>
+                <constraint firstItem="4Iy-aV-wGF" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="AzE-rA-Y4i"/>
+                <constraint firstAttribute="width" constant="372" id="Feg-ND-fSU"/>
+                <constraint firstItem="LSC-AC-1HI" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="I3F-3x-uww"/>
+                <constraint firstItem="4Iy-aV-wGF" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="60" id="U0G-gf-ESt"/>
+                <constraint firstItem="yEz-PX-TUB" firstAttribute="top" secondItem="lzh-vR-wNa" secondAttribute="bottom" constant="20" id="bYj-mc-BjL"/>
+                <constraint firstAttribute="trailing" secondItem="lzh-vR-wNa" secondAttribute="trailing" constant="20" symbolic="YES" id="jMa-GF-2r3"/>
+                <constraint firstAttribute="trailing" secondItem="4Iy-aV-wGF" secondAttribute="trailing" constant="20" symbolic="YES" id="nIO-0P-51S"/>
+                <constraint firstItem="lzh-vR-wNa" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="sKN-j0-ul3"/>
+                <constraint firstItem="yEz-PX-TUB" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="xd7-Rm-j0R"/>
+            </constraints>
+            <point key="canvasLocation" x="-276" y="195"/>
+        </customView>
+    </objects>
+</document>
