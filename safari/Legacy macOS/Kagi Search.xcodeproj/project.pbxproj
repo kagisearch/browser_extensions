@@ -1,0 +1,614 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C31E69212823DD4E00B1491B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31E69202823DD4E00B1491B /* AppDelegate.swift */; };
+		C31E69252823DD4E00B1491B /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = C31E69232823DD4E00B1491B /* Main.html */; };
+		C31E69292823DD4E00B1491B /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = C31E69282823DD4E00B1491B /* Style.css */; };
+		C31E692B2823DD4E00B1491B /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = C31E692A2823DD4E00B1491B /* Script.js */; };
+		C31E692D2823DD4E00B1491B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31E692C2823DD4E00B1491B /* ViewController.swift */; };
+		C31E69302823DD4E00B1491B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C31E692E2823DD4E00B1491B /* Main.storyboard */; };
+		C31E69322823DD4F00B1491B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C31E69312823DD4F00B1491B /* Assets.xcassets */; };
+		C31E693A2823DD4F00B1491B /* Kagi Search Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C31E69392823DD4F00B1491B /* Kagi Search Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C31E693F2823DD4F00B1491B /* SafariExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31E693E2823DD4F00B1491B /* SafariExtensionHandler.swift */; };
+		C31E69412823DD4F00B1491B /* SafariExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31E69402823DD4F00B1491B /* SafariExtensionViewController.swift */; };
+		C31E69492823DD4F00B1491B /* SafariExtensionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C31E69472823DD4F00B1491B /* SafariExtensionViewController.xib */; };
+		C31E69582823DEAB00B1491B /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C31E69572823DEAB00B1491B /* Icon.png */; };
+		C31E695C2823DF3F00B1491B /* ToolbarItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = C31E695B2823DF3F00B1491B /* ToolbarItemIcon.png */; };
+		C39A9F6D285872D700E4C0A3 /* Enable.png in Resources */ = {isa = PBXBuildFile; fileRef = C39A9F6C285872D700E4C0A3 /* Enable.png */; };
+		C39A9F6F2858759E00E4C0A3 /* Enable_dark.png in Resources */ = {isa = PBXBuildFile; fileRef = C39A9F6E2858759E00E4C0A3 /* Enable_dark.png */; };
+		C39A9F7128588C0100E4C0A3 /* MainConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */; };
+		C39A9F7228588C0100E4C0A3 /* MainConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C31E693B2823DD4F00B1491B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C31E69152823DD4E00B1491B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C31E69382823DD4F00B1491B;
+			remoteInfo = "Kagi Search Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C31E69512823DD4F00B1491B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C31E693A2823DD4F00B1491B /* Kagi Search Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C31E691D2823DD4E00B1491B /* Kagi Search.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kagi Search.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C31E69202823DD4E00B1491B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C31E69242823DD4E00B1491B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
+		C31E69282823DD4E00B1491B /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		C31E692A2823DD4E00B1491B /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		C31E692C2823DD4E00B1491B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C31E692F2823DD4E00B1491B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C31E69312823DD4F00B1491B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C31E69332823DD4F00B1491B /* Kagi_Search.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kagi_Search.entitlements; sourceTree = "<group>"; };
+		C31E69342823DD4F00B1491B /* Kagi Search.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Kagi Search.entitlements"; sourceTree = "<group>"; };
+		C31E69392823DD4F00B1491B /* Kagi Search Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Kagi Search Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C31E693E2823DD4F00B1491B /* SafariExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariExtensionHandler.swift; sourceTree = "<group>"; };
+		C31E69402823DD4F00B1491B /* SafariExtensionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariExtensionViewController.swift; sourceTree = "<group>"; };
+		C31E69482823DD4F00B1491B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SafariExtensionViewController.xib; sourceTree = "<group>"; };
+		C31E694A2823DD4F00B1491B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C31E694B2823DD4F00B1491B /* Kagi_Search_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kagi_Search_Extension.entitlements; sourceTree = "<group>"; };
+		C31E69572823DEAB00B1491B /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		C31E695B2823DF3F00B1491B /* ToolbarItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarItemIcon.png; sourceTree = "<group>"; };
+		C39A9F6C285872D700E4C0A3 /* Enable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Enable.png; sourceTree = "<group>"; };
+		C39A9F6E2858759E00E4C0A3 /* Enable_dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Enable_dark.png; sourceTree = "<group>"; };
+		C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MainConfig.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C31E691A2823DD4E00B1491B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C31E69362823DD4F00B1491B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C31E69142823DD4E00B1491B = {
+			isa = PBXGroup;
+			children = (
+				C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */,
+				C31E691F2823DD4E00B1491B /* Kagi Search */,
+				C31E693D2823DD4F00B1491B /* Kagi Search Extension */,
+				C31E691E2823DD4E00B1491B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C31E691E2823DD4E00B1491B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C31E691D2823DD4E00B1491B /* Kagi Search.app */,
+				C31E69392823DD4F00B1491B /* Kagi Search Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C31E691F2823DD4E00B1491B /* Kagi Search */ = {
+			isa = PBXGroup;
+			children = (
+				C31E69202823DD4E00B1491B /* AppDelegate.swift */,
+				C31E692C2823DD4E00B1491B /* ViewController.swift */,
+				C31E692E2823DD4E00B1491B /* Main.storyboard */,
+				C31E69312823DD4F00B1491B /* Assets.xcassets */,
+				C31E69332823DD4F00B1491B /* Kagi_Search.entitlements */,
+				C31E69342823DD4F00B1491B /* Kagi Search.entitlements */,
+				C31E69222823DD4E00B1491B /* Resources */,
+			);
+			path = "Kagi Search";
+			sourceTree = "<group>";
+		};
+		C31E69222823DD4E00B1491B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C31E69232823DD4E00B1491B /* Main.html */,
+				C31E69572823DEAB00B1491B /* Icon.png */,
+				C31E69282823DD4E00B1491B /* Style.css */,
+				C31E692A2823DD4E00B1491B /* Script.js */,
+				C39A9F6C285872D700E4C0A3 /* Enable.png */,
+				C39A9F6E2858759E00E4C0A3 /* Enable_dark.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C31E693D2823DD4F00B1491B /* Kagi Search Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C31E693E2823DD4F00B1491B /* SafariExtensionHandler.swift */,
+				C31E69402823DD4F00B1491B /* SafariExtensionViewController.swift */,
+				C31E69472823DD4F00B1491B /* SafariExtensionViewController.xib */,
+				C31E694A2823DD4F00B1491B /* Info.plist */,
+				C31E694B2823DD4F00B1491B /* Kagi_Search_Extension.entitlements */,
+				C31E69422823DD4F00B1491B /* Resources */,
+			);
+			path = "Kagi Search Extension";
+			sourceTree = "<group>";
+		};
+		C31E69422823DD4F00B1491B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C31E695B2823DF3F00B1491B /* ToolbarItemIcon.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C31E691C2823DD4E00B1491B /* Kagi Search */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C31E69522823DD4F00B1491B /* Build configuration list for PBXNativeTarget "Kagi Search" */;
+			buildPhases = (
+				C31E69192823DD4E00B1491B /* Sources */,
+				C31E691A2823DD4E00B1491B /* Frameworks */,
+				C31E691B2823DD4E00B1491B /* Resources */,
+				C31E69512823DD4F00B1491B /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C31E693C2823DD4F00B1491B /* PBXTargetDependency */,
+			);
+			name = "Kagi Search";
+			productName = "Kagi Search";
+			productReference = C31E691D2823DD4E00B1491B /* Kagi Search.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C31E69382823DD4F00B1491B /* Kagi Search Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C31E694E2823DD4F00B1491B /* Build configuration list for PBXNativeTarget "Kagi Search Extension" */;
+			buildPhases = (
+				C31E69352823DD4F00B1491B /* Sources */,
+				C31E69362823DD4F00B1491B /* Frameworks */,
+				C31E69372823DD4F00B1491B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Kagi Search Extension";
+			productName = "Kagi Search Extension";
+			productReference = C31E69392823DD4F00B1491B /* Kagi Search Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C31E69152823DD4E00B1491B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1330;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					C31E691C2823DD4E00B1491B = {
+						CreatedOnToolsVersion = 13.3;
+					};
+					C31E69382823DD4F00B1491B = {
+						CreatedOnToolsVersion = 13.3;
+					};
+				};
+			};
+			buildConfigurationList = C31E69182823DD4E00B1491B /* Build configuration list for PBXProject "Kagi Search" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C31E69142823DD4E00B1491B;
+			productRefGroup = C31E691E2823DD4E00B1491B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C31E691C2823DD4E00B1491B /* Kagi Search */,
+				C31E69382823DD4F00B1491B /* Kagi Search Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C31E691B2823DD4E00B1491B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C31E69302823DD4E00B1491B /* Main.storyboard in Resources */,
+				C39A9F6D285872D700E4C0A3 /* Enable.png in Resources */,
+				C39A9F6F2858759E00E4C0A3 /* Enable_dark.png in Resources */,
+				C39A9F7128588C0100E4C0A3 /* MainConfig.xcconfig in Resources */,
+				C31E692B2823DD4E00B1491B /* Script.js in Resources */,
+				C31E69252823DD4E00B1491B /* Main.html in Resources */,
+				C31E69322823DD4F00B1491B /* Assets.xcassets in Resources */,
+				C31E69292823DD4E00B1491B /* Style.css in Resources */,
+				C31E69582823DEAB00B1491B /* Icon.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C31E69372823DD4F00B1491B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C39A9F7228588C0100E4C0A3 /* MainConfig.xcconfig in Resources */,
+				C31E695C2823DF3F00B1491B /* ToolbarItemIcon.png in Resources */,
+				C31E69492823DD4F00B1491B /* SafariExtensionViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C31E69192823DD4E00B1491B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C31E692D2823DD4E00B1491B /* ViewController.swift in Sources */,
+				C31E69212823DD4E00B1491B /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C31E69352823DD4F00B1491B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C31E69412823DD4F00B1491B /* SafariExtensionViewController.swift in Sources */,
+				C31E693F2823DD4F00B1491B /* SafariExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C31E693C2823DD4F00B1491B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C31E69382823DD4F00B1491B /* Kagi Search Extension */;
+			targetProxy = C31E693B2823DD4F00B1491B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C31E69232823DD4E00B1491B /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C31E69242823DD4E00B1491B /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		C31E692E2823DD4E00B1491B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C31E692F2823DD4E00B1491B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C31E69472823DD4F00B1491B /* SafariExtensionViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C31E69482823DD4F00B1491B /* Base */,
+			);
+			name = SafariExtensionViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C31E694C2823DD4F00B1491B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C31E694D2823DD4F00B1491B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		C31E694F2823DD4F00B1491B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Kagi Search Extension/Kagi_Search_Extension.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = TFVG979488;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Kagi Search Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi Search Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C31E69502823DD4F00B1491B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Kagi Search Extension/Kagi_Search_Extension.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = TFVG979488;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Kagi Search Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi Search Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C31E69532823DD4F00B1491B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Kagi Search/Kagi Search.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = TFVG979488;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi Inc.";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C31E69542823DD4F00B1491B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Kagi Search/Kagi Search.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = TFVG979488;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi Inc.";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C31E69182823DD4E00B1491B /* Build configuration list for PBXProject "Kagi Search" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C31E694C2823DD4F00B1491B /* Debug */,
+				C31E694D2823DD4F00B1491B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C31E694E2823DD4F00B1491B /* Build configuration list for PBXNativeTarget "Kagi Search Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C31E694F2823DD4F00B1491B /* Debug */,
+				C31E69502823DD4F00B1491B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C31E69522823DD4F00B1491B /* Build configuration list for PBXNativeTarget "Kagi Search" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C31E69532823DD4F00B1491B /* Debug */,
+				C31E69542823DD4F00B1491B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C31E69152823DD4E00B1491B /* Project object */;
+}
