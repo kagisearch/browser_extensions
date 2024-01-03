@@ -20,23 +20,6 @@ const getRedirectRulesForEngine = (engine, kagiToken) => {
     );
   }
 
-  // This rule injects a session cookie into Kagi requests
-  const kagiInjectTokenCookieRule = {
-    id: 1,
-    priority: 1,
-    action: {
-      type: "modifyHeaders",
-      requestHeaders: [
-        {
-          header: "cookie",
-          operation: "set",
-          value: `kagi_session=${kagiToken}`,
-        },
-      ],
-    },
-    condition: { resourceTypes: ["main_frame"], urlFilter: "||kagi.com" },
-  };
-
   const searchRedirectRules = {
     Google: {
       id: 2,
@@ -182,23 +165,35 @@ const getRedirectRulesForEngine = (engine, kagiToken) => {
     );
   }
 
-  const enabledRules = [kagiInjectTokenCookieRule, ...enabledEngineRules];
-
-  return {
-    enabledRules,
-    allRuleIds: [
-      kagiInjectTokenCookieRule.id,
-      ...Object.values(searchRedirectRules).map((rule) => rule.id),
-    ],
+  // This rule injects a session cookie into Kagi requests
+  const kagiInjectTokenCookieRule = {
+    id: 1,
+    priority: 1,
+    action: {
+      type: "modifyHeaders",
+      requestHeaders: [
+        {
+          header: "cookie",
+          operation: "set",
+          value: `kagi_session=${kagiToken}`,
+        },
+      ],
+    },
+    condition: { resourceTypes: ["main_frame"], urlFilter: "||kagi.com" },
   };
+
+  return [kagiInjectTokenCookieRule, ...enabledEngineRules];
 };
 
 async function clearDynamicRules() {
   const currentRules = await browser.declarativeNetRequest.getDynamicRules();
-  const currentRuleIds = currentRules.map((rule) => rule.id);
-  await browser.declarativeNetRequest.updateDynamicRules({
-    removeRuleIds: currentRuleIds,
-  });
+
+  if (currentRules.length > 0) {
+    const currentRuleIds = currentRules.map((rule) => rule.id);
+    await browser.declarativeNetRequest.updateDynamicRules({
+      removeRuleIds: currentRuleIds,
+    });
+  }
 }
 
 /**
@@ -207,9 +202,17 @@ async function clearDynamicRules() {
  * @param {string} privateSessionLink the user's private session link, should be a URL.
  */
 async function synchronizeRules(engine, privateSessionLink) {
-  const kagiToken = new URL(privateSessionLink)?.searchParams.get("token");
+  let kagiToken;
+
   try {
-    const { enabledRules, allRuleIds } = getRedirectRulesForEngine(
+    kagiToken = new URL(privateSessionLink)?.searchParams.get("token");
+  } catch {
+    await clearDynamicRules()
+    return
+  }
+
+  try {
+    const enabledRules = getRedirectRulesForEngine(
       engine,
       kagiToken
     );
