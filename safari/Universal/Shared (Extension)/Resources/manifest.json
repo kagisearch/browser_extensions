@@ -27,7 +27,18 @@
 
     "permissions": [
         "nativeMessaging",
-        "webNavigation",
+        "declarativeNetRequestWithHostAccess",
         "storage"
+    ],
+    
+    "host_permissions": [
+        "*://kagi.com/*",
+        "*://google.com/*",
+        "*://duckduckgo.com/*",
+        "*://yahoo.com/*",
+        "*://bing.com/*",
+        "*://*.bing.com/*",
+        "*://ecosia.org/*",
+        "*://*.ecosia.org/*"
     ]
 }
