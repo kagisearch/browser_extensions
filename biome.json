@@ -14,7 +14,8 @@
         "noExtraBooleanCast": "off",
         "noForEach": "off"
       }
-    }
+    },
+    "ignore": ["safari/"]
   },
   "formatter": {
     "enabled": true,
