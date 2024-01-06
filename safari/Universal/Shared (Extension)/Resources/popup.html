@@ -1,18 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-<!--    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">-->
-<!--    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src *; img-src 'self' data:">-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline' 'self';script-src *; img-src 'self' data:; connect-src 'self' https://*.kagi.com https://kagi.com;">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
     <link rel="stylesheet" href="popup.css">
-    <script type="module" src="popup.js" defer></script>
+    <script src="popup.js" defer></script>
 </head>
-<body>
-    <div id="con" style="font-family: Lufga">
-        <div id="content">
-            <p>The Kagi extension is enabled for <span id="currentHost">this domain</span>.</p>
-            <p><a href="#" id="open-app">Open the Kagi app</a> to update your extension settings.</p>
-       </div>
-    </div>
+<body class="">
+    <div id="wrapper">
+      
+<!--       <h2>Instructions</h2> -->
+      
+      <ul id="instructions">
+      	<li id="overrides">
+      		<h3>Kagi searches
+      			<span class="noEnginePermissions">not yet active.</span>
+      			<span class="enginePermissionsGranted">enabled in <span class="privateBrowsingCapable">private & </span>non-private browsing on:</span>
+      		</h3>
+      		
+      		<ul class="enginePermissionsGranted" id="current-overrides">
+      			<li class="">No search engines redirecting</li>
+      		</ul>
+			
+			<fieldset class="activeTabHostnameIsSupportedEngine">
+				<input type="button" id="update-rules" value="Update Kagi Redirects" disabled="disabled" />
+			</fieldset>
+		</li>
+		<li id="setup">
+      		
+      		<p>
+				<span class="noEnginePermissions">To activate Kagi searches,</span>
+				<span class="noSetupPermissions enginePermissionsGranted">To set up Kagi redirects for more search engines,</span>
+				grant setup permissions, then run a search in Safari's location bar, and reopen the extension to enable redirects to Kagi.
+			</p>
+      		
+      		<p class="setupPermissionsGranted">Setup permissions have been granted for kagi.com and the current tab's webpage when this popup is visible.
+      			<span class="enginePermissionsGranted">If you are done setting up search engine redirects, it is safe to remove setup permissions.</span>
+      			<span class="noEnginePermissions">Enable redirects to Kagi for at least one search engine before removing setup permissions.</span>
+      		</p>
+      		
+      		<fieldset>
+				<input type="button" id="setup-permissions-button" value="Grant setup permissions" />
+			</fieldset>
+
+      	</li>
+      	<li id="private-browsing-instructions">
+      		<p class="showIfPrivateBrowsingDisabledInBrowser">To search in Private Browsing, you first need to enable it in Safari's extension settings. Then click the extension in a non-private windowang to continue setup.</p>
+      		<p class="noSessionToken">To search in Private Browsing, <span class="noSetupPermissions">first grant setup permissions, then</span> visit <a href="https://kagi.com/settings?p=user_details#sessionLink" target="_new">your Kagi account settings</a> open this extension to acquire your private session token.</p>
+      		<p class="enginePermissionsGranted sessionTokenAvailable">Private browsing is enabled in the extension. If searches are not redirecting in private browsing, check that Safari's selected search engine for private browsing in settings is <span class="searchEngineCompanyName">the one you're currently viewing</span>.</p>
+      	</li>
+      	<li id="errors" style="display: none;">
+			<p id="last-error">Last error: none</p>
+		</li>
+		<li>
+			<p>
+			Sorry that Apple made this so complicated. We even started building an entire WebKit browser called <a href="https://browser.kagi.com/" target="_new">Orion</a> to make it easier to use Kagi on Mac. We’d appreciate if you gave it a try.
+			</p>
+        </li>
+
+      </ul>
+	</div>
 </body>
 </html>
