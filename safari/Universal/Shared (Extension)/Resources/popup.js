@@ -19,7 +19,9 @@ const paramDomainMap = {
 };
 const allSupportedDomains = [...domainMap["Google"], ...domainMap["DuckDuckGo"], ...domainMap["Ecosia"], ...domainMap["Bing"], ...domainMap["Yahoo"], ...domainMap["Sogou"], ...domainMap["Yandex"], ...domainMap["Baidu"]];
 const knownHostPermissions = [];
+var privateSessionToken = "";
 const setupPermissions = { permissions: ["activeTab", "scripting"], origins: ["*://*.kagi.com/*"] };
+const setupPermissionsWithoutKagiOrigin = { permissions: ["activeTab", "scripting"] };
 var isPrivateBrowsingAllowed = false;
 var activeTabUrl = "";
 var hostname = "";
@@ -47,21 +49,21 @@ const ruleTemplate = {
     "excludedInitiatorDomains": ["kagi.com"]
   }
 };
-// const kagiCookieTemplate = {
-//   "id": 1,
-//   "priority": 1,
-//   "action": {
-//     "type": "modifyHeaders",
-//     "requestHeaders": [
-//       {
-//         "header": "cookie",
-//         "operation": "append",
-//         "value": "kagi_session=SESSION_TOKEN"
-//       }
-//     ]
-//   },
-//   "condition": { "resourceTypes": ["main_frame"], "urlFilter": "||kagi.com" }
-// };
+const kagiCookieTemplate = {
+  "id": 1,
+  "priority": 1,
+  "action": {
+    "type": "modifyHeaders",
+    "requestHeaders": [
+      {
+        "header": "cookie",
+        "operation": "append",
+        "value": "kagi_session={{sessionToken}}"
+      }
+    ]
+  },
+  "condition": { "resourceTypes": ["main_frame"], "urlFilter": "||kagi.com" }
+};
 
 // Not currently used since Safari always returns `true` for `isAllowedIncognitoAccess()`
 function updatePrivateBrowsingUI(isAllowed) {
@@ -109,12 +111,11 @@ async function updateAllRules(sessionToken) {
       let ruleId = i + ruleIdStart;
       let paramKey = paramKeys[i];
       let regexFilterWithParamKey = ruleTemplate["condition"]["regexFilter"].replace("{{parameterKey}}", paramKey);
-      // console.log(regexFilterWithParamKey);
       var regexSubstitution = ruleTemplate["action"]["redirect"]["regexSubstitution"];
       if (hasSessionToken) {
-        regexSubstitution = regexSubstitution + "&token=" + sessionToken;
+        // Modify the redirect location since the "www" hack is not needed if we have a session token
+        regexSubstitution = regexSubstitution.replace(/www\.kagi\.com/, "kagi.com") + "&token=" + sessionToken;
       }
-      // console.log(regexSubstitution);
       var newRule = structuredClone(ruleTemplate);
       newRule["id"] = ruleId;
       newRule["condition"]["regexFilter"] = regexFilterWithParamKey;
@@ -122,6 +123,12 @@ async function updateAllRules(sessionToken) {
       newRule["condition"]["requestDomains"] = paramDomainMap[paramKey]().concat(wwwDomainMap.map((domain) => { return domain.startsWith("www.") ? "" : `www.${domain}`; }).filter((d) => d.length > 0));
       newRule["action"]["redirect"]["regexSubstitution"] = regexSubstitution;
       newRules.push(newRule);
+    }
+    if (hasSessionToken) {
+      // Add the kagi cookie rule
+      var kagiCookieRule = structuredClone(kagiCookieTemplate);
+      kagiCookieRule["action"]["requestHeaders"][0]["value"] = kagiCookieRule["action"]["requestHeaders"][0]["value"].replace("{{sessionToken}}", sessionToken);
+      newRules.push(kagiCookieRule);
     }
     console.log("Attempting to write new dynamic rules:", newRules);
     return browser.declarativeNetRequest.updateDynamicRules({
@@ -134,9 +141,46 @@ async function updateAllRules(sessionToken) {
     .then((result) => { return Promise.resolve(true); });
     
   } catch (e) {
-    console.log(`Failed to save rules: ${e}`)
+    console.log(`Failed to save rules: ${e}`);
+    
     return Promise.reject(e);
   }
+}
+
+async function updateRedirectHostPermissions(enablingRedirects, requestOrRemovePromise) {
+  // 1. Request or remove DNR permission on current tab's domain
+  requestOrRemovePromise.then((successful) => {
+    // 2a. If removal was successful, we're done
+    if (!enablingRedirects && successful) {
+      return fetchKnownHostPermissions();
+    } else if (!enablingRedirects && !successful) {
+      return Promise.reject(new Error(`Permission removal failed for ${matchPattern}`));
+    }
+    
+    // 2b. If DNR permission granted, fetch private session token, otherwise throw error
+    if (!successful) {
+      return Promise.reject(new Error(`Permissions for declarativeNetRequestWithHostAccess were denied for ${matchPattern}. Cancelling rules updates`));
+    } else {
+      console.log(`Permissions for declarativeNetRequestWithHostAccess are granted for ${hostname}`);
+      return fetchKnownHostPermissions();
+    }
+  })
+  .then((unusedValue) => {
+    
+    updateSetupPermissionsUI(enablingRedirects);
+    // 3a. If removing, move along
+    if (!enablingRedirects) {
+      return Promise.resolve();
+    }
+    
+    // 3. Update DNR rules (using token, if found)
+    return updateAllRules(privateSessionToken);
+  })
+  .catch((error) => {
+    console.error(`Update Rules onRejected function called: ${error.message}`);
+    let errorTime = new Date();
+    document.getElementById("last-error").innerText = `${errorTime.toLocaleTimeString('en-US')}: ${error.message}`;
+  });
 }
 
 function updateKnownHostListUI() {
@@ -146,7 +190,12 @@ function updateKnownHostListUI() {
   if (hosts.length == 0) {
     hosts.push("No search engines redirecting");
   }
-  document.getElementById("current-overrides").innerHTML = `<li>${hosts.join('</li><li>')}</li>`;
+  var liHtml = "";
+  for (host in hosts) {
+    liHtml += `<li>${hosts[host]} <a href="#" class="revokePermissions" data-host="${hosts[host]}">${symbolTrashBase64ImgTag}</a></li>`;
+  }
+  document.getElementById("current-overrides").innerHTML = liHtml;
+  updateRevokeHostPermissionsHandlers();
 }
 
 function hostnameIsSupportedSearchEngine(engineHostname) {
@@ -162,7 +211,6 @@ function hostnameIsSupportedSearchEngine(engineHostname) {
 // -----------------------
 
 var flagCheckedLocalStorageForPrivateSessionToken = false;
-var privateSessionToken = "";
       
 function addPrivateSessionLinkListener() {
   const privateSessionInput = document.getElementById('private-session-link');
@@ -390,7 +438,11 @@ document.getElementById("setup-permissions-button").onclick = async function(evt
     } else if (!alreadyGrantedActiveTab && !shouldRequest) {
       return Promise.resolve(false);
     } else if (alreadyGrantedActiveTab && !shouldRequest) {
-      return browser.permissions.remove(setupPermissions);
+      if (privateSessionToken.length > 0) {
+        return browser.permissions.remove(setupPermissionsWithoutKagiOrigin);
+      } else {
+        return browser.permissions.remove(setupPermissions);
+      }
     } else {
       return browser.permissions.request(setupPermissions);
     }
@@ -438,41 +490,38 @@ document.getElementById("update-rules").onclick = async function() {
     requestOrRemove = browser.permissions.remove(permissionsToUpdate);
   }
   
-  // 1. Request or remove DNR permission on current tab's domain
-  requestOrRemove.then((successful) => {
-    // 2a. If removal was successful, we're done
-    if (!enablingRedirects && successful) {
-      return fetchKnownHostPermissions();
-    } else if (!enablingRedirects && !successful) {
-      return Promise.reject(new Error(`Permission removal failed for ${matchPattern}`));
-    }
-    
-    // 2b. If DNR permission granted, fetch private session token, otherwise throw error
-    if (!successful) {
-      return Promise.reject(new Error(`Permissions for declarativeNetRequestWithHostAccess were denied for ${matchPattern}. Cancelling rules updates`));
-    } else {
-      console.log(`Permissions for declarativeNetRequestWithHostAccess are granted for ${hostname}`);
-      return fetchKnownHostPermissions();
-    }
-  })
-  .then((unusedValue) => {
-    
-    updateSetupPermissionsUI(enablingRedirects);
-    // 3a. If removing, move along
-    if (!enablingRedirects) {
-      return Promise.resolve();
-    }
-    
-    // 3. Update DNR rules (using token, if found)
-    return updateAllRules(privateSessionToken);
-  })
-  .catch((error) => {
-    console.error(`Update Rules onRejected function called: ${error.message}`);
-    let errorTime = new Date();
-    document.getElementById("last-error").innerText = `${errorTime.toLocaleTimeString('en-US')}: ${error.message}`;
-  });
+  updateRedirectHostPermissions(enablingRedirects, requestOrRemove);
   
+};
+
+document.querySelectorAll(".update-all-rules").forEach((element) => {
+  element.addEventListener("click", async function() {
+    updateAllRules(privateSessionToken);
+  });
+});
+
+function revokeHostPermissionLinkClicked(evt) {
+  let hostToRevoke = evt.currentTarget.getAttribute("data-host");
+  let hostMatchpattern = `*://*.${hostToRevoke.replace(/^www\./, "")}/*`; // should be redundant, but leaving replacement here for safety in future situations
+  let removePromise = browser.permissions.remove({ origins: [hostMatchpattern] });
+  updateRedirectHostPermissions(false, removePromise);
 }
+function updateRevokeHostPermissionsHandlers() {
+  document.querySelectorAll(".revokePermissions").forEach((element) => {
+    element.removeEventListener("click", revokeHostPermissionLinkClicked);
+    element.addEventListener("click", revokeHostPermissionLinkClicked);
+  });
+}
+
+// -----------------------
+// MARK: - Show/hide handlers
+// -----------------------
+document.querySelectorAll(".showMore").forEach((element) => {
+  element.addEventListener("click", async function(e) {
+    e.preventDefault();
+    element.closest("li").classList.toggle("displayChildren");
+  });
+});
 
 // -----------------------
 // MARK: - Onload handler
@@ -489,3 +538,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
   })
   
 });
+
+const symbolTrashBase64ImgTag = `<img alt="" src="data:image/png;base64,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" />`;

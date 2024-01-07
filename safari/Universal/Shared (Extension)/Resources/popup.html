@@ -28,9 +28,11 @@
 			<fieldset class="activeTabHostnameIsSupportedEngine">
 				<input type="button" id="update-rules" value="Update Kagi Redirects" disabled="disabled" />
 			</fieldset>
+			
+			<hr />
 		</li>
 		<li id="setup">
-      		
+      		<h4>Initial setup</h4>
       		<p>
 				<span class="noEnginePermissions">To activate Kagi searches,</span>
 				<span class="noSetupPermissions enginePermissionsGranted">To set up Kagi redirects for more search engines,</span>
@@ -48,14 +50,21 @@
 
       	</li>
       	<li id="private-browsing-instructions">
+      		<h4>Private browsing (<a href="#" class="showMore">show</a>)</h4>
       		<p class="showIfPrivateBrowsingDisabledInBrowser">To search in Private Browsing, you first need to enable it in Safari's extension settings. Then click the extension in a non-private windowang to continue setup.</p>
       		<p class="noSessionToken">To search in Private Browsing, <span class="noSetupPermissions">first grant setup permissions, then</span> visit <a href="https://kagi.com/settings?p=user_details#sessionLink" target="_new">your Kagi account settings</a> open this extension to acquire your private session token.</p>
       		<p class="enginePermissionsGranted sessionTokenAvailable">Private browsing is enabled in the extension. If searches are not redirecting in private browsing, check that Safari's selected search engine for private browsing in settings is <span class="searchEngineCompanyName">the one you're currently viewing</span>.</p>
       	</li>
-      	<li id="errors" style="display: none;">
+      	<li id="troubleshooting-instructions">
+      		<h4>Troubleshooting (<a href="#" class="showMore">show</a>)</h4>
+      		
+      		<p class="troubleshooting">
+      			<strong>Reset redirect rules</strong>: if redirects are not working, you can try <a href="#" class="update-all-rules">resetting redirect rules</a>. This will ask Safari to redirect each supported search engine you've enabled to Kagi. Other search engines will continue to work. Safari <em>does not display a dialog confirming this was successful</em>, but clicking the reset link does send a message to Safari to immediately update all redirect rules.
+      		</p>
 			<p id="last-error">Last error: none</p>
 		</li>
 		<li>
+			<hr />
 			<p>
 			Sorry that Apple made this so complicated. We even started building an entire WebKit browser called <a href="https://browser.kagi.com/" target="_new">Orion</a> to make it easier to use Kagi on Mac. We’d appreciate if you gave it a try.
 			</p>
