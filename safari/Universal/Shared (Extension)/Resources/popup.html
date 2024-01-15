@@ -15,6 +15,11 @@
 <!--       <h2>Instructions</h2> -->
       
       <ul id="instructions">
+      	<li id="token-conflicts" class="tokenConflictOccurred">
+      		<h4>Private Token Updated</h4>
+      		<p class="tokenConflictResolved">The cached Kagi session token stored by the extension was out of date. A new token was retrieved when you visited kagi.com, and has been stored by the extension.</p>
+      		<p class="tokenConflictUnresolved">There was an issue fetching the Kagi session token for private browsing. If you encounter issues searching with Kagi, please visit <a href="https://help.kagi.com/">Kagi's help page</a> so we can help resolve the issue.</p>
+      	</li>
       	<li id="overrides">
       		<h3>Kagi searches
       			<span class="noEnginePermissions">not yet active.</span>
@@ -32,11 +37,11 @@
 			<hr />
 		</li>
 		<li id="setup">
-      		<h4>Initial setup</h4>
+      		<h4><span class="noEnginePermissions">Initial s</span><span class="enginePermissionsGranted">S</span>etup</h4>
       		<p>
 				<span class="noEnginePermissions">To activate Kagi searches,</span>
-				<span class="noSetupPermissions enginePermissionsGranted">To set up Kagi redirects for more search engines,</span>
-				grant setup permissions, then run a search in Safari's location bar, and reopen the extension to enable redirects to Kagi.
+				<span class="enginePermissionsGranted">To set up Kagi redirects for more search engines,</span>
+				<span class="noSetupPermissions">grant setup permissions, then </span>run a search in Safari's location bar, and reopen the extension to enable redirects to Kagi.
 			</p>
       		
       		<p class="setupPermissionsGranted">Setup permissions have been granted for kagi.com and the current tab's webpage when this popup is visible.
@@ -49,7 +54,7 @@
 			</fieldset>
 
       	</li>
-      	<li id="private-browsing-instructions">
+      	<li id="private-browsing-instructions" class="enginePermissionsGranted">
       		<h4>Private browsing (<a href="#" class="showMore">show</a>)</h4>
       		<p class="showIfPrivateBrowsingDisabledInBrowser">To search in Private Browsing, you first need to enable it in Safari's extension settings. Then click the extension in a non-private windowang to continue setup.</p>
       		<p class="noSessionToken">To search in Private Browsing, <span class="noSetupPermissions">first grant setup permissions, then</span> visit <a href="https://kagi.com/settings?p=user_details#sessionLink" target="_new">your Kagi account settings</a> open this extension to acquire your private session token.</p>
@@ -59,7 +64,7 @@
       		<h4>Troubleshooting (<a href="#" class="showMore">show</a>)</h4>
       		
       		<p class="troubleshooting">
-      			<strong>Reset redirect rules</strong>: if redirects are not working, you can try <a href="#" class="update-all-rules">resetting redirect rules</a>. This will ask Safari to redirect each supported search engine you've enabled to Kagi. Other search engines will continue to work. Safari <em>does not display a dialog confirming this was successful</em>, but clicking the reset link does send a message to Safari to immediately update all redirect rules.
+      			<strong>Reset redirect rules</strong>: if redirects are not working, you can try <a href="#" class="update-all-rules">resetting redirect rules<span class="rulesUpdateSucceeded"> [✔ rules updated]</span><span class="rulesUpdateFailed"> [🅧 failed to update]</span></a>. This will ask Safari to redirect each supported search engine you've enabled to Kagi. Other search engines will continue to work. Safari <em>does not display a dialog confirming this was successful</em>, but clicking the reset link does send a message to Safari to immediately update all redirect rules.
       		</p>
 			<p id="last-error">Last error: none</p>
 		</li>

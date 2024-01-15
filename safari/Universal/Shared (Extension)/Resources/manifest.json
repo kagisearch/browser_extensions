@@ -16,12 +16,24 @@
             "128": "images/ToolbarItemIcon.png"
         }
     },
+    
+    "background": {
+    	"scripts": ["background.js"],
+    	"persistent": false
+    },
 
     "permissions": [
         "nativeMessaging",
         "storage",
         "declarativeNetRequestWithHostAccess"
     ],
+    
+    "content_scripts": [
+	  {
+		"js": ["fetch_kagi_token.js"],
+		"matches": ["*://*.kagi.com/*"]
+	  }
+	],
     
     "optional_permissions": [
     	"activeTab",

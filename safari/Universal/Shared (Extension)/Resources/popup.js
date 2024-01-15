@@ -14,10 +14,108 @@ const paramDomainMap = {
   "word": function() { return ["m.baidu.com"] },
   "query": function() { return ["sogou.com"]; },
   "keyword": function() { return ["m.sogou.com"]; },
-  "p": function() { return ["search.yahoo.com"]; },
+  "p": function() { return domainMap["Yahoo"]; },
   "q": function() { return [...domainMap["Google"], ...domainMap["DuckDuckGo"], ...domainMap["Ecosia"], ...domainMap["Bing"], ...["m.so.com", "so.com"]]; }
 };
 const allSupportedDomains = [...domainMap["Google"], ...domainMap["DuckDuckGo"], ...domainMap["Ecosia"], ...domainMap["Bing"], ...domainMap["Yahoo"], ...domainMap["Sogou"], ...domainMap["Yandex"], ...domainMap["Baidu"]];
+const bangDomainMap = {
+  "!g": domainMap["Google"],
+  "!google": domainMap["Google"],
+  "!ddg": domainMap["DuckDuckGo"],
+  "!duckduckgo": domainMap["DuckDuckGo"],
+  "!yahoo": domainMap["Yahoo"],
+  "!y": domainMap["Yahoo"],
+  "!sogou": domainMap["Sogou"],
+  "!bing": domainMap["Bing"],
+  "!b": domainMap["Bing"],
+  "!yandex": domainMap["Yandex"],
+  "!ya": domainMap["Yandex"],
+  "!ec": domainMap["Ecosia"],
+  "!eco": domainMap["Ecosia"],
+  "!ecosia": domainMap["Ecosia"],
+  "!bd": domainMap["Baidu"],
+  "!baidu": domainMap["Baidu"]
+};
+const engineDefaultRedirectInfo = {
+  "Google": { domain: "www.google.com", path: "search", param: "q"},
+  "DuckDuckGo": { domain: "duckduckgo.com", path: "", param: "q"},
+  "Yahoo": { domain: "search.yahoo.com", path: "search", param: "p"},
+  "Sogou": { domain: "www.sogou.com", path: "web", param: "query"},
+  "Bing": { domain: "www.bing.com", path: "search", param: "q"},
+  "Yandex": { domain: "www.yandex.ru", path: "yandsearch", param: "text"},
+  "Ecosia": { domain: "www.ecosia.org", path: "search", param: "q"},
+  "Baidu": { domain: "www.baidu.com", path: "s", param: "wd"}
+};
+const bangDefaultRedirectMap = {
+  "!g": engineDefaultRedirectInfo["Google"],
+  "!google": engineDefaultRedirectInfo["Google"],
+  "!ddg": engineDefaultRedirectInfo["DuckDuckGo"],
+  "!duckduckgo": engineDefaultRedirectInfo["DuckDuckGo"],
+  "!yahoo": engineDefaultRedirectInfo["Yahpp"],
+  "!y": engineDefaultRedirectInfo["Yahoo"],
+  "!sogou": engineDefaultRedirectInfo["Sogou"],
+  "!bing": engineDefaultRedirectInfo["Bing"],
+  "!b": engineDefaultRedirectInfo["Bing"],
+  "!yandex": engineDefaultRedirectInfo["Yandex"],
+  "!ya": engineDefaultRedirectInfo["Yandex"],
+  "!ec": engineDefaultRedirectInfo["Ecosia"],
+  "!eco": engineDefaultRedirectInfo["Ecosia"],
+  "!ecosia": engineDefaultRedirectInfo["Ecosia"],
+  "!bd": engineDefaultRedirectInfo["Baidu"],
+  "!baidu": engineDefaultRedirectInfo["Baidu"]
+};
+function relatedDomainsForKnownHost(knownHost) {
+  let domainKeys = Object.keys(domainMap);
+  for (let i=0; i<domainKeys.length; i++) {
+    let domainKey = domainKeys[i];
+    if (domainMap[domainKey].indexOf(knownHost) > -1) {
+      return domainMap[domainKey];
+    }
+  }
+  return [];
+}
+function paramForKnownHost(knownHost) {
+  let paramKeys = Object.keys(paramDomainMap);
+  for (let i=0; i<paramKeys.length; i++) {
+    let paramKey = paramKeys[i];
+    if (paramDomainMap[paramKey]().indexOf(knownHost) > -1) {
+      return paramKey;
+    }
+  }
+  return "";
+}
+function paramsForKnownHosts(knownHosts) {
+  var params = [];
+  for (let i=0; i<knownHosts.length; i++) {
+    let param = paramForKnownHost(knownHosts[i]);
+    if (param.length > 0) {
+      params.push(param);
+    }
+  }
+  return params;
+}
+function bangsForKnownHost(knownHost) {
+  var bangs = [];
+  let bangKeys = Object.keys(bangDomainMap);
+  for (let i=0; i<bangKeys.length; i++) {
+    let bangKey = bangKeys[i];
+    if (bangDomainMap[bangKey].indexOf(knownHost) > -1) {
+      bangs.push(bangKey);
+    }
+  }
+  return bangs;
+}
+function bangsForKnownHosts(knownHosts) {
+  var bangs = [];
+  for (let i=0; i<knownHosts.length; i++) {
+    let hostBangs = bangsForKnownHost(knownHosts[i]);
+    if (hostBangs.length > 0) {
+      bangs = bangs.concat(hostBangs);
+    }
+  }
+  return bangs;
+}
+
 const knownHostPermissions = [];
 var privateSessionToken = "";
 const setupPermissions = { permissions: ["activeTab", "scripting"], origins: ["*://*.kagi.com/*"] };
@@ -27,12 +125,9 @@ var activeTabUrl = "";
 var hostname = "";
 var matchPattern = "";
 
-const userAgent = window.navigator.userAgent,
-      platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
-      macosPlatforms = ['macOS', 'Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
-      iosPlatforms = ['iPhone', 'iPad', 'iPod'];
 const extensionId = "com.kagi.Kagi-Search.Extension (TFVG979488)";
 const ruleIdStart = 100;
+const bangRuleIdStart = 1000;
 const ruleTemplate = {
   "id": 999,
   "priority": 1,
@@ -45,8 +140,82 @@ const ruleTemplate = {
   "condition": {
     "resourceTypes": [ "main_frame" ],
     "requestDomains": [],
-    "regexFilter": "^https?:\/\/.+[\?&]{{parameterKey}}=([^&]*)&?",
+    "regexFilter": "^https?.*[?&]{{parameterKey}}=([^&#]*[&#]?.*[^~][^~])$",
     "excludedInitiatorDomains": ["kagi.com"]
+  }
+};
+const bangRuleTemplate = {
+  "id": 999999,
+  "priority": 3,
+  "action": {
+    "type": "redirect",
+    "redirect": {
+      "regexSubstitution": "\\1\\2\\3&~~"
+    }
+  },
+  "condition": {
+    "resourceTypes": [ "main_frame" ],
+    "requestDomains": [],
+    "regexFilter": "^(https?:\/\/.+[?&]{{parameterKey}}=)([^&#]*){{bang}}([^A-Za-z0-9_][^&#]*)[&#]?.*$"
+  }
+};
+// The following rule is needed because we can't use the "OR" `|` delimiter in Safari Content Blocker regex.
+const bangRuleEndOfURLTemplate = {
+  "id": 999999,
+  "priority": 4,
+  "action": {
+    "type": "redirect",
+    "redirect": {
+      "regexSubstitution": "\\1\\2&~~"
+    }
+  },
+  "condition": {
+    "resourceTypes": [ "main_frame" ],
+    "requestDomains": [],
+    "regexFilter": "^(https?:\/\/.+[?&]{{parameterKey}}=)([^&#]*){{bang}}$"
+  }
+};
+// FIXME: Bangs typed into kagi.com directly get redirected back by the extension
+const bangFromKagiRuleTemplate = {
+  "id": 999999,
+  "priority": 3,
+  "action": {
+    "type": "redirect",
+    "redirect": {
+      "regexSubstitution": "https://{{domain}}/{{path}}?{{parameterKey}}=\\1\\2&~~"
+    }
+  },
+  "condition": {
+    "resourceTypes": [ "main_frame" ],
+    "requestDomains": [ "kagi.com" ],
+    "regexFilter": "^https?:\/\/.+[?&]q=([^&#]*){{bang}}([^A-Za-z0-9_][^&#]*)[&#]?.*$"
+  }
+};
+const bangFromKagiRuleEndOfURLTemplate = {
+  "id": 999999,
+  "priority": 4,
+  "action": {
+    "type": "redirect",
+    "redirect": {
+      "regexSubstitution": "https://{{domain}}/{{path}}?{{parameterKey}}=\\1&~~"
+    }
+  },
+  "condition": {
+    "resourceTypes": [ "main_frame" ],
+    "requestDomains": [ "kagi.com" ],
+    "regexFilter": "^(https?:\/\/.+[?&]q=)([^&#]*){{bang}}$"
+  }
+};
+const bangAllowTemplate = {
+  "id": 9000,
+  "condition": {
+    "urlFilter": "*~~|",
+    "resourceTypes": [ "main_frame" ],
+    "requestDomains": []
+  },
+  "priority": 2,
+  "action": {
+    "type": "allow"
   }
 };
 const kagiCookieTemplate = {
@@ -56,13 +225,28 @@ const kagiCookieTemplate = {
     "type": "modifyHeaders",
     "requestHeaders": [
       {
-        "header": "cookie",
-        "operation": "append",
+        "header": "Cookie",
+        "operation": "set",
         "value": "kagi_session={{sessionToken}}"
       }
     ]
   },
-  "condition": { "resourceTypes": ["main_frame"], "urlFilter": "||kagi.com" }
+  "condition": { "urlFilter": "||kagi.com/*", "resourceTypes": [ "main_frame" ] }
+};
+// Negate cookies on the login form to avoid bugs. Needed due to limitations in Safari content blocker regex
+const kagiCookieNegationTemplate = {
+  "id": 2,
+  "priority": 2,
+  "action": {
+    "type": "modifyHeaders",
+    "requestHeaders": [
+      {
+        "header": "Cookie",
+        "operation": "remove"
+      }
+    ]
+  },
+  "condition": { "urlFilter": "||kagi.com/login", "resourceTypes": [ "main_frame" ] }
 };
 
 // Not currently used since Safari always returns `true` for `isAllowedIncognitoAccess()`
@@ -103,33 +287,96 @@ function fetchKnownHostPermissions() {
 
 async function updateAllRules(sessionToken) {
   let hasSessionToken = (sessionToken != null && sessionToken.trim().length > 0);
-  let paramKeys = Object.keys(paramDomainMap);
+  let paramKeys = paramsForKnownHosts(knownHostPermissions);
+  let bangKeys = bangsForKnownHosts(knownHostPermissions);
+  var idCounter = 100;
   try {
     let oldRules = await browser.declarativeNetRequest.getDynamicRules();
     var newRules = [];
+    // Rules for redirecting searches to Kagi
     for (let i=0; i<paramKeys.length; i++) {
-      let ruleId = i + ruleIdStart;
+      idCounter += 1;
       let paramKey = paramKeys[i];
       let regexFilterWithParamKey = ruleTemplate["condition"]["regexFilter"].replace("{{parameterKey}}", paramKey);
       var regexSubstitution = ruleTemplate["action"]["redirect"]["regexSubstitution"];
       if (hasSessionToken) {
         // Modify the redirect location since the "www" hack is not needed if we have a session token
-        regexSubstitution = regexSubstitution.replace(/www\.kagi\.com/, "kagi.com") + "&token=" + sessionToken;
+        regexSubstitution += ("&token=" + sessionToken);
       }
       var newRule = structuredClone(ruleTemplate);
-      newRule["id"] = ruleId;
+      newRule["id"] = idCounter;
       newRule["condition"]["regexFilter"] = regexFilterWithParamKey;
       let wwwDomainMap = structuredClone(paramDomainMap[paramKey]());
       newRule["condition"]["requestDomains"] = paramDomainMap[paramKey]().concat(wwwDomainMap.map((domain) => { return domain.startsWith("www.") ? "" : `www.${domain}`; }).filter((d) => d.length > 0));
       newRule["action"]["redirect"]["regexSubstitution"] = regexSubstitution;
       newRules.push(newRule);
+      
+      // For each param, there is a potential set of !bangs to also handle redirects for
+      for (let bi=0; bi<bangKeys.length; bi++) {
+        let bangKey = bangKeys[bi];
+        let bangDomains = bangDomainMap[bangKey].filter((bangDomain) => newRule["condition"]["requestDomains"].indexOf(bangDomain) > -1);
+        if (bangDomains.length > 0) {
+          idCounter += 1;
+          // Most mid-url !bang covered by bangRuleTemplate
+          var newBangRule = structuredClone(bangRuleTemplate);
+          newBangRule["id"] = idCounter;
+          let bangRegexFilterWithParamKey = bangRuleTemplate["condition"]["regexFilter"].replace("{{parameterKey}}", paramKey).replace("{{bang}}", bangKey);
+          newBangRule["condition"]["regexFilter"] = bangRegexFilterWithParamKey;
+          let bangWwwDomainMap = structuredClone(bangDomainMap[bangKey]);
+          let bangRequestDomains = bangDomainMap[bangKey].concat(bangWwwDomainMap.map((domain) => { return domain.startsWith("www.") ? "" : `www.${domain}`; }).filter((d) => d.length > 0));
+          newBangRule["condition"]["requestDomains"] = bangRequestDomains;
+          newRules.push(newBangRule);
+          // Edge-case !bang-at-end-of-url covered by bangRuleEndOfURLTemplate
+          idCounter += 1;
+          var newBangAtEndOfUrlRule = structuredClone(bangRuleEndOfURLTemplate);
+          newBangAtEndOfUrlRule["id"] = idCounter;
+          let bangAtEndOfUrlRegexFilterWithParamKey = bangRuleEndOfURLTemplate["condition"]["regexFilter"].replace("{{parameterKey}}", paramKey).replace("{{bang}}", bangKey);
+          newBangAtEndOfUrlRule["condition"]["regexFilter"] = bangAtEndOfUrlRegexFilterWithParamKey;
+          newBangAtEndOfUrlRule["condition"]["requestDomains"] = bangRequestDomains;
+          newRules.push(newBangAtEndOfUrlRule);
+        }
+      }
+    }
+    // Handle the cases where users are inputting a bang for a redirected
+    // engine within the Kagi search field instead of the Safari location bar.
+    // FIXME: Not currently working; Commented out rule inclusion below
+    for (let bi=0; bi<bangKeys.length; bi++) {
+      let bangKey = bangKeys[bi];
+      let bangDomainInfo = bangDefaultRedirectMap[bangKey];
+      idCounter += 1;
+      // Add the mid-query bang rule for kagi.com searches
+      var newBangFromKagiRule = structuredClone(bangFromKagiRuleTemplate);
+      newBangFromKagiRule["id"] = idCounter;
+      newBangFromKagiRule["action"]["redirect"]["regexSubstitution"] = newBangFromKagiRule["action"]["redirect"]["regexSubstitution"]
+        .replace("{{parameterKey}}", bangDomainInfo["param"])
+        .replace("{{domain}}", bangDomainInfo["domain"])
+        .replace("{{path}}", bangDomainInfo["path"]);
+      newBangFromKagiRule["condition"]["regexFilter"] = newBangFromKagiRule["condition"]["regexFilter"]
+        .replace("{{bang}}", bangKey);
+      // newRules.push(newBangFromKagiRule);
+      idCounter += 1;
+      // Add the end-of-query bang rule for kagi.com searches
+      var newBangAtEndOfUrlFromKagiRule = structuredClone(bangFromKagiRuleEndOfURLTemplate);
+      newBangAtEndOfUrlFromKagiRule["id"] = idCounter;
+      newBangAtEndOfUrlFromKagiRule["action"]["redirect"]["regexSubstitution"] = newBangAtEndOfUrlFromKagiRule["action"]["redirect"]["regexSubstitution"]
+        .replace("{{parameterKey}}", bangDomainInfo["param"])
+        .replace("{{domain}}", bangDomainInfo["domain"])
+        .replace("{{path}}", bangDomainInfo["path"]);
+      newBangAtEndOfUrlFromKagiRule["condition"]["regexFilter"] = newBangAtEndOfUrlFromKagiRule["condition"]["regexFilter"]
+        .replace("{{bang}}", bangKey);
+      // newRules.push(newBangAtEndOfUrlFromKagiRule);
     }
     if (hasSessionToken) {
-      // Add the kagi cookie rule
+      // FIXME: Re-add cookie rule after figuring out how to make it reliable. It's preferred over sending the token in the URL itself which can be sniffed
       var kagiCookieRule = structuredClone(kagiCookieTemplate);
       kagiCookieRule["action"]["requestHeaders"][0]["value"] = kagiCookieRule["action"]["requestHeaders"][0]["value"].replace("{{sessionToken}}", sessionToken);
       newRules.push(kagiCookieRule);
+      newRules.push(kagiCookieNegationTemplate);
     }
+    // Add the rule that prevents re-redirecting to Kagi if the parameter kagiBang=true is present
+    var bangAllowRule = structuredClone(bangAllowTemplate);
+    bangAllowRule["condition"]["requestDomains"] = allSupportedDomains.concat(allSupportedDomains.map((domain) => { return domain.startsWith("www.") ? "" : `www.${domain}`; }).filter((d) => d.length > 0));
+    newRules.push(bangAllowRule);
     console.log("Attempting to write new dynamic rules:", newRules);
     return browser.declarativeNetRequest.updateDynamicRules({
       removeRuleIds: oldRules.map(rule => rule.id),
@@ -192,7 +439,7 @@ function updateKnownHostListUI() {
   }
   var liHtml = "";
   for (host in hosts) {
-    liHtml += `<li>${hosts[host]} <a href="#" class="revokePermissions" data-host="${hosts[host]}">${symbolTrashBase64ImgTag}</a></li>`;
+    liHtml += `<li>${hosts[host]} <a href="#" class="revokePermissions" data-host="${hosts[host]}">${symbolTrashBase64ImgTag}<span class="confirmationText"> (tap again to confirm)</span></a></li>`;
   }
   document.getElementById("current-overrides").innerHTML = liHtml;
   updateRevokeHostPermissionsHandlers();
@@ -299,6 +546,77 @@ function getPrivateSessionTokenFromPageIfAvailable(requestScriptingIfNotYetGrant
   });
 }
 
+// Returns a Promise with no result value if conflicts were resolved (or
+// no conflicts found) and rejects with an error if it encounters an
+// unexpected issue
+function checkForSessionTokenConflicts() {
+  return browser.storage.local.get({
+    "kagiNewFetchedToken": "",
+    "kagiNewScrapedToken": "",
+    "kagiPrivateSessionToken": ""})
+  .then((tokens) => {
+    if (typeof tokens != "object") {
+      return Promise.reject(new Error("Unexpected storage return type"));
+    }
+    let fetchedToken = tokens["kagiNewFetchedToken"],
+        scrapedToken = tokens["kagiNewScrapedToken"],
+        storedSessionToken = tokens["kagiPrivateSessionToken"];
+    
+    console.info(`Checking for conflicts in found tokens: { fetchedToken: "${fetchedToken}", scrapedToken: "${scrapedToken}", storedSessionToken: "${storedSessionToken}" }`);
+    
+    // If no fetchedToken or scrapedToken exist to be checked, resolve
+    if (fetchedToken.length == 0 && scrapedToken.length == 0) {
+      return Promise.resolve({showConflictUI: false, shouldUpdateRules: false});
+    }
+    // If tokens are all the same, resolve
+    else if (fetchedToken == scrapedToken && fetchedToken == storedSessionToken) {
+      return Promise.resolve({showConflictUI: false, shouldUpdateRules: false});
+    }
+    else {
+      // If both tokens exist but are not equal, check if one matches the existing token
+      if ((fetchedToken != scrapedToken && fetchedToken == storedSessionToken) ||
+          (fetchedToken != scrapedToken && scrapedToken == storedSessionToken)) {
+        return Promise.resolve({showConflictUI: false, shouldUpdateRules: false});
+      }
+      
+      var usableToken = fetchedToken.length > 0 ? fetchedToken : scrapedToken;
+      // If we don't yet have a stored session token, we store one now
+      if (storedSessionToken.length == 0) {
+        updatePrivateSessionToken(usableToken);
+        return Promise.resolve({showConflictUI: true, shouldUpdateRules: true});
+      }
+      
+      console.warn(`No token resolution found for { fetchedToken: "${fetchedToken}", scrapedToken: "${scrapedToken}", storedSessionToken: "${storedSessionToken}" }; Overwriting existing token with newly found token of value "${usableToken}"`);
+      updatePrivateSessionToken(usableToken);
+      return Promise.resolve({showConflictUI: true, shouldUpdateRules: true});
+    }
+  })
+  .then((result) => {
+    let shouldUpdateRules = result["shouldUpdateRules"],
+        shouldShowConflictUI = result["showConflictUI"];
+    if (shouldUpdateRules) {
+      return updateAllRules(privateSessionToken).then(() => Promise.resolve(shouldShowConflictUI));
+    } else {
+      return Promise.resolve(shouldShowConflictUI);
+    }
+  })
+  .then((showConflictUI) => {
+    updateTokenConflictUI(showConflictUI, true);
+    return clearFetchedAndScrapedTokens();
+  })
+  .catch((error) => {
+    updateTokenConflictUI(true, false);
+    console.error(`Kagi session token conflict check failed: ${error.message}`);
+    Promise.reject(error);
+  });
+}
+
+function clearFetchedAndScrapedTokens() {
+  return browser.storage.local.remove(["kagiNewFetchedToken", "kagiNewScrapedToken"])
+  .then(() => browser.action.setBadgeText({ text: "" }))
+  .then(() => Promise.resolve()); // Redundant, but just in case future API changes to include a result instead of being empty
+}
+
 function updatePrivateSessionTokenFromLink(link) {
   try {
     const tokenUrl = new URL(link.trim());
@@ -324,6 +642,12 @@ function updatePrivateSessionToken(token) {
   updatePrivateSessionUI(privateSessionToken.length > 0);
 }
 
+function updateTokenConflictUI(showUI, didResolve) {
+  document.body.classList.toggle("tokenConflictOccurred", showUI);
+  document.body.classList.toggle("tokenConflictResolved", didResolve);
+  document.body.classList.toggle("tokenConflictUnresolved", !didResolve);
+}
+
 function updatePrivateSessionUI(tokenExists) {
   document.body.classList.toggle("readyForPrivateBrowsing", tokenExists);
   if (tokenExists) {
@@ -332,16 +656,6 @@ function updatePrivateSessionUI(tokenExists) {
     
   }
 }
-
-// document.getElementById("open-app").onclick = function() {
-//   if (macosPlatforms.indexOf(platform) !== -1) {
-//     browser.runtime.sendNativeMessage(extensionId, {"type": "openApp"}, function(response) {
-//       window.close();
-//     });
-//   } else if (iosPlatforms.indexOf(platform) !== -1) {
-//     window.open("kagisearch://")
-//   }
-// }
 
 // -----------------------
 // MARK: - activeTab checks & updates
@@ -438,11 +752,10 @@ document.getElementById("setup-permissions-button").onclick = async function(evt
     } else if (!alreadyGrantedActiveTab && !shouldRequest) {
       return Promise.resolve(false);
     } else if (alreadyGrantedActiveTab && !shouldRequest) {
-      if (privateSessionToken.length > 0) {
-        return browser.permissions.remove(setupPermissionsWithoutKagiOrigin);
-      } else {
-        return browser.permissions.remove(setupPermissions);
-      }
+      // When removing setup permissions, retain kagi host permissions
+      // so that users can still use the !bang syntax while searching
+      // directly from kagi.com
+      return browser.permissions.remove(setupPermissionsWithoutKagiOrigin);
     } else {
       return browser.permissions.request(setupPermissions);
     }
@@ -496,15 +809,28 @@ document.getElementById("update-rules").onclick = async function() {
 
 document.querySelectorAll(".update-all-rules").forEach((element) => {
   element.addEventListener("click", async function() {
-    updateAllRules(privateSessionToken);
+    element.classList.remove("success", "failure");
+    updateAllRules(privateSessionToken)
+    .then(() => {
+      element.classList.add("success");
+    })
+    .catch((e) => {
+      element.classList.add("failure");
+    });
   });
 });
 
 function revokeHostPermissionLinkClicked(evt) {
-  let hostToRevoke = evt.currentTarget.getAttribute("data-host");
-  let hostMatchpattern = `*://*.${hostToRevoke.replace(/^www\./, "")}/*`; // should be redundant, but leaving replacement here for safety in future situations
-  let removePromise = browser.permissions.remove({ origins: [hostMatchpattern] });
-  updateRedirectHostPermissions(false, removePromise);
+  let el = evt.currentTarget;
+  if (el.classList.contains("readyToConfirm")) {
+    let hostToRevoke = evt.currentTarget.getAttribute("data-host");
+    let hostMatchpattern = `*://*.${hostToRevoke.replace(/^www\./, "")}/*`; // should be redundant, but leaving replacement here for safety in future situations
+    let removePromise = browser.permissions.remove({ origins: [hostMatchpattern] });
+    updateRedirectHostPermissions(false, removePromise);
+  } else {
+    el.classList.add("readyToConfirm");
+  }
+  
 }
 function updateRevokeHostPermissionsHandlers() {
   document.querySelectorAll(".revokePermissions").forEach((element) => {
@@ -531,12 +857,34 @@ document.addEventListener("DOMContentLoaded", (event) => {
   Promise.all([
     getLocalPrivateSessionToken(),
     fetchActiveTabHost(),
-    fetchKnownHostPermissions()
+    fetchKnownHostPermissions(),
+    checkForSessionTokenConflicts()
   ])
-  .then((values) => {
-    getPrivateSessionTokenFromPageIfAvailable(requestPermissionsIfNeeded);
+  .catch((error) => {
+    console.error(`[Document OnLoad] Error: ${error.message}`);
+  })
+  .finally((values) => {
+    // getPrivateSessionTokenFromPageIfAvailable(requestPermissionsIfNeeded);
   })
   
 });
+
+// -----------------------
+// MARK: - Override to dismiss confirmation text
+// -----------------------
+function dismissConfirmationText() {
+  document.querySelectorAll(".revokePermissions")
+  .forEach((element) => element.classList.remove("readyToConfirm"));
+}
+
+document.onclick = function (e) {
+  e = e ||  window.event;
+  var element = e.target || e.srcElement;
+
+  if ((element.tagName == 'A' && !element.classList.contains("readyToConfirm")) || element.closest(".readyToConfirm") == null) {
+      dismissConfirmationText();
+      return true; // allow normal event to happen
+  }
+};
 
 const symbolTrashBase64ImgTag = `<img alt="" src="data:image/png;base64,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" />`;

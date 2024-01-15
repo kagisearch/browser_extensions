@@ -201,12 +201,6 @@ h2 {
 }
 #instructions>li:not(:first-child) {
     margin-top: 1em;
-/* 
-	border-left: solid 1px #eee;
-	padding-left: 0.6em;
-	position: relative;
-	left: -0.6em;
- */
 }
 
 #private-browsing-disallowed {
@@ -216,13 +210,19 @@ h2 {
 }
 
 body:not(.readyToSearch) .enginePermissionsGranted,
-body.readyToSearch .noEnginePermissions,
 body:not(.setupPermissionsGranted) .setupPermissionsGranted,
 body:not(.activeTabHostnameAcquired) .activeTabHostnameAcquired,
 body:not(.activeTabHostnameIsSupportedEngine) .activeTabHostnameIsSupportedEngine,
 body:not(.readyForPrivateBrowsing) .sessionTokenAvailable,
+body:not(.privateBrowsingDisabledInBrowser) .showIfPrivateBrowsingDisabledInBrowser,
+body:not(.tokenConflictOccurred) .tokenConflictOccurred,
+body:not(.tokenConflictResolved) .tokenConflictResolved,
+body:not(.tokenConflictUnresolved) .tokenConflictUnresolved,
+body.setupPermissionsGranted .noSetupPermissions,
+body.readyToSearch .noEnginePermissions,
 body.readyForPrivateBrowsing .noSessionToken,
-body:not(.privateBrowsingDisabledInBrowser) .showIfPrivateBrowsingDisabledInBrowser {
+.update-all-rules:not(.success) .rulesUpdateSucceeded,
+.update-all-rules:not(.failure) .rulesUpdateFailed {
 	display: none !important;
 }
 
@@ -231,6 +231,7 @@ body:not(.privateBrowsingDisabledInBrowser) .showIfPrivateBrowsingDisabledInBrow
 }
 #instructions h4 {
 	margin-bottom: 0;
+	margin-top: 1em;
 }
 body:not(.readyToSearch) #instructions h3 .noEnginePermissions {
 	color: #FD6820;
@@ -245,15 +246,24 @@ body.readyToSearch #instructions h3 .enginePermissionsGranted {
 	margin-bottom: 0.7em;
 }
 
+.revokePermissions {
+	text-decoration: none;
+}
 .revokePermissions img {
 	height: 1em;
 	position: relative;
 	top: 2px;
-/* 	filter: contrast(0) sepia(100%) hue-rotate(200deg) brightness(1.2); */
 }
+.revokePermissions .confirmationText {
+	display: none;
+	font-size: smaller;
+}
+.revokePermissions.readyToConfirm .confirmationText { display: inline; }
 
 li:has(.showMore) > *:not(h4) { display: none; }
 li.displayChildren:has(.showMore) > *:not(h4) { display: inherit; }
+
+
 
 #last-error { display: none; }
 

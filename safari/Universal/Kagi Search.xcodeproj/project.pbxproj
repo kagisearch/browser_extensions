@@ -13,6 +13,9 @@
 		3E9DF5082B3E3E70005DF2C3 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D55B2B0DE720009DDDAD /* manifest.json */; };
 		3E9DF5092B3E3E71005DF2C3 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D55B2B0DE720009DDDAD /* manifest.json */; };
 		3E9DF50A2B3E3E72005DF2C3 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D55B2B0DE720009DDDAD /* manifest.json */; };
+		3EAC17712B51DA3600FEB9BE /* fetch_kagi_token.js in Resources */ = {isa = PBXBuildFile; fileRef = 3EAC17702B51DA3600FEB9BE /* fetch_kagi_token.js */; };
+		3EAC17722B51DA3600FEB9BE /* fetch_kagi_token.js in Resources */ = {isa = PBXBuildFile; fileRef = 3EAC17702B51DA3600FEB9BE /* fetch_kagi_token.js */; };
+		3EAC17732B51DA3600FEB9BE /* fetch_kagi_token.js in Resources */ = {isa = PBXBuildFile; fileRef = 3EAC17702B51DA3600FEB9BE /* fetch_kagi_token.js */; };
 		3EC41D242B21B587009B17FE /* macOS Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC41D232B21B587009B17FE /* macOS Assets.xcassets */; };
 		3EC772302B2C48CE00E40354 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D52B2B0DE707009DDDAD /* ViewController.swift */; };
 		3EC772312B2C48CE00E40354 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D50A2B0DE6CC009DDDAD /* AppDelegate.swift */; };
@@ -193,6 +196,7 @@
 
 /* Begin PBXFileReference section */
 		3E1A513A2B180B890010A4C4 /* UpgradeChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeChecker.swift; sourceTree = "<group>"; };
+		3EAC17702B51DA3600FEB9BE /* fetch_kagi_token.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fetch_kagi_token.js; sourceTree = "<group>"; };
 		3EC41D232B21B587009B17FE /* macOS Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "macOS Assets.xcassets"; sourceTree = "<group>"; };
 		3EC7724F2B2C48CE00E40354 /* Kagi Search iOS Legacy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kagi Search iOS Legacy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC772502B2C48CE00E40354 /* Kagi Search iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Kagi Search iOS copy-Info.plist"; path = "/Users/nano/Kagi/kagi-for-safari-macos/Kagi Search iOS copy-Info.plist"; sourceTree = "<absolute>"; };
@@ -412,6 +416,7 @@
 				3ED5D5902B0DFC81009DDDAD /* images */,
 				3ED5D58D2B0DFC34009DDDAD /* _locales */,
 				3ED5D5552B0DE720009DDDAD /* popup.js */,
+				3EAC17702B51DA3600FEB9BE /* fetch_kagi_token.js */,
 				3ED5D5562B0DE720009DDDAD /* background.js */,
 				3ED5D55A2B0DE720009DDDAD /* popup.html */,
 				3ED5D55B2B0DE720009DDDAD /* manifest.json */,
@@ -726,6 +731,7 @@
 				3EC772572B2C492F00E40354 /* popup.css in Resources */,
 				3E9DF50A2B3E3E72005DF2C3 /* manifest.json in Resources */,
 				3EC772582B2C492F00E40354 /* _locales in Resources */,
+				3EAC17732B51DA3600FEB9BE /* fetch_kagi_token.js in Resources */,
 				3EC772592B2C492F00E40354 /* popup.html in Resources */,
 				3EC7725A2B2C492F00E40354 /* background.js in Resources */,
 				3EC7725C2B2C492F00E40354 /* images in Resources */,
@@ -740,6 +746,7 @@
 				3ED5D5712B0DE720009DDDAD /* popup.css in Resources */,
 				3E9DF5082B3E3E70005DF2C3 /* manifest.json in Resources */,
 				3ED5D58E2B0DFC34009DDDAD /* _locales in Resources */,
+				3EAC17712B51DA3600FEB9BE /* fetch_kagi_token.js in Resources */,
 				3ED5D56D2B0DE720009DDDAD /* popup.html in Resources */,
 				3ED5D5672B0DE720009DDDAD /* background.js in Resources */,
 				3ED5D5912B0DFC81009DDDAD /* images in Resources */,
@@ -754,6 +761,7 @@
 				3ED5D5722B0DE720009DDDAD /* popup.css in Resources */,
 				3E9DF5092B3E3E71005DF2C3 /* manifest.json in Resources */,
 				3ED5D58F2B0DFC34009DDDAD /* _locales in Resources */,
+				3EAC17722B51DA3600FEB9BE /* fetch_kagi_token.js in Resources */,
 				3ED5D56E2B0DE720009DDDAD /* popup.html in Resources */,
 				3ED5D5682B0DE720009DDDAD /* background.js in Resources */,
 				3ED5D5922B0DFC81009DDDAD /* images in Resources */,
