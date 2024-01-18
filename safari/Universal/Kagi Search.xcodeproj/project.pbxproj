@@ -1329,7 +1329,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kagi Search (iOS)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Kagi;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi for Safari";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1372,7 +1372,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kagi Search (iOS)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Kagi;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi for Safari";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
