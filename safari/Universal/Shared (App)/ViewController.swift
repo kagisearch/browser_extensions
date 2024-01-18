@@ -180,7 +180,8 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
             }
             
             let newFrame = currentWindow.frame.insetBy(dx: ((currentWindow.frame.width - newWidth)/2), dy: ((currentWindow.frame.height - newHeight)/2))
-            currentWindow.setFrame(newFrame, display: true, animate: true)
+            currentWindow.animator().setFrame(newFrame, display: true, animate: true)
+                
             #endif
             break
         case "cache-prescreenshot-size":

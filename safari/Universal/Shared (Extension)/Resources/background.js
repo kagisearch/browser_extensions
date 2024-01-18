@@ -297,6 +297,10 @@ var ua = {},
     regularTabIds = [],
     incognitoTabIds = [];
 
+function stringIsValid(theString) {
+  return (theString != null && typeof theString == "string" && theString.length > 0);
+}
+
 function setKagiSearchTemplate(isPrivateTab) {
     if (isPrivateTab) {
         if (typeof kagiPrivateSearchTemplate == "string" && kagiPrivateSearchTemplate.length > 0) {
@@ -335,7 +339,6 @@ function rewriteQueryURL(a, b) {
 }
 var tk = 0;
 function checkForSearch(a) {
-    requestPrivateSessionLinkFromApp(); // Always do a quick check to make sure we're synced. Background scripts may be killed and not update before a search is run.
     if (!flagCheckedLocalStorageForPrivateSessionLink) {
         console.log("[checkForSearch] Search query started before local private session link was fetched");
         checkLocalStorageForPrivateSessionLink(function(){
@@ -384,137 +387,70 @@ function _checkForSearch(a) {
 }
 
 function storeIncognitoTabIds(tab) {
-    if (tab.incognito) {
-        incognitoTabIds.push(tab.id);
-    } else {
-        regularTabIds.push(tab.id);
-    }
+  if (tab.incognito) {
+    incognitoTabIds.push(tab.id);
+  } else {
+    regularTabIds.push(tab.id);
+  }
 }
 
 function matchesCustomURL(a) {
-    return !0
-}
-
-function updateEngine(engine) {
-    if (engine == currentEngine) {
-        return;
-    }
-    currentEngine = engine;
-    var newFilterUrls = builtInEngines; // defaults to all engines
-    if (engine == "Google") {
-        newFilterUrls = googleUrls;
-    } else if (engine == "Yandex") {
-        newFilterUrls = yandexUrls;
-    } else if (engine == "DuckDuckGo") {
-        newFilterUrls = ddgUrls;
-    } else if (engine == "Baidu") {
-        newFilterUrls = baiduUrls;
-    } else if (engine == "Yahoo") {
-        newFilterUrls = yahooUrls;
-    } else if (engine == "Ecosia") {
-        newFilterUrls = ecosiaUrls;
-    } else if (engine == "Sogou") {
-        newFilterUrls = sogouUrls;
-    } else if (engine == "Bing") {
-        newFilterUrls = bingUrls;
-    }
-    var newFilter = {
-        url: Object.keys(newFilterUrls).flatMap(function(a) {
-            var filters = [{
-                hostContains: a
-            }, {
-                hostContains: www + a
-            }];
-            if (engine == "Yahoo") {
-                filters.push({hostSuffix: yahoo});
-            }
-            return filters;
-        })
-    };
-    browser.webNavigation.onBeforeNavigate.removeListener(checkForSearch);
-    browser.webNavigation.onBeforeNavigate.addListener(checkForSearch, newFilter);
+  return !0
 }
 
 function updatePrivateSessionLink(link) {
-    if (link.trim().length > 0) {
-        // set variable used in current browsing session
-        kagiPrivateSearchTemplate = link + "&q=%s";
-        // cache it in browser storage so we have an available
-        // link as soon as background.js is loaded, otherwise user's
-        // first private browsing search will be logged-out and fail
-        browser.storage.local.set({ kagiPrivateSessionLink: link });
-    } else {
-        kagiPrivateSearchTemplate = "";
-        browser.storage.local.set({ kagiPrivateSessionLink: "" });
-    }
+  if (link.trim().length > 0) {
+    // set variable used in current browsing session
+    kagiPrivateSearchTemplate = link + "&q=%s";
+    // cache it in browser storage so we have an available
+    // link as soon as background.js is loaded, otherwise user's
+    // first private browsing search will be logged-out and fail
+    return browser.storage.local.set({ kagiPrivateSessionLink: link });
+  } else {
+    kagiPrivateSearchTemplate = "";
+    return browser.storage.local.set({ kagiPrivateSessionLink: "" });
+  }
 }
 
 function checkLocalStorageForPrivateSessionLink(callback) {
-    browser.storage.local.get("kagiPrivateSessionLink", function(value) {
-        var link = value.kagiPrivateSessionLink;
-        if (typeof(link) !== "undefined") {
-            updatePrivateSessionLink(link);
-        }
-        flagCheckedLocalStorageForPrivateSessionLink = true;
-        callback();
-    });
-}
-
-function requestCurrentEngineFromApp() {
-    browser.runtime.sendNativeMessage(extensionId, {"type": "currentEngine"}, function(response) {
-        let selectedEngine = response.currentEngine;
-        updateEngine(selectedEngine);
-    });
-}
-
-function requestPrivateSessionLinkFromApp() {
-    browser.runtime.sendNativeMessage(extensionId, {"type": "privateSessionLink"}, function(response) {
-        let privateSessionLink = response.privateSessionLink;
-        updatePrivateSessionLink(privateSessionLink);
-    });
+  browser.storage.local.get("kagiPrivateSessionLink", function(value) {
+    var link = value.kagiPrivateSessionLink;
+    if (typeof (link) !== "undefined") {
+      updatePrivateSessionLink(link);
+    }
+    flagCheckedLocalStorageForPrivateSessionLink = true;
+    callback();
+  });
 }
 
 var defaultFilter = {
-    url: Object.keys(builtInEngines).flatMap(function(a) {
-        return [{
-            hostContains: a
-        }, {
-            hostContains: www + a
-        }, {
-            hostSuffix: yahoo
-        }]
-    })
+  url: Object.keys(builtInEngines).flatMap(function(a) {
+    return [{
+      hostContains: a
+    }, {
+      hostContains: www + a
+    }, {
+      hostSuffix: yahoo
+    }]
+  })
 };
-let port = browser.runtime.connectNative("com.kagi.Kagi-Search-for-Safari");
-port.onMessage.addListener(function(message){
-    if (message.name == "syncData") {
-        let engine = message.userInfo.currentEngine;
-        let privateSessionLink = message.userInfo.privateSessionLink;
-        updateEngine(engine);
-        updatePrivateSessionLink(privateSessionLink);
-    }
-});
 
 browser.webNavigation.onBeforeNavigate.addListener(checkForSearch, defaultFilter);
-requestCurrentEngineFromApp();
-requestPrivateSessionLinkFromApp();
 
-browser.runtime.onInstalled.addListener(function(details){
-    
-    // Checks for upgrade from 1.x to 2.x. If so, attempts to migrate
-    // the privateSessionLink url from the previous extension
-    if (!(details.previousVersion.startsWith("1") == true && browser.runtime.getManifest().version.startsWith("2") == true)) {
-        return
+// Checks for upgrade from 1.x to 2.x. If so, attempts to migrate
+// the privateSessionLink url from the previous extension
+browser.runtime.onInstalled.addListener(function(details) {
+  if (!(details.previousVersion.startsWith("1") == true && browser.runtime.getManifest().version.startsWith("2") == true)) {
+    return;
+  }
+  browser.storage.local.get("privateSessionLink", function(value) {
+    var privateSessionLink = value.privateSessionLink;
+    if (typeof privateSessionLink == "string" && privateSessionLink.length > 0) {
+      updatePrivateSessionLink(privateSessionLink);
     }
-    browser.storage.local.get("privateSessionLink", function(value) {
-        var privateSessionLink = value.privateSessionLink;
-        if (typeof(privateSessionLink) !== "undefined") {
-            browser.runtime.sendNativeMessage(extensionId, {"type": "migratePrivateSessionLink", "privateSessionLink": privateSessionLink}, function(response){
-                // no-op
-            });
-        }
-    });
+  });
 });
+
 
 // Check for a private session link at startup so that the first search
 // in a private window or tab doesn't fail
@@ -522,12 +458,14 @@ checkLocalStorageForPrivateSessionLink(function(){
     console.log("Finished startup check for local private session link");
 });
 
-// Checks every 5 seconds for a new engine. There's no other way to get new
-// info from the app without forcing Safari to come to the foreground
-(function loop() {
-  setTimeout(() => {
-      requestCurrentEngineFromApp();
-      requestPrivateSessionLinkFromApp();
-      loop();
-  }, 5000);
-})();
+function messageReceived(data, sender) {
+  let updatedKagiPrivateSessionLink = data["updatedKagiPrivateSessionLink"];
+  if (stringIsValid(updatedKagiPrivateSessionLink)) {
+    return updatePrivateSessionLink(updatedKagiPrivateSessionLink)
+    .then(() => Promise.resolve(true))
+    .catch((error) => Promise.reject(error));
+  } else {
+    return false;
+  }
+}
+browser.runtime.onMessage.addListener(messageReceived);

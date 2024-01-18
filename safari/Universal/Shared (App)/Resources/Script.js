@@ -41,9 +41,6 @@ function updateUIForEngine(newEngine) {
     } else {
         document.querySelector('#engines').classList.toggle(`allEngines`, false);
     }
-    setTimeout(function(){
-        updateWindowSizeToMatchWebviewContentSize();
-    }, 500);
 }
 
 function selectCurrentEngine(currentEngine) {
