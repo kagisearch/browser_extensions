@@ -36,7 +36,7 @@ input {
   border: 1px solid #e1e0db;
 }
 
-input[type="password"] {
+input[type="password"], input[type="text"] {
   background-color: #f7f6f2;
   border: 1px solid #e1e0db;
   height: 48px;
@@ -44,7 +44,7 @@ input[type="password"] {
   padding: 0 10px;
 }
 
-input[type="password"]:focus {
+input[type="password"]:focus, input[type="text"]:focus {
   outline: 1px solid #ffb319;
 }
 
@@ -60,13 +60,39 @@ input[type="password"]:focus {
 .logo {
   width: 58px;
   height: 29px;
-  flex: 1;
+  flex: 0;
   justify-content: flex-start;
   display: flex;
+  margin: 0 15px;
 }
 
 .logo svg {
   height: 100%;
+}
+
+#links {
+  flex: 1;
+  justify-content: flex-start;
+  display: flex;
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0 10px;
+  visibility: hidden;
+}
+
+#links a {
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+}
+
+#links a:hover, #links a:focus {
+  text-decoration: underline;
+}
+
+#links span {
+  display: inline-block;
+  margin: 0 7px;
 }
 
 #status {
@@ -288,20 +314,29 @@ p {
   right: 2px;
 }
 
-#summarize, #request_permissions {
+#fastgpt, #summarize, #request_permissions {
   margin-top: 10px;
   width: 100%;
   padding: 0 15px;
 }
 
-#summarize .setting_row, #request_permissions .setting_row {
+#summarize .setting_row, #request_permissions .setting_row, #fastgpt .setting_row {
   margin-top: 10px;
   padding: 0;
   justify-content: space-between;
 }
 
-#summarize .setting_row > div, #request_permissions .setting_row > div {
+#summarize .setting_row > div, #request_permissions .setting_row > div, #fastgpt .setting_row > form {
   margin-right: 10px;
+}
+
+#fastgpt_form {
+  width: 100%;
+  display: flex;
+}
+
+#fastgpt_form input {
+  margin-right: 10px
 }
 
 #summarize .setting_row label {
@@ -309,7 +344,7 @@ p {
   margin-bottom: 5px;
 }
 
-#summarize_page, #request_permissions_button {
+#summarize_page, #request_permissions_button, #fastgpt_submit {
   background-color: #ffb319;
   border: 1px solid #ffb319;
   color: #191919;
@@ -323,13 +358,18 @@ p {
   margin-right: 10px;
 }
 
+#fastgpt_submit {
+  width: 120px;
+  margin-right: 0;
+}
+
 #request_permissions_button {
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
 }
 
-#summarize_page:hover, #request_permissions_button:hover {
+#summarize_page:hover, #request_permissions_button:hover, #fastgpt_submit {
   background-color: #f7a808;
   border: 1px solid #d9950d;
 }

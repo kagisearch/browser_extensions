@@ -18,6 +18,10 @@
             <path d="M100.486 8.93162C102.979 8.93162 105 6.93221 105 4.46581C105 1.99941 102.979 0 100.486 0C97.9936 0 95.9728 1.99941 95.9728 4.46581C95.9728 6.93221 97.9936 8.93162 100.486 8.93162Z" fill="currentColor"></path>
             </svg>
         </div>
+
+        <div id="links">
+          <a href="https://kagi.com/smallweb" target="_blank" rel="noopener noreferrer">Small Web</a>
+        </div>
         
         <span id="status" title="Loading...">
           <svg style="display: none" aria-hidden="true" height="100%" width="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -129,7 +133,7 @@
         </div>
 
         <div class="setting_row">
-          <input type="password" id="token_input" value="" placeholder="my token"/>
+          <input type="password" id="token_input" value="" placeholder="my token" />
         </div>
 
         <div class="setting_row">
@@ -146,7 +150,7 @@
         </div>
 
         <div class="setting_row">
-          <input type="password" id="api_token_input" value="" placeholder="my API key"/>
+          <input type="password" id="api_token_input" value="" placeholder="my API key" />
         </div>
 
         <div class="setting_row api_param" style="display: none">
@@ -176,6 +180,20 @@
           <button id="token_save">Save settings</button>
         </div>
 
+      </div>
+
+      <div id="fastgpt" style="display: none">
+        <div class="title">
+          FastGPT
+        </div>
+
+        <div class="setting_row">
+          <form id="fastgpt_form" action="https://kagi.com/fastgpt?query=" method="GET" target="_blank">
+            <input id="fastgpt_query" name="query" type="text" value="" placeholder="Ask any question..." />
+
+            <button id="fastgpt_submit" type="submit">Answer</button>
+          </form>
+        </div>
       </div>
 
       <div id="summarize" style="display: none">
