@@ -12,6 +12,7 @@ if (typeof browser.runtime.getBrowserInfo === 'function') {
 }
 
 function setStatus(type) {
+  const linksDiv = document.querySelector('#links');
   const statusElement = document.querySelector('#status');
   const statusPermissionMessageElement = document.querySelector(
     '#status_permission_message',
@@ -52,6 +53,7 @@ function setStatus(type) {
         }
       });
 
+      linksDiv.style.visibility = 'hidden';
       statusErrorMessageElement.style.display = '';
       statusErrorIcon.style.display = '';
       statusGoodIcon.style.display = 'none';
@@ -59,6 +61,7 @@ function setStatus(type) {
       break;
     }
     case 'manual_token': {
+      linksDiv.style.visibility = 'visible';
       statusErrorMessageElement.style.display = 'none';
       statusErrorIcon.style.display = 'none';
       statusGoodIcon.style.display = '';
@@ -66,6 +69,7 @@ function setStatus(type) {
       break;
     }
     case 'auto_token': {
+      linksDiv.style.visibility = 'visible';
       statusErrorMessageElement.style.display = 'none';
       statusErrorIcon.style.display = 'none';
       statusGoodIcon.style.display = '';
@@ -78,6 +82,12 @@ function setStatus(type) {
 }
 
 async function setup() {
+  const linksDiv = document.querySelector('#links');
+  if (!linksDiv) {
+    console.error('Could not find links div');
+    return;
+  }
+
   const tokenDiv = document.querySelector('#token');
   if (!tokenDiv) {
     console.error('Could not find token div');
@@ -121,6 +131,18 @@ async function setup() {
   const advancedToggle = document.querySelector('#advanced');
   if (!advancedToggle) {
     console.error('Could not find advanced toggle');
+    return;
+  }
+
+  const fastGptSection = document.querySelector('#fastgpt');
+  if (!fastGptSection) {
+    console.error('Could not find fastgpt section');
+    return;
+  }
+
+  const fastGptQueryInput = document.querySelector('#fastgpt_query');
+  if (!fastGptQueryInput) {
+    console.error('Could not find fastgpt input');
     return;
   }
 
@@ -218,14 +240,20 @@ async function setup() {
 
     saveTokenButton.innerText = 'Saving...';
 
-    await browser.runtime.sendMessage({
-      type: 'save_token',
-      token,
-      api_token,
-      api_engine,
-      summary_type,
-      target_language,
-    });
+    try {
+      await browser.runtime.sendMessage({
+        type: 'save_token',
+        token,
+        api_token,
+        api_engine,
+        summary_type,
+        target_language,
+      });
+    } catch (error) {
+      console.error(error);
+
+      showSavingError();
+    }
   });
 
   async function toggleAdvancedDisplay(forceState) {
@@ -256,6 +284,7 @@ async function setup() {
       closeSettingsIcon.style.display = '';
       tokenDiv.style.display = '';
       summarizeSection.style.display = 'none';
+      fastGptSection.style.display = 'none';
       requestPermissionsSection.style.display = 'none';
       advancedToggle.setAttribute('title', 'Close advanced settings');
     }
@@ -377,6 +406,10 @@ async function setup() {
           summarizeSection.style.display = '';
           requestPermissionsSection.style.display = 'none';
         }
+
+        fastGptSection.style.display = '';
+      } else {
+        fastGptSection.style.display = 'none';
       }
 
       if (sync_existing) {
@@ -447,6 +480,27 @@ async function setup() {
 
   let savingButtonTextTimeout = undefined;
 
+  function showSavingError() {
+    saveTokenButton.innerText = 'Error saving!';
+
+    if (savingButtonTextTimeout) {
+      clearTimeout(savingButtonTextTimeout);
+    }
+
+    savingButtonTextTimeout = setTimeout(() => {
+      saveTokenButton.innerText = 'Save settings';
+    }, 2000);
+
+    if (!IS_CHROME) {
+      const incognitoNameSpan = saveErrorDiv.querySelector('span');
+      if (incognitoNameSpan) {
+        incognitoNameSpan.innerText = 'Run in Private Windows';
+      }
+    }
+
+    saveErrorDiv.style.display = '';
+  }
+
   browser.runtime.onMessage.addListener(async (data) => {
     if (data.type === 'synced') {
       setStatus('manual_token');
@@ -470,6 +524,8 @@ async function setup() {
             permissions: ['activeTab'],
           });
 
+          fastGptSection.style.display = '';
+
           if (!hasPermissions) {
             summarizeSection.style.display = 'none';
             requestPermissionsSection.style.display = '';
@@ -480,6 +536,7 @@ async function setup() {
         } else {
           summarizeSection.style.display = 'none';
           requestPermissionsSection.style.display = 'none';
+          fastGptSection.style.display = 'none';
         }
       }
 
@@ -499,26 +556,25 @@ async function setup() {
       saveErrorDiv.style.display = 'none';
       toggleAdvancedDisplay('close');
     } else if (data.type === 'save-error') {
-      saveTokenButton.innerText = 'Error saving!';
-
-      if (savingButtonTextTimeout) {
-        clearTimeout(savingButtonTextTimeout);
-      }
-
-      savingButtonTextTimeout = setTimeout(() => {
-        saveTokenButton.innerText = 'Save settings';
-      }, 2000);
-
-      if (!IS_CHROME) {
-        const incognitoNameSpan = saveErrorDiv.querySelector('span');
-        if (incognitoNameSpan) {
-          incognitoNameSpan.innerText = 'Run in Private Windows';
-        }
-      }
-
-      saveErrorDiv.style.display = '';
+      showSavingError();
     }
   });
+
+  if (fastGptSection.style.display !== 'none') {
+    fastGptQueryInput.focus();
+  }
+
+  // Close popup after submitting fastGpt
+  fastGptSection.querySelector('form').addEventListener('submit', () => {
+    setTimeout(() => window.close(), 50); // Without this timeout, the browser opens a new window instead of a new tab
+  });
+
+  // Close popup after clicking on top link
+  linksDiv.querySelectorAll('a').forEach((anchor) =>
+    anchor.addEventListener('click', () => {
+      setTimeout(() => window.close(), 50); // Without this timeout, the browser opens a new window instead of a new tab
+    }),
+  );
 }
 
 document.addEventListener('DOMContentLoaded', setup);
