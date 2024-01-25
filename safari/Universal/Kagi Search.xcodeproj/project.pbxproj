@@ -250,7 +250,7 @@
 		3ED5D5882B0DF6BC009DDDAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = "Shared (App)/Base.lproj/Main.html"; sourceTree = SOURCE_ROOT; };
 		3ED5D58D2B0DFC34009DDDAD /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = _locales; sourceTree = "<group>"; };
 		3ED5D5902B0DFC81009DDDAD /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
-		C31E691D2823DD4E00B1491B /* Kagi Search for Safari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kagi Search for Safari.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C31E691D2823DD4E00B1491B /* Kagi for Safari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kagi for Safari.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MainConfig.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -462,7 +462,7 @@
 		C31E691E2823DD4E00B1491B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C31E691D2823DD4E00B1491B /* Kagi Search for Safari.app */,
+				C31E691D2823DD4E00B1491B /* Kagi for Safari.app */,
 				3ED5D48F2B0DE087009DDDAD /* Kagi Search Extension iOS.appex */,
 				3ED5D4AC2B0DE2BD009DDDAD /* Kagi Search Extension macOS.appex */,
 				3ED5D4CE2B0DE3AD009DDDAD /* Kagi Search iOS.app */,
@@ -628,7 +628,7 @@
 			);
 			name = "Kagi Search macOS";
 			productName = "Kagi Search";
-			productReference = C31E691D2823DD4E00B1491B /* Kagi Search for Safari.app */;
+			productReference = C31E691D2823DD4E00B1491B /* Kagi for Safari.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1652,7 +1652,7 @@
 					WebKit,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search";
-				PRODUCT_NAME = "Kagi Search for Safari";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "Kagi Universal Safari Extension Development";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1695,7 +1695,7 @@
 					WebKit,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search";
-				PRODUCT_NAME = "Kagi Search for Safari";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "Kagi Universal Safari Extension Development";
 				SWIFT_EMIT_LOC_STRINGS = YES;

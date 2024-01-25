@@ -19,7 +19,7 @@ typealias Image = NSImage
 #endif
 
 let macExtensionBundleIdentifier = "com.kagimacOS.Kagi-Search.Extension"
-let appWindowFrameAutosaveName = "KagiSearchForSafariWindowFrame"
+let appWindowFrameAutosaveName = "KagiForSafariWindowFrame"
 
 class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMessageHandler {
 
