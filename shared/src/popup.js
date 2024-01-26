@@ -273,9 +273,11 @@ async function setup() {
         if (!hasPermissions) {
           summarizeSection.style.display = 'none';
           requestPermissionsSection.style.display = '';
+          fastGptSection.style.display = 'none';
         } else {
           summarizeSection.style.display = '';
           requestPermissionsSection.style.display = 'none';
+          fastGptSection.style.display = '';
         }
       }
       advancedToggle.setAttribute('title', 'Advanced settings');
