@@ -210,17 +210,22 @@ async function loadStorageData() {
 loadStorageData();
 
 // The function kagiSummarize is called when clicking the context menu item.
-function kagiSummarize(info, tab) {
+async function kagiSummarize(info) {
   // The linkUrl will be undefined if function is triggered by a page event. In that case, the url is taken from pageUrl
   const url = info.linkUrl || info.pageUrl;
-  browser.tabs.create({
-    url: `https://kagi.com/summarizer/index.html?url=${encodeURIComponent(
-      url,
-    )}`,
+
+  await browser.windows.create({
+    url: browser.runtime.getURL(
+      `src/summarize_result.html?url=${encodeURIComponent(url)}`,
+    ),
+    focused: true,
+    width: 600,
+    height: 500,
+    type: 'popup',
   });
 }
 
-function kagiImageSearch(info, tab) {
+function kagiImageSearch(info) {
   const imageUrl = info.srcUrl;
   browser.tabs.create({
     url: `https://kagi.com/images?q=${imageUrl}&reverse=reference`,

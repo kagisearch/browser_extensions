@@ -89,11 +89,16 @@ async function setup() {
 
     const searchParams = new URLSearchParams(window.location.search);
 
+    if (!searchParams.get('summary_type')) {
+      searchParams.set('summary_type', 'summary');
+    }
+
+    if (!searchParams.get('target_language')) {
+      searchParams.set('target_language', '');
+    }
+
     // If there's no URL, get the currently active tab and default params
     if (!searchParams.get('url')) {
-      searchParams.set('summary_type', 'summary');
-      searchParams.set('target_language', '');
-
       const tab = await getActiveTab(true);
 
       if (!tab) {
@@ -107,25 +112,25 @@ async function setup() {
       const popupUrl = new URL(window.location.href);
       popupUrl.searchParams.set('url', tab.url);
       window.history.replaceState(null, '', popupUrl.toString());
+    }
 
-      const { token, api_token, api_engine, summary_type, target_language } =
-        await fetchSettings();
+    const { token, api_token, api_engine, summary_type, target_language } =
+      await fetchSettings();
 
-      if (token) {
-        searchParams.set('token', token);
-      }
-      if (api_token) {
-        searchParams.set('api_token', api_token);
-      }
-      if (api_engine) {
-        searchParams.set('api_engine', api_engine);
-      }
-      if (summary_type) {
-        searchParams.set('summary_type', summary_type);
-      }
-      if (target_language) {
-        searchParams.set('target_language', target_language);
-      }
+    if (token) {
+      searchParams.set('token', token);
+    }
+    if (api_token) {
+      searchParams.set('api_token', api_token);
+    }
+    if (api_engine) {
+      searchParams.set('api_engine', api_engine);
+    }
+    if (summary_type) {
+      searchParams.set('summary_type', summary_type);
+    }
+    if (target_language) {
+      searchParams.set('target_language', target_language);
     }
 
     loadingElement.style.display = '';
