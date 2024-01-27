@@ -1,3 +1,3 @@
 MARKETING_VERSION = 2.2.0
-CURRENT_PROJECT_VERSION = 18 // this needs to be increased with each version change as well (not set to 1 when version is updated)
+CURRENT_PROJECT_VERSION = 21 // this needs to be increased with each version change as well (not set to 1 when version is updated)
 PRODUCT_NAME = Kagi for Safari

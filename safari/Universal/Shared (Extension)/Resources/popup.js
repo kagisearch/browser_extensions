@@ -150,10 +150,10 @@ function updateKnownHostList(knownHosts) {
 
 function generateHtmlForEngine(engine, engineHosts) {
   var engineHtml = "";
-  engineHtml += `<details><summary>${engine} <a href="#" class="revokePermissions" data-engine="${engine}">${symbolTrashBase64ImgTag}<span class="confirmationText"> (tap again to remove all urls for ${engine})</span></a></summary><ul>`;
+  engineHtml += `<details><summary>${engine} <a href="#" class="revokePermissions" data-engine="${engine}">${symbolTrashBase64ImgTag}<span class="confirmationText"> (open Safari Extension Settings)</span></a></summary><ul>`;
   for (let hi=0; hi<engineHosts.length; hi++) {
     let host = engineHosts[hi];
-    engineHtml += `<li>${host} <a href="#" class="revokePermissions" data-host="${host}">${symbolTrashBase64ImgTag}<span class="confirmationText"> (tap again to confirm)</span></a></li>`;
+    engineHtml += `<li>${host} <a href="#" class="revokePermissions" data-host="${host}">${symbolTrashBase64ImgTag}<span class="confirmationText"> (open Safari Extension Settings)</span></a></li>`;
   }
   engineHtml += `</ul></details>`;
   return engineHtml;
@@ -162,15 +162,20 @@ function generateHtmlForEngine(engine, engineHosts) {
 function revokeHostPermissionLinkClicked(evt) {
   let el = evt.currentTarget;
   if (el.classList.contains("readyToConfirm")) {
-    let engineToRevoke = evt.currentTarget.getAttribute("data-engine");
-    if (typeof engineToRevoke == "string" && engineToRevoke.length > 0) {
-      let engineMatchPatterns = engineToRevoke == "All" ? ["*://*/*"] : domainMap[engineToRevoke].map((domain) => `*://*.${domain}/*`);
-      revokeHostPermissions(engineMatchPatterns);
-    } else {
-      let hostToRevoke = evt.currentTarget.getAttribute("data-host");
-      let hostMatchPattern = `*://*.${hostToRevoke.replace(/^www\./, "")}/*`; // "www" removal should be redundant, but leaving replacement here for safety in future situations
-      revokeHostPermissions([hostMatchPattern]);
-    }
+//     browser.runtime.sendNativeMessage(extensionId, {"action": "open-safari-extension-settings"}, function(response) {
+//       // no-op
+//     });
+//     window.open('App-Prefs:SAFARI&path=WEB_EXTENSIONS');
+    window.open('kagisearch://open-app?destination=safari-extension-settings-deep');
+//     let engineToRevoke = evt.currentTarget.getAttribute("data-engine");
+//     if (typeof engineToRevoke == "string" && engineToRevoke.length > 0) {
+//       let engineMatchPatterns = engineToRevoke == "All" ? ["*://*/*"] : domainMap[engineToRevoke].map((domain) => `*://*.${domain}/*`);
+//       revokeHostPermissions(engineMatchPatterns);
+//     } else {
+//       let hostToRevoke = evt.currentTarget.getAttribute("data-host");
+//       let hostMatchPattern = `*://*.${hostToRevoke.replace(/^www\./, "")}/*`; // "www" removal should be redundant, but leaving replacement here for safety in future situations
+//       revokeHostPermissions([hostMatchPattern]);
+//     }
   } else {
     el.classList.add("readyToConfirm");
   }

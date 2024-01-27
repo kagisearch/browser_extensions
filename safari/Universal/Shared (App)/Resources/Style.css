@@ -15,11 +15,17 @@ a[href] {
     --captionColorLight: #494949;
     --captionColorDark: #B8B8B8;
     
+    --kagiColorCreamLighter: #F7F6F2;
+    --kagiColorPurpleDarkmode: rgba(38,40,55, 1);
+    
     --orionAccent: #8E70FF;
 }
 
 html {
     height: 100%;
+}
+html, body {
+    background: var(--kagiColorCreamLighter);
 }
 
 #wrapper {
@@ -93,6 +99,7 @@ p, label {
 
 fieldset, ol, h1, h2, h3, h4, h5, h6, #wrapper > p {
 	width: 82%;
+    max-width: 400px;
 }
 fieldset {
     border: 0;
@@ -159,6 +166,17 @@ a.screenshot:hover > object {
 /*    fill-opacity: 1;*/
 }
 
+.instruction-animation {
+    display: block;
+    width: 100vw;
+    height: auto;
+    max-width: 450px; /* this is slightly larger than the widest iPhone in portrait mode. we want 100% width in portrait on iPhone, otherwise this maximum keeps things looking good. */
+    border: solid 2px #ccc;
+    border-left: none;
+    border-right: none;
+    
+}
+
 hr {
     border: solid 0.5px var(--captionColorDark);
     width: 70%;
@@ -172,25 +190,36 @@ hr {
 h2 {
     margin-bottom: 0;
 }
-#instructions {
+.instructions {
     padding-inline-start: 0;
-    margin-top: 0;
+    margin: 0 auto;
 }
-#instructions li {
-    margin-top: 0.5em;
+.instructions li:not(:first-child) {
+    margin-top: var(--spacing); /* this margin makes up for not getting the gap applied like the children of #wrapper do */
 }
-#instructions li::marker {
+.instructions li::marker {
     color: var(--captionColorLight);
 }
+
+@media (prefers-color-scheme: light) {
+    .darkmode { display: none; }
+}
 @media (prefers-color-scheme: dark) {
+    html, body {
+        background: var(--kagiColorPurpleDarkmode);
+    }
     #wrapper {
         font-weight: 300;
     }
-    .caption, #instructions li::marker {
+    .caption, .instructions li::marker {
         color: var(--captionColorDark);
     }
     hr {
         border-color: var(--captionColorLight);
+    }
+    .lightmode { display: none; }
+    .instruction-animation {
+        border-color: #555;
     }
 }
 
