@@ -315,7 +315,9 @@ function captureQuery(a) {
     var b = a.host;
     b.startsWith(www) && (b = b.slice(www.length));
     b.endsWith(yahoo) && (b = yahoo);
-    if (b in builtInEngines && (a = (new URLSearchParams(a.search)).get(builtInEngines[b]))) return a;
+    const path = a.pathname;
+    var shouldBlockGoogleNonSearch = (b in googleUrls && !(path.startsWith("/search")));
+    if (b in builtInEngines && !(shouldBlockGoogleNonSearch) && (a = (new URLSearchParams(a.search)).get(builtInEngines[b]))) return a;
 }
 
 function rewriteQueryURL(a, b) {
