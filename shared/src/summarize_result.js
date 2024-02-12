@@ -49,6 +49,24 @@ async function setup() {
     }
   });
 
+  const summaryStatsElement = document.querySelector('#summary_stats');
+  if (!summaryStatsElement) {
+    console.error('Could not find summarize stats div');
+    return;
+  }
+
+  summaryStatsElement.style.display = 'none';
+
+  const summaryStatsTimeSavedElement = document.querySelector(
+    '#summary_stats_time_saved',
+  );
+  if (!summaryStatsTimeSavedElement) {
+    console.error('Could not find summarize stats time saved element');
+    return;
+  }
+
+  summaryStatsTimeSavedElement.innerText = '0 minutes';
+
   browser.runtime.onMessage.addListener(async (data) => {
     const searchParams = new URLSearchParams(window.location.search);
     const url = searchParams.get('url');
@@ -71,6 +89,13 @@ async function setup() {
 
       summaryResultElement.style.display = '';
       summaryResultElement.innerText = summaryTextContents;
+
+      if (data.timeSavedInMinutes) {
+        summaryStatsElement.style.display = '';
+        summaryStatsTimeSavedElement.innerText = `${
+          data.timeSavedInMinutes
+        } minute${data.timeSavedInMinutes !== 1 ? 's' : ''}`;
+      }
     }
   });
 
@@ -136,7 +161,7 @@ async function setup() {
     loadingElement.style.display = '';
     summaryResultElement.classList.remove('error');
     summaryResultElement.style.display = '';
-    summaryResultElement.innerHTML = 'Summarizing...';
+    summaryResultElement.innerText = 'Summarizing...';
     copySummaryElement.style.display = 'none';
     summaryTextContents = '';
 
