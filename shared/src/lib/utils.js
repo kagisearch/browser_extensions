@@ -13,6 +13,7 @@ export async function summarizeContent({
 }) {
   let summary = 'Unknown error';
   let success = false;
+  let timeSavedInMinutes = 0;
   const useApi = Boolean(
     api_token && ((api_engine && api_engine !== 'cecil') || text),
   );
@@ -75,6 +76,7 @@ export async function summarizeContent({
         }
       } else {
         summary = result?.output_text || 'Unknown error';
+        timeSavedInMinutes = result?.output_data?.word_stats?.time_saved || 0;
       }
 
       success = Boolean(result) && !Boolean(result.error);
@@ -94,6 +96,7 @@ export async function summarizeContent({
   return {
     summary,
     success,
+    timeSavedInMinutes,
   };
 }
 

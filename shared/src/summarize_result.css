@@ -49,9 +49,7 @@ h3 {
 }
 
 p {
-  width: 70%;
-  text-align: center;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 #summary_result {
@@ -87,4 +85,10 @@ p {
 #copy_summary:hover {
   background-color: #f7a808;
   border: 1px solid #d9950d;
+}
+
+#summary_stats {
+  padding: 10px;
+  font-size: 1rem;
+  line-height: 1.25rem;
 }

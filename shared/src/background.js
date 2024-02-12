@@ -74,7 +74,8 @@ async function saveToken(
 }
 
 async function summarizePage(options) {
-  const { summary, success } = await summarizeContent(options);
+  const { summary, success, timeSavedInMinutes } =
+    await summarizeContent(options);
 
   if (summary) {
     await browser.runtime.sendMessage({
@@ -82,6 +83,7 @@ async function summarizePage(options) {
       summary,
       success,
       url: options.url,
+      timeSavedInMinutes,
     });
   }
 }
