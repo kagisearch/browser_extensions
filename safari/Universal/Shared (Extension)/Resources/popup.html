@@ -8,11 +8,29 @@
     <script type="module" src="popup.js" defer></script>
 </head>
 <body>
-    <div id="con" style="font-family: Lufga">
-        <div id="content">
-            <p>The Kagi extension is enabled for <span id="currentHost">this domain</span>.</p>
-            <p><a href="#" id="open-app">Open the Kagi app</a> to update your extension settings.</p>
-       </div>
+    <div id="wrapper">
+    	<ul id="instructions">
+    		<li id="overrides">
+				<h3>Kagi searches <span class="enabledForThisDomain">enabled on:</span></h3>
+			
+				<div class="enginePermissionsGranted" id="current-overrides">
+					<details>
+						<summary>Search Engine Name</summary>
+						<ul>
+							<li>redirecting url</li>
+						</ul>
+					</details>
+				</div>
+			</li>
+    		<li id="private-browsing">
+    			<h4>Private browsing</h4>
+    			<p>To search in Private Browsing, paste the Kagi private session link in the textbox below after copying it from <a href="https://kagi.com/settings?p=user_details#sessionLink" target="_new">your Kagi account settings</a>.</p>
+    			<fieldset>
+<!-- 		        <label for="private-session-link" class=""><strong>Private session link</strong></label> -->
+		        <input type="text" id="private-session-link" placeholder="Paste private session link here" />
+			</fieldset>
+    		</li>
+    	</ul>
     </div>
 </body>
 </html>

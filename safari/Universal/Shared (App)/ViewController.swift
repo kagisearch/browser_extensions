@@ -10,16 +10,16 @@ import WebKit
 #if os(iOS)
 import UIKit
 typealias PlatformViewController = UIViewController
-typealias Image = UIImage
+typealias KImage = UIImage
 #elseif os(macOS)
 import Cocoa
 import SafariServices
 typealias PlatformViewController = NSViewController
-typealias Image = NSImage
+typealias KImage = NSImage
 #endif
 
 let macExtensionBundleIdentifier = "com.kagimacOS.Kagi-Search.Extension"
-let appWindowFrameAutosaveName = "KagiSearchForSafariWindowFrame"
+let appWindowFrameAutosaveName = "KagiForSafariWindowFrame"
 
 class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMessageHandler {
 
@@ -28,6 +28,10 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
     var cachedSize: CGSize?
     var initialSize: CGSize?
     var shouldShowStatusBar = true
+    
+    #if os(iOS)
+    var effectView: UIVisualEffectView? = nil
+    #endif
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,12 +78,50 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
     }
 #if os(iOS)
     override func viewDidAppear(_ animated: Bool) {
+        addEffectViewIfNeeded()
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        addEffectViewIfNeeded()
+        coordinator.animate { _ in
+            if let effectView = self.effectView {
+                if newCollection.horizontalSizeClass == .compact {
+                    effectView.frame.origin = CGPoint(x: 0, y: 0)
+                    effectView.alpha = 1
+                } else {
+                    effectView.frame.origin = CGPoint(x: 0, y: (-1 * effectView.bounds.height))
+                    effectView.alpha = 0
+                }
+            }
+        } completion: { _ in
+            self.addEffectViewIfNeeded(animated: true)
+        }
+        super.willTransition(to: newCollection, with: coordinator)
+    }
+    
+    private func addEffectViewIfNeeded(animated: Bool = false) {
+        guard effectView == nil else { return }
         if let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first,
-            let statusBarFrame = view.window?.windowScene?.statusBarManager?.statusBarFrame {
-            let blur = UIBlurEffect(style: .regular)
-            let effectView = UIVisualEffectView(effect: blur)
-            effectView.frame = statusBarFrame
-            view.addSubview(effectView)
+           let statusBarFrame = view.window?.windowScene?.statusBarManager?.statusBarFrame,
+           statusBarFrame.width > 0,
+           statusBarFrame.height > 0 {
+            effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+            if let effectView = effectView {
+                effectView.autoresizingMask = [.flexibleWidth]
+                if (animated) {
+                    effectView.alpha = 0;
+                    effectView.frame = statusBarFrame.offsetBy(dx: 0, dy: -(statusBarFrame.height))
+                } else {
+                    effectView.frame = statusBarFrame
+                }
+                view.addSubview(effectView)
+                if (animated) {
+                    UIView.animate(withDuration: 0.5) {
+                        effectView.alpha = 1
+                        effectView.frame = statusBarFrame
+                    }
+                }
+            }
         }
     }
 #endif
@@ -98,8 +140,7 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
         webView.evaluateJavaScript("selectCurrentEngine('\(currentEngine.name)')")
         webView.evaluateJavaScript("setCurrentPrivateSessionLink('\(currentPrivateSessionLink)')")
         
-        let iconDataString = Image(named: "LargeIcon")?.pngData()?.base64EncodedString() ?? ""
-//        let toolbarIconDataString = Image(named: "ToolbarItemIcon")?.pngData()?.base64EncodedString() ?? ""
+        let iconDataString = KImage(named: "LargeIcon")?.pngData()?.base64EncodedString() ?? ""
         webView.evaluateJavaScript("document.getElementById('icon').setAttribute('src', 'data:image/png;base64,\(iconDataString)')")
 //        webView.evaluateJavaScript("document.getElementById('toolbar-icon').setAttribute('src', 'data:image/png;base64,\(toolbarIconDataString)')")
         
@@ -180,7 +221,8 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
             }
             
             let newFrame = currentWindow.frame.insetBy(dx: ((currentWindow.frame.width - newWidth)/2), dy: ((currentWindow.frame.height - newHeight)/2))
-            currentWindow.setFrame(newFrame, display: true, animate: true)
+            currentWindow.animator().setFrame(newFrame, display: true, animate: true)
+                
             #endif
             break
         case "cache-prescreenshot-size":

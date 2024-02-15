@@ -1,96 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline' 'self';script-src *; img-src 'self' data:">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
-    <link rel="stylesheet" href="../Style.css">
-    <script src="../basicLightbox.min.js" defer></script>
-    <script src="../Script.js" defer></script>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline' 'self';script-src *; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="../Style.css">
+  <script src="../basicLightbox.min.js" defer></script>
+  <script src="../Script.js" defer></script>
+  <title></title>
 </head>
 <body>
-    <div id="wrapper">
-    	<img width="128" height="128" alt="Kagi Search for Safari Icon" id="icon">
-<!--     	<fieldset> -->
-<!--         <p class="platform-ios">You can turn on Kagi’s Safari extension in Settings. <a class="open-preferences" href="javascript:;">Open Safari Extension Settings</a>.</p> -->
-<!--         <p class="platform-mac state-unknown">You can turn on Kagi Search for Safari’s extension in Safari Extensions preferences.</p> -->
-<!--         <p class="platform-mac state-on">Kagi Search for Safari’s extension is currently on. You can turn it off in Safari Extensions preferences.</p> -->
-<!--         <p class="platform-mac state-off">Kagi Search for Safari’s extension is currently off. You can turn it on in Safari Extensions preferences.</p> -->
-<!--         <button class="platform-mac open-preferences">Open Safari Extensions Preferences…</button> -->
-<!--       </fieldset> -->
-      
-      <h2>Instructions</h2>
-      
-      <ol id="instructions">
-      	<li><strong>Enable</strong> extension in <a class="open-preferences platform-ios" href="#">Safari Extension Settings</a><span class="open-preferences platform-mac">Safari Extension Settings</span>.
-      	<a href="../enable_extension.png" class="screenshot platform-mac"><object type="image/svg+xml" data="../ScreenshotIcon.svg"></object></a>
-      	<a href="../ios_enable_extension.png" class="screenshot platform-ios"><object type="image/svg+xml" data="../ScreenshotIcon.svg"></object></a>
-      	<fieldset id="open-settings-button" class="platform-mac">
-      		<button class="open-preferences">Open Safari Extension Settings</button>
-      	</fieldset>
-      	</li>
-      	<li><strong>Enable</strong> Kagi in Private Browsing by <span class="platform-mac">checking the "Allow in Private Browsing" checkbox</span><span class="platform-ios">enabling the "Private Browsing" toggle switch</span>.
-      	<a href="../allow_private_browsing.png" class="screenshot platform-mac">
-      	<object type="image/svg+xml" data="../ScreenshotIcon.svg"></object>
-      	</a>
-      	<a href="../ios_private_browsing.png" class="screenshot platform-ios">
-      	<object type="image/svg+xml" data="../ScreenshotIcon.svg"></object>
-      	</a></li>
-      	<li>Go to Safari Settings -> Search and set <strong>default</strong> search engine to one you <strong>never</strong> use. We will use it to redirect searches to Kagi (because of Apple’s limitations).
-      	<a href="../select_safari_engine.png" class="screenshot platform-mac">
-      	<object type="image/svg+xml" data="../ScreenshotIcon.svg"></object>
-      	</a>
-      	<a href="../ios_select_safari_engine.png" class="screenshot platform-ios">
-      	<object type="image/svg+xml" data="../ScreenshotIcon.svg"></object>
-      	</a></li>
-      	<li>Select the <strong>same</strong> search engine in the dropdown here.
-      		<fieldset id="engines">
-<!-- 		        <label for="engine-select">Choose a search engine to override with Kagi</label> -->
-		        <select id="engine-select">
-		            <option id="All" value="All">All Search Engines</option>
-		            <option id="Google" value="Google">Google</option>
-		            <option id="Yahoo" value="Yahoo">Yahoo</option>
-		            <option id="Bing" value="Bing">Bing</option>
-		            <option id="DuckDuckGo" value="DuckDuckGo">DuckDuckGo</option>
-		            <option id="Ecosia" value="Ecosia">Ecosia</option>
-		            <option id="Baidu" value="Baidu">Baidu</option>
-		            <option id="Yandex" value="Yandex">Yandex</option>
-		            <option id="Sogou" value="Sogou">Sogou</option>
-		        </select>
-	        </fieldset>
-      	</li>
-      	<li>To search in Private Browsing, set the Kagi private session link in the textbox below after <strong>copying</strong> it from <a href="https://kagi.com/settings?p=user_details#sessionLink" target="_new">your Kagi account settings</a>.
-      	<a href="../private_session_link.png" class="screenshot platform-mac">
-      	<object type="image/svg+xml" data="../ScreenshotIcon.svg"></object>
-      	</a>
-      	<a href="../ios_private_session_link.png" class="screenshot platform-ios">
-      	<object type="image/svg+xml" data="../ScreenshotIcon.svg"></object>
-      	</a>
-      		<fieldset>
-<!-- 		        <label for="private-session-link" class=""><strong>Private session link</strong></label> -->
-		        <input type="text" id="private-session-link" placeholder="Paste private session link here" />
-			</fieldset>
-      	</li>
-      	<li>After your first search, click the Kagi extension icon in Safari toolbar and <strong>select</strong> "Always Allow on This Website".
-      	<a href="../grant_permissions.png" class="screenshot platform-mac">
-      	<object type="image/svg+xml" data="../ScreenshotIcon.svg"></object>
-      	</a>
-      	<a href="../ios_grant_permissions_1.png" class="screenshot platform-ios multi-image" data-images="../ios_grant_permissions_1.png,../ios_grant_permissions_2.png,../ios_grant_permissions_3.png">
-      	<object type="image/svg+xml" data="../ScreenshotIcon.svg"></object>
-      	</a></li>
-      	<li>This completes the setup. You can now search with Kagi.</li>
-      </ol>
-      
-<!--         <fieldset class="platform-mac"> -->
-<!--         <button class="sync-with-safari">Save Settings to Safari</button> -->
-<!--         <p class="caption sync-with-safari">Syncing will open Safari if not already opened</p> -->
-<!--         </fieldset> -->
-        <hr />
-        <p>
-        Sorry that Apple made this so complicated. We even started building an entire WebKit browser called <a href="https://browser.kagi.com/" target="_new">Orion</a> to make it easier to use Kagi on Mac. We’d appreciate if you gave it a try.
-        </p>
-        </div>
+  <div id="wrapper">
+    <img width="128" height="128" alt="Kagi Search for Safari Icon" id="icon">
+    <h2>Instructions</h2>
+    <ol class="instructions">
+      <li>
+        <strong>Enable</strong> extension in <a class="open-preferences platform-ios" href="#">Safari Extension Settings</a><span class="open-preferences platform-mac">Safari Extension Settings</span>.
+        <a href="../enable_extension.png" class="screenshot platform-mac"><object type="image/svg+xml" data="../ScreenshotIcon.svg"></object></a>
+        <fieldset id="open-settings-button" class="platform-mac">
+          <button class="open-preferences">Open Safari Extension Settings</button>
+        </fieldset>
+      </li>
+    </ol>
+    <img class="platform-ios instruction-animation lightmode" src="../Settings_Animation_light.gif" />
+    <img class="platform-ios instruction-animation darkmode" src="../Settings_Animation_dark.gif" />
+    <ol class="instructions" start="2">
+        <li>After your first search, click the Kagi extension icon in Safari's toolbar and <strong>select</strong> "Always Allow on This Website".
+            <a href="../grant_permissions.png" class="screenshot platform-mac"><object type="image/svg+xml" data="../ScreenshotIcon.svg"></object></a>
+        </li>
+    </ol>
+    <img class="platform-ios instruction-animation lightmode" src="../Grant_Permissions_Animation_light.gif" />
+    <img class="platform-ios instruction-animation darkmode" src="../Grant_Permissions_Animation_dark.gif" />
+    <ol class="instructions" start="3">
+      <li>
+        <strong>To enable</strong> Kagi in Private Browsing, <span class="platform-mac">check the "Allow in Private Browsing" checkbox</span><span class="platform-ios">enable the "Private Browsing" toggle switch</span>. Then copy your Kagi private session link from <a href="https://kagi.com/settings?p=user_details#sessionLink" target="_new">your Kagi account settings</a> into the extension popup.
+        <a href="../allow_private_browsing.png" class="screenshot platform-mac"><object type="image/svg+xml" data="../ScreenshotIcon.svg"></object></a>
+      </li>
+      <li>This completes the setup. You can now search with Kagi.</li>
+    </ol>
+    <hr>
+    <p>Sorry that Apple made this so complicated. We even started building an entire WebKit browser called <a href="https://browser.kagi.com/" target="_new">Orion</a> to make it easier to use Kagi on Mac. We’d appreciate if you gave it a try.</p>
+  </div>
 </body>
 </html>

@@ -23,6 +23,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Override point for customization after application launch.
     }
+    
+    func application(_ application: NSApplication, open urls: [URL]) {
+        if let url = urls.first {
+            Deeplinks.handleIncomingURL(url)
+        }
+    }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true

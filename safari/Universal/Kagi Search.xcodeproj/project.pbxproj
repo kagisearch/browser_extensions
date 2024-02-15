@@ -12,41 +12,13 @@
 		3E1A513C2B180CBE0010A4C4 /* UpgradeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1A513A2B180B890010A4C4 /* UpgradeChecker.swift */; };
 		3E9DF5082B3E3E70005DF2C3 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D55B2B0DE720009DDDAD /* manifest.json */; };
 		3E9DF5092B3E3E71005DF2C3 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D55B2B0DE720009DDDAD /* manifest.json */; };
-		3E9DF50A2B3E3E72005DF2C3 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D55B2B0DE720009DDDAD /* manifest.json */; };
+		3EB8FA422B61F6740052E8D4 /* Deeplinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB8FA412B61F6740052E8D4 /* Deeplinks.swift */; };
+		3EB8FA432B61F6740052E8D4 /* Deeplinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB8FA412B61F6740052E8D4 /* Deeplinks.swift */; };
+		3EB8FA472B6231DC0052E8D4 /* Settings_Animation_dark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3EB8FA452B6231DB0052E8D4 /* Settings_Animation_dark.gif */; };
+		3EB8FA482B6231DC0052E8D4 /* Settings_Animation_light.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3EB8FA462B6231DB0052E8D4 /* Settings_Animation_light.gif */; };
+		3EB8FA4B2B6247F50052E8D4 /* Grant_Permissions_Animation_dark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3EB8FA492B6247F50052E8D4 /* Grant_Permissions_Animation_dark.gif */; };
+		3EB8FA4C2B6247F50052E8D4 /* Grant_Permissions_Animation_light.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3EB8FA4A2B6247F50052E8D4 /* Grant_Permissions_Animation_light.gif */; };
 		3EC41D242B21B587009B17FE /* macOS Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EC41D232B21B587009B17FE /* macOS Assets.xcassets */; };
-		3EC772302B2C48CE00E40354 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D52B2B0DE707009DDDAD /* ViewController.swift */; };
-		3EC772312B2C48CE00E40354 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D50A2B0DE6CC009DDDAD /* AppDelegate.swift */; };
-		3EC772322B2C48CE00E40354 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D5532B0DE720009DDDAD /* Preferences.swift */; };
-		3EC772332B2C48CE00E40354 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D50B2B0DE6CC009DDDAD /* SceneDelegate.swift */; };
-		3EC772362B2C48CE00E40354 /* ios_enable_extension.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5222B0DE706009DDDAD /* ios_enable_extension.png */; };
-		3EC772372B2C48CE00E40354 /* ios_private_browsing.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51C2B0DE706009DDDAD /* ios_private_browsing.png */; };
-		3EC772382B2C48CE00E40354 /* basicLightbox.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5192B0DE706009DDDAD /* basicLightbox.min.js */; };
-		3EC772392B2C48CE00E40354 /* grant_permissions.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51E2B0DE706009DDDAD /* grant_permissions.png */; };
-		3EC7723A2B2C48CE00E40354 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D52A2B0DE707009DDDAD /* Assets.xcassets */; };
-		3EC7723B2B2C48CE00E40354 /* ios_private_session_link.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5172B0DE706009DDDAD /* ios_private_session_link.png */; };
-		3EC7723C2B2C48CE00E40354 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51D2B0DE706009DDDAD /* Script.js */; };
-		3EC7723D2B2C48CE00E40354 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5212B0DE706009DDDAD /* Style.css */; };
-		3EC7723E2B2C48CE00E40354 /* enable_extension.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51B2B0DE706009DDDAD /* enable_extension.png */; };
-		3EC7723F2B2C48CE00E40354 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D50F2B0DE6CC009DDDAD /* Main.storyboard */; };
-		3EC772402B2C48CE00E40354 /* ios_grant_permissions_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51F2B0DE706009DDDAD /* ios_grant_permissions_2.png */; };
-		3EC772412B2C48CE00E40354 /* allow_private_browsing.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5242B0DE706009DDDAD /* allow_private_browsing.png */; };
-		3EC772422B2C48CE00E40354 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D50D2B0DE6CC009DDDAD /* LaunchScreen.storyboard */; };
-		3EC772432B2C48CE00E40354 /* ios_select_safari_engine.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5262B0DE706009DDDAD /* ios_select_safari_engine.png */; };
-		3EC772442B2C48CE00E40354 /* select_safari_engine.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5252B0DE706009DDDAD /* select_safari_engine.png */; };
-		3EC772452B2C48CE00E40354 /* ScreenshotIcon.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51A2B0DE706009DDDAD /* ScreenshotIcon.svg */; };
-		3EC772462B2C48CE00E40354 /* private_session_link.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5182B0DE706009DDDAD /* private_session_link.png */; };
-		3EC772472B2C48CE00E40354 /* ios_grant_permissions_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5202B0DE706009DDDAD /* ios_grant_permissions_3.png */; };
-		3EC772482B2C48CE00E40354 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5872B0DF6BC009DDDAD /* Main.html */; };
-		3EC772492B2C48CE00E40354 /* ios_grant_permissions_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5232B0DE706009DDDAD /* ios_grant_permissions_1.png */; };
-		3EC772532B2C492F00E40354 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D5532B0DE720009DDDAD /* Preferences.swift */; };
-		3EC772542B2C492F00E40354 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D5522B0DE720009DDDAD /* SafariWebExtensionHandler.swift */; };
-		3EC772572B2C492F00E40354 /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D55C2B0DE720009DDDAD /* popup.css */; };
-		3EC772582B2C492F00E40354 /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D58D2B0DFC34009DDDAD /* _locales */; };
-		3EC772592B2C492F00E40354 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D55A2B0DE720009DDDAD /* popup.html */; };
-		3EC7725A2B2C492F00E40354 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5562B0DE720009DDDAD /* background.js */; };
-		3EC7725C2B2C492F00E40354 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5902B0DFC81009DDDAD /* images */; };
-		3EC7725D2B2C492F00E40354 /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5552B0DE720009DDDAD /* popup.js */; };
-		3EC772632B2C4F8A00E40354 /* Kagi Search Extension iOS Legacy.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3EC772612B2C492F00E40354 /* Kagi Search Extension iOS Legacy.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3ED5D4C52B0DE2BD009DDDAD /* Kagi Search Extension macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3ED5D4AC2B0DE2BD009DDDAD /* Kagi Search Extension macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3ED5D4E82B0DE3AF009DDDAD /* Kagi_Search__iOS_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D4E72B0DE3AF009DDDAD /* Kagi_Search__iOS_Tests.swift */; };
 		3ED5D4F22B0DE3AF009DDDAD /* Kagi_Search__iOS_UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D4F12B0DE3AF009DDDAD /* Kagi_Search__iOS_UITests.swift */; };
@@ -59,8 +31,6 @@
 		3ED5D5132B0DE6CC009DDDAD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D50B2B0DE6CC009DDDAD /* SceneDelegate.swift */; };
 		3ED5D5142B0DE6CC009DDDAD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D50D2B0DE6CC009DDDAD /* LaunchScreen.storyboard */; };
 		3ED5D5152B0DE6CC009DDDAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D50F2B0DE6CC009DDDAD /* Main.storyboard */; };
-		3ED5D52C2B0DE707009DDDAD /* ios_private_session_link.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5172B0DE706009DDDAD /* ios_private_session_link.png */; };
-		3ED5D52D2B0DE707009DDDAD /* ios_private_session_link.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5172B0DE706009DDDAD /* ios_private_session_link.png */; };
 		3ED5D52E2B0DE707009DDDAD /* private_session_link.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5182B0DE706009DDDAD /* private_session_link.png */; };
 		3ED5D52F2B0DE707009DDDAD /* private_session_link.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5182B0DE706009DDDAD /* private_session_link.png */; };
 		3ED5D5302B0DE707009DDDAD /* basicLightbox.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5192B0DE706009DDDAD /* basicLightbox.min.js */; };
@@ -69,28 +39,16 @@
 		3ED5D5332B0DE707009DDDAD /* ScreenshotIcon.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51A2B0DE706009DDDAD /* ScreenshotIcon.svg */; };
 		3ED5D5342B0DE707009DDDAD /* enable_extension.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51B2B0DE706009DDDAD /* enable_extension.png */; };
 		3ED5D5352B0DE707009DDDAD /* enable_extension.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51B2B0DE706009DDDAD /* enable_extension.png */; };
-		3ED5D5362B0DE707009DDDAD /* ios_private_browsing.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51C2B0DE706009DDDAD /* ios_private_browsing.png */; };
-		3ED5D5372B0DE707009DDDAD /* ios_private_browsing.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51C2B0DE706009DDDAD /* ios_private_browsing.png */; };
 		3ED5D5382B0DE707009DDDAD /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51D2B0DE706009DDDAD /* Script.js */; };
 		3ED5D5392B0DE707009DDDAD /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51D2B0DE706009DDDAD /* Script.js */; };
 		3ED5D53A2B0DE707009DDDAD /* grant_permissions.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51E2B0DE706009DDDAD /* grant_permissions.png */; };
 		3ED5D53B2B0DE707009DDDAD /* grant_permissions.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51E2B0DE706009DDDAD /* grant_permissions.png */; };
-		3ED5D53C2B0DE707009DDDAD /* ios_grant_permissions_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51F2B0DE706009DDDAD /* ios_grant_permissions_2.png */; };
-		3ED5D53D2B0DE707009DDDAD /* ios_grant_permissions_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D51F2B0DE706009DDDAD /* ios_grant_permissions_2.png */; };
-		3ED5D53E2B0DE707009DDDAD /* ios_grant_permissions_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5202B0DE706009DDDAD /* ios_grant_permissions_3.png */; };
-		3ED5D53F2B0DE707009DDDAD /* ios_grant_permissions_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5202B0DE706009DDDAD /* ios_grant_permissions_3.png */; };
 		3ED5D5402B0DE707009DDDAD /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5212B0DE706009DDDAD /* Style.css */; };
 		3ED5D5412B0DE707009DDDAD /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5212B0DE706009DDDAD /* Style.css */; };
-		3ED5D5422B0DE707009DDDAD /* ios_enable_extension.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5222B0DE706009DDDAD /* ios_enable_extension.png */; };
-		3ED5D5432B0DE707009DDDAD /* ios_enable_extension.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5222B0DE706009DDDAD /* ios_enable_extension.png */; };
-		3ED5D5442B0DE707009DDDAD /* ios_grant_permissions_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5232B0DE706009DDDAD /* ios_grant_permissions_1.png */; };
-		3ED5D5452B0DE707009DDDAD /* ios_grant_permissions_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5232B0DE706009DDDAD /* ios_grant_permissions_1.png */; };
 		3ED5D5462B0DE707009DDDAD /* allow_private_browsing.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5242B0DE706009DDDAD /* allow_private_browsing.png */; };
 		3ED5D5472B0DE707009DDDAD /* allow_private_browsing.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5242B0DE706009DDDAD /* allow_private_browsing.png */; };
 		3ED5D5482B0DE707009DDDAD /* select_safari_engine.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5252B0DE706009DDDAD /* select_safari_engine.png */; };
 		3ED5D5492B0DE707009DDDAD /* select_safari_engine.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5252B0DE706009DDDAD /* select_safari_engine.png */; };
-		3ED5D54A2B0DE707009DDDAD /* ios_select_safari_engine.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5262B0DE706009DDDAD /* ios_select_safari_engine.png */; };
-		3ED5D54B2B0DE707009DDDAD /* ios_select_safari_engine.png in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5262B0DE706009DDDAD /* ios_select_safari_engine.png */; };
 		3ED5D54E2B0DE707009DDDAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D52A2B0DE707009DDDAD /* Assets.xcassets */; };
 		3ED5D54F2B0DE707009DDDAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D52A2B0DE707009DDDAD /* Assets.xcassets */; };
 		3ED5D5502B0DE707009DDDAD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED5D52B2B0DE707009DDDAD /* ViewController.swift */; };
@@ -124,13 +82,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 3ED5D48E2B0DE087009DDDAD;
 			remoteInfo = "Kagi Search Extension iOS";
-		};
-		3EC772642B2C4F8A00E40354 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C31E69152823DD4E00B1491B /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3EC772512B2C492F00E40354;
-			remoteInfo = "Kagi Search Extension iOS (Legacy)";
 		};
 		3ED5D4C32B0DE2BD009DDDAD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -167,17 +118,6 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3EC7724A2B2C48CE00E40354 /* Embed Foundation Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				3EC772632B2C4F8A00E40354 /* Kagi Search Extension iOS Legacy.appex in Embed Foundation Extensions */,
-			);
-			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C31E69512823DD4F00B1491B /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,10 +133,13 @@
 
 /* Begin PBXFileReference section */
 		3E1A513A2B180B890010A4C4 /* UpgradeChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeChecker.swift; sourceTree = "<group>"; };
+		3EB8FA412B61F6740052E8D4 /* Deeplinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deeplinks.swift; sourceTree = "<group>"; };
+		3EB8FA452B6231DB0052E8D4 /* Settings_Animation_dark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Settings_Animation_dark.gif; sourceTree = "<group>"; };
+		3EB8FA462B6231DB0052E8D4 /* Settings_Animation_light.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Settings_Animation_light.gif; sourceTree = "<group>"; };
+		3EB8FA492B6247F50052E8D4 /* Grant_Permissions_Animation_dark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Grant_Permissions_Animation_dark.gif; sourceTree = "<group>"; };
+		3EB8FA4A2B6247F50052E8D4 /* Grant_Permissions_Animation_light.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Grant_Permissions_Animation_light.gif; sourceTree = "<group>"; };
 		3EC41D232B21B587009B17FE /* macOS Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "macOS Assets.xcassets"; sourceTree = "<group>"; };
-		3EC7724F2B2C48CE00E40354 /* Kagi Search iOS Legacy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kagi Search iOS Legacy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC772502B2C48CE00E40354 /* Kagi Search iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Kagi Search iOS copy-Info.plist"; path = "/Users/nano/Kagi/kagi-for-safari-macos/Kagi Search iOS copy-Info.plist"; sourceTree = "<absolute>"; };
-		3EC772612B2C492F00E40354 /* Kagi Search Extension iOS Legacy.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Kagi Search Extension iOS Legacy.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC772622B2C492F00E40354 /* Kagi Search Extension iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Kagi Search Extension iOS copy-Info.plist"; path = "/Users/nano/Kagi/kagi-for-safari-macos/Kagi Search Extension iOS copy-Info.plist"; sourceTree = "<absolute>"; };
 		3EC772662B2F904200E40354 /* Kagi-Search-macOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Kagi-Search-macOS-Info.plist"; sourceTree = "<group>"; };
 		3ED5D48F2B0DE087009DDDAD /* Kagi Search Extension iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Kagi Search Extension iOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,22 +161,15 @@
 		3ED5D50B2B0DE6CC009DDDAD /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3ED5D50E2B0DE6CC009DDDAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3ED5D5102B0DE6CC009DDDAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
-		3ED5D5172B0DE706009DDDAD /* ios_private_session_link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_private_session_link.png; sourceTree = "<group>"; };
 		3ED5D5182B0DE706009DDDAD /* private_session_link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = private_session_link.png; sourceTree = "<group>"; };
 		3ED5D5192B0DE706009DDDAD /* basicLightbox.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = basicLightbox.min.js; sourceTree = "<group>"; };
 		3ED5D51A2B0DE706009DDDAD /* ScreenshotIcon.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ScreenshotIcon.svg; sourceTree = "<group>"; };
 		3ED5D51B2B0DE706009DDDAD /* enable_extension.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enable_extension.png; sourceTree = "<group>"; };
-		3ED5D51C2B0DE706009DDDAD /* ios_private_browsing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_private_browsing.png; sourceTree = "<group>"; };
 		3ED5D51D2B0DE706009DDDAD /* Script.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
 		3ED5D51E2B0DE706009DDDAD /* grant_permissions.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grant_permissions.png; sourceTree = "<group>"; };
-		3ED5D51F2B0DE706009DDDAD /* ios_grant_permissions_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_grant_permissions_2.png; sourceTree = "<group>"; };
-		3ED5D5202B0DE706009DDDAD /* ios_grant_permissions_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_grant_permissions_3.png; sourceTree = "<group>"; };
 		3ED5D5212B0DE706009DDDAD /* Style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
-		3ED5D5222B0DE706009DDDAD /* ios_enable_extension.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_enable_extension.png; sourceTree = "<group>"; };
-		3ED5D5232B0DE706009DDDAD /* ios_grant_permissions_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_grant_permissions_1.png; sourceTree = "<group>"; };
 		3ED5D5242B0DE706009DDDAD /* allow_private_browsing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = allow_private_browsing.png; sourceTree = "<group>"; };
 		3ED5D5252B0DE706009DDDAD /* select_safari_engine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = select_safari_engine.png; sourceTree = "<group>"; };
-		3ED5D5262B0DE706009DDDAD /* ios_select_safari_engine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_select_safari_engine.png; sourceTree = "<group>"; };
 		3ED5D52A2B0DE707009DDDAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3ED5D52B2B0DE707009DDDAD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3ED5D5522B0DE720009DDDAD /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
@@ -250,25 +186,11 @@
 		3ED5D5882B0DF6BC009DDDAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = "Shared (App)/Base.lproj/Main.html"; sourceTree = SOURCE_ROOT; };
 		3ED5D58D2B0DFC34009DDDAD /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; path = _locales; sourceTree = "<group>"; };
 		3ED5D5902B0DFC81009DDDAD /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
-		C31E691D2823DD4E00B1491B /* Kagi Search for Safari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kagi Search for Safari.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C31E691D2823DD4E00B1491B /* Kagi for Safari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kagi for Safari.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MainConfig.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3EC772342B2C48CE00E40354 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3EC772552B2C492F00E40354 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3ED5D48C2B0DE087009DDDAD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -321,6 +243,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3EB8FA442B62301B0052E8D4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3EB8FA492B6247F50052E8D4 /* Grant_Permissions_Animation_dark.gif */,
+				3EB8FA4A2B6247F50052E8D4 /* Grant_Permissions_Animation_light.gif */,
+				3EB8FA452B6231DB0052E8D4 /* Settings_Animation_dark.gif */,
+				3EB8FA462B6231DB0052E8D4 /* Settings_Animation_light.gif */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		3ED5D4902B0DE087009DDDAD /* Shared (Extension) */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +270,7 @@
 				3ED5D5802B0DE858009DDDAD /* Kagi Search (iOS).entitlements */,
 				3ED5D50A2B0DE6CC009DDDAD /* AppDelegate.swift */,
 				3ED5D50C2B0DE6CC009DDDAD /* Base.lproj */,
+				3EB8FA442B62301B0052E8D4 /* Resources */,
 				3ED5D5092B0DE6CC009DDDAD /* Info.plist */,
 				3ED5D50B2B0DE6CC009DDDAD /* SceneDelegate.swift */,
 			);
@@ -386,22 +320,15 @@
 			isa = PBXGroup;
 			children = (
 				3ED5D5872B0DF6BC009DDDAD /* Main.html */,
-				3ED5D5172B0DE706009DDDAD /* ios_private_session_link.png */,
 				3ED5D5182B0DE706009DDDAD /* private_session_link.png */,
 				3ED5D5192B0DE706009DDDAD /* basicLightbox.min.js */,
 				3ED5D51A2B0DE706009DDDAD /* ScreenshotIcon.svg */,
 				3ED5D51B2B0DE706009DDDAD /* enable_extension.png */,
-				3ED5D51C2B0DE706009DDDAD /* ios_private_browsing.png */,
 				3ED5D51D2B0DE706009DDDAD /* Script.js */,
 				3ED5D51E2B0DE706009DDDAD /* grant_permissions.png */,
-				3ED5D51F2B0DE706009DDDAD /* ios_grant_permissions_2.png */,
-				3ED5D5202B0DE706009DDDAD /* ios_grant_permissions_3.png */,
 				3ED5D5212B0DE706009DDDAD /* Style.css */,
-				3ED5D5222B0DE706009DDDAD /* ios_enable_extension.png */,
-				3ED5D5232B0DE706009DDDAD /* ios_grant_permissions_1.png */,
 				3ED5D5242B0DE706009DDDAD /* allow_private_browsing.png */,
 				3ED5D5252B0DE706009DDDAD /* select_safari_engine.png */,
-				3ED5D5262B0DE706009DDDAD /* ios_select_safari_engine.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -462,14 +389,12 @@
 		C31E691E2823DD4E00B1491B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C31E691D2823DD4E00B1491B /* Kagi Search for Safari.app */,
+				C31E691D2823DD4E00B1491B /* Kagi for Safari.app */,
 				3ED5D48F2B0DE087009DDDAD /* Kagi Search Extension iOS.appex */,
 				3ED5D4AC2B0DE2BD009DDDAD /* Kagi Search Extension macOS.appex */,
 				3ED5D4CE2B0DE3AD009DDDAD /* Kagi Search iOS.app */,
 				3ED5D4E32B0DE3AF009DDDAD /* Kagi Search (iOS) Tests.xctest */,
 				3ED5D4ED2B0DE3AF009DDDAD /* Kagi Search (iOS) UITests.xctest */,
-				3EC7724F2B2C48CE00E40354 /* Kagi Search iOS Legacy.app */,
-				3EC772612B2C492F00E40354 /* Kagi Search Extension iOS Legacy.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -479,6 +404,7 @@
 			children = (
 				3ED5D52A2B0DE707009DDDAD /* Assets.xcassets */,
 				3ED5D5162B0DE706009DDDAD /* Resources */,
+				3EB8FA412B61F6740052E8D4 /* Deeplinks.swift */,
 				3ED5D52B2B0DE707009DDDAD /* ViewController.swift */,
 			);
 			path = "Shared (App)";
@@ -487,42 +413,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3EC7722C2B2C48CE00E40354 /* Kagi Search iOS Legacy */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3EC7724C2B2C48CE00E40354 /* Build configuration list for PBXNativeTarget "Kagi Search iOS Legacy" */;
-			buildPhases = (
-				3EC7722F2B2C48CE00E40354 /* Sources */,
-				3EC772342B2C48CE00E40354 /* Frameworks */,
-				3EC772352B2C48CE00E40354 /* Resources */,
-				3EC7724A2B2C48CE00E40354 /* Embed Foundation Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3EC772652B2C4F8A00E40354 /* PBXTargetDependency */,
-			);
-			name = "Kagi Search iOS Legacy";
-			productName = "Kagi Search (iOS)";
-			productReference = 3EC7724F2B2C48CE00E40354 /* Kagi Search iOS Legacy.app */;
-			productType = "com.apple.product-type.application";
-		};
-		3EC772512B2C492F00E40354 /* Kagi Search Extension iOS Legacy */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3EC7725E2B2C492F00E40354 /* Build configuration list for PBXNativeTarget "Kagi Search Extension iOS Legacy" */;
-			buildPhases = (
-				3EC772522B2C492F00E40354 /* Sources */,
-				3EC772552B2C492F00E40354 /* Frameworks */,
-				3EC772562B2C492F00E40354 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Kagi Search Extension iOS Legacy";
-			productName = "Kagi Search for Safari";
-			productReference = 3EC772612B2C492F00E40354 /* Kagi Search Extension iOS Legacy.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		3ED5D48E2B0DE087009DDDAD /* Kagi Search Extension iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3ED5D4A72B0DE087009DDDAD /* Build configuration list for PBXNativeTarget "Kagi Search Extension iOS" */;
@@ -628,7 +518,7 @@
 			);
 			name = "Kagi Search macOS";
 			productName = "Kagi Search";
-			productReference = C31E691D2823DD4E00B1491B /* Kagi Search for Safari.app */;
+			productReference = C31E691D2823DD4E00B1491B /* Kagi for Safari.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -685,54 +575,11 @@
 				3ED5D4AB2B0DE2BD009DDDAD /* Kagi Search Extension macOS */,
 				3ED5D4E22B0DE3AF009DDDAD /* Kagi Search (iOS) Tests */,
 				3ED5D4EC2B0DE3AF009DDDAD /* Kagi Search (iOS) UITests */,
-				3EC7722C2B2C48CE00E40354 /* Kagi Search iOS Legacy */,
-				3EC772512B2C492F00E40354 /* Kagi Search Extension iOS Legacy */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		3EC772352B2C48CE00E40354 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3EC772362B2C48CE00E40354 /* ios_enable_extension.png in Resources */,
-				3EC772372B2C48CE00E40354 /* ios_private_browsing.png in Resources */,
-				3EC772382B2C48CE00E40354 /* basicLightbox.min.js in Resources */,
-				3EC772392B2C48CE00E40354 /* grant_permissions.png in Resources */,
-				3EC7723A2B2C48CE00E40354 /* Assets.xcassets in Resources */,
-				3EC7723B2B2C48CE00E40354 /* ios_private_session_link.png in Resources */,
-				3EC7723C2B2C48CE00E40354 /* Script.js in Resources */,
-				3EC7723D2B2C48CE00E40354 /* Style.css in Resources */,
-				3EC7723E2B2C48CE00E40354 /* enable_extension.png in Resources */,
-				3EC7723F2B2C48CE00E40354 /* Main.storyboard in Resources */,
-				3EC772402B2C48CE00E40354 /* ios_grant_permissions_2.png in Resources */,
-				3EC772412B2C48CE00E40354 /* allow_private_browsing.png in Resources */,
-				3EC772422B2C48CE00E40354 /* LaunchScreen.storyboard in Resources */,
-				3EC772432B2C48CE00E40354 /* ios_select_safari_engine.png in Resources */,
-				3EC772442B2C48CE00E40354 /* select_safari_engine.png in Resources */,
-				3EC772452B2C48CE00E40354 /* ScreenshotIcon.svg in Resources */,
-				3EC772462B2C48CE00E40354 /* private_session_link.png in Resources */,
-				3EC772472B2C48CE00E40354 /* ios_grant_permissions_3.png in Resources */,
-				3EC772482B2C48CE00E40354 /* Main.html in Resources */,
-				3EC772492B2C48CE00E40354 /* ios_grant_permissions_1.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3EC772562B2C492F00E40354 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3EC772572B2C492F00E40354 /* popup.css in Resources */,
-				3E9DF50A2B3E3E72005DF2C3 /* manifest.json in Resources */,
-				3EC772582B2C492F00E40354 /* _locales in Resources */,
-				3EC772592B2C492F00E40354 /* popup.html in Resources */,
-				3EC7725A2B2C492F00E40354 /* background.js in Resources */,
-				3EC7725C2B2C492F00E40354 /* images in Resources */,
-				3EC7725D2B2C492F00E40354 /* popup.js in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3ED5D48D2B0DE087009DDDAD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -765,26 +612,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3ED5D5432B0DE707009DDDAD /* ios_enable_extension.png in Resources */,
-				3ED5D5372B0DE707009DDDAD /* ios_private_browsing.png in Resources */,
 				3ED5D5312B0DE707009DDDAD /* basicLightbox.min.js in Resources */,
+				3EB8FA472B6231DC0052E8D4 /* Settings_Animation_dark.gif in Resources */,
 				3ED5D53B2B0DE707009DDDAD /* grant_permissions.png in Resources */,
 				3ED5D54F2B0DE707009DDDAD /* Assets.xcassets in Resources */,
-				3ED5D52D2B0DE707009DDDAD /* ios_private_session_link.png in Resources */,
+				3EB8FA4B2B6247F50052E8D4 /* Grant_Permissions_Animation_dark.gif in Resources */,
 				3ED5D5392B0DE707009DDDAD /* Script.js in Resources */,
 				3ED5D5412B0DE707009DDDAD /* Style.css in Resources */,
 				3ED5D5352B0DE707009DDDAD /* enable_extension.png in Resources */,
 				3ED5D5152B0DE6CC009DDDAD /* Main.storyboard in Resources */,
-				3ED5D53D2B0DE707009DDDAD /* ios_grant_permissions_2.png in Resources */,
 				3ED5D5472B0DE707009DDDAD /* allow_private_browsing.png in Resources */,
+				3EB8FA4C2B6247F50052E8D4 /* Grant_Permissions_Animation_light.gif in Resources */,
 				3ED5D5142B0DE6CC009DDDAD /* LaunchScreen.storyboard in Resources */,
-				3ED5D54B2B0DE707009DDDAD /* ios_select_safari_engine.png in Resources */,
 				3ED5D5492B0DE707009DDDAD /* select_safari_engine.png in Resources */,
 				3ED5D5332B0DE707009DDDAD /* ScreenshotIcon.svg in Resources */,
+				3EB8FA482B6231DC0052E8D4 /* Settings_Animation_light.gif in Resources */,
 				3ED5D52F2B0DE707009DDDAD /* private_session_link.png in Resources */,
-				3ED5D53F2B0DE707009DDDAD /* ios_grant_permissions_3.png in Resources */,
 				3ED5D58A2B0DF6BC009DDDAD /* Main.html in Resources */,
-				3ED5D5452B0DE707009DDDAD /* ios_grant_permissions_1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,24 +651,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				3ED5D5462B0DE707009DDDAD /* allow_private_browsing.png in Resources */,
-				3ED5D54A2B0DE707009DDDAD /* ios_select_safari_engine.png in Resources */,
 				3ED5D5402B0DE707009DDDAD /* Style.css in Resources */,
 				3ED5D5062B0DE6A5009DDDAD /* Main.storyboard in Resources */,
-				3ED5D5362B0DE707009DDDAD /* ios_private_browsing.png in Resources */,
 				3ED5D52E2B0DE707009DDDAD /* private_session_link.png in Resources */,
 				3ED5D5302B0DE707009DDDAD /* basicLightbox.min.js in Resources */,
-				3ED5D53E2B0DE707009DDDAD /* ios_grant_permissions_3.png in Resources */,
 				3ED5D5342B0DE707009DDDAD /* enable_extension.png in Resources */,
 				3ED5D5482B0DE707009DDDAD /* select_safari_engine.png in Resources */,
-				3ED5D5422B0DE707009DDDAD /* ios_enable_extension.png in Resources */,
 				3ED5D5382B0DE707009DDDAD /* Script.js in Resources */,
 				3EC41D242B21B587009B17FE /* macOS Assets.xcassets in Resources */,
 				3ED5D5892B0DF6BC009DDDAD /* Main.html in Resources */,
 				3ED5D54E2B0DE707009DDDAD /* Assets.xcassets in Resources */,
 				3ED5D53A2B0DE707009DDDAD /* grant_permissions.png in Resources */,
-				3ED5D5442B0DE707009DDDAD /* ios_grant_permissions_1.png in Resources */,
-				3ED5D53C2B0DE707009DDDAD /* ios_grant_permissions_2.png in Resources */,
-				3ED5D52C2B0DE707009DDDAD /* ios_private_session_link.png in Resources */,
 				3ED5D5322B0DE707009DDDAD /* ScreenshotIcon.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -832,26 +669,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3EC7722F2B2C48CE00E40354 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3EC772302B2C48CE00E40354 /* ViewController.swift in Sources */,
-				3EC772312B2C48CE00E40354 /* AppDelegate.swift in Sources */,
-				3EC772322B2C48CE00E40354 /* Preferences.swift in Sources */,
-				3EC772332B2C48CE00E40354 /* SceneDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3EC772522B2C492F00E40354 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3EC772532B2C492F00E40354 /* Preferences.swift in Sources */,
-				3EC772542B2C492F00E40354 /* SafariWebExtensionHandler.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3ED5D48B2B0DE087009DDDAD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -876,6 +693,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3ED5D5512B0DE707009DDDAD /* ViewController.swift in Sources */,
+				3EB8FA432B61F6740052E8D4 /* Deeplinks.swift in Sources */,
 				3ED5D5122B0DE6CC009DDDAD /* AppDelegate.swift in Sources */,
 				3ED5D58C2B0DF6E9009DDDAD /* Preferences.swift in Sources */,
 				3ED5D5132B0DE6CC009DDDAD /* SceneDelegate.swift in Sources */,
@@ -904,6 +722,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3ED5D5072B0DE6A5009DDDAD /* AppDelegate.swift in Sources */,
+				3EB8FA422B61F6740052E8D4 /* Deeplinks.swift in Sources */,
 				3ED5D5082B0DE6A5009DDDAD /* NSImage+Helpers.swift in Sources */,
 				3ED5D58B2B0DF6E8009DDDAD /* Preferences.swift in Sources */,
 				3ED5D5502B0DE707009DDDAD /* ViewController.swift in Sources */,
@@ -919,11 +738,6 @@
 			isa = PBXTargetDependency;
 			target = 3ED5D48E2B0DE087009DDDAD /* Kagi Search Extension iOS */;
 			targetProxy = 3E1A51372B1734B70010A4C4 /* PBXContainerItemProxy */;
-		};
-		3EC772652B2C4F8A00E40354 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3EC772512B2C492F00E40354 /* Kagi Search Extension iOS Legacy */;
-			targetProxy = 3EC772642B2C4F8A00E40354 /* PBXContainerItemProxy */;
 		};
 		3ED5D4C42B0DE2BD009DDDAD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -978,178 +792,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		3EC7724D2B2C48CE00E40354 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "Kagi Search (iOS)/Kagi Search (iOS).entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
-				DEVELOPMENT_TEAM = TFVG979488;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Kagi Search iOS copy-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Kagi;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = "$(MARKETING_VERSION)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kagi.searchExtensionContainer;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		3EC7724E2B2C48CE00E40354 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "Kagi Search (iOS)/Kagi Search (iOS).entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
-				DEVELOPMENT_TEAM = TFVG979488;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Kagi Search iOS copy-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Kagi;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = "$(MARKETING_VERSION)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kagi.searchExtensionContainer;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		3EC7725F2B2C492F00E40354 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "iOS (Extension)/Kagi Search Extension (iOS).entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
-				DEVELOPMENT_TEAM = TFVG979488;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Kagi Search Extension iOS copy-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Kagi Search for Safari Extension";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = "$(MARKETING_VERSION)";
-				OTHER_LDFLAGS = (
-					"-framework",
-					SafariServices,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kagi.searchExtensionContainer.extension;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		3EC772602B2C492F00E40354 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "iOS (Extension)/Kagi Search Extension (iOS).entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
-				DEVELOPMENT_TEAM = TFVG979488;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Kagi Search Extension iOS copy-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Kagi Search for Safari Extension";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = "$(MARKETING_VERSION)";
-				OTHER_LDFLAGS = (
-					"-framework",
-					SafariServices,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kagi.searchExtensionContainer.extension;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		3ED5D4A52B0DE087009DDDAD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1329,7 +971,8 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kagi Search (iOS)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Kagi;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi for Safari";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1372,7 +1015,8 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kagi Search (iOS)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Kagi;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kagi for Safari";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1634,7 +1278,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kagi-Search-macOS-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(MARKETING_NAME)";
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -1652,7 +1296,7 @@
 					WebKit,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search";
-				PRODUCT_NAME = "Kagi Search for Safari";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "Kagi Universal Safari Extension Development";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1677,7 +1321,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Kagi-Search-macOS-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "$(MARKETING_NAME)";
+				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -1695,7 +1339,7 @@
 					WebKit,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search";
-				PRODUCT_NAME = "Kagi Search for Safari";
+				PRODUCT_NAME = "${PRODUCT_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "Kagi Universal Safari Extension Development";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1706,24 +1350,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3EC7724C2B2C48CE00E40354 /* Build configuration list for PBXNativeTarget "Kagi Search iOS Legacy" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3EC7724D2B2C48CE00E40354 /* Debug */,
-				3EC7724E2B2C48CE00E40354 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3EC7725E2B2C492F00E40354 /* Build configuration list for PBXNativeTarget "Kagi Search Extension iOS Legacy" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3EC7725F2B2C492F00E40354 /* Debug */,
-				3EC772602B2C492F00E40354 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		3ED5D4A72B0DE087009DDDAD /* Build configuration list for PBXNativeTarget "Kagi Search Extension iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

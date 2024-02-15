@@ -4,7 +4,7 @@
 
     "name": "__MSG_extension_name__",
     "description": "__MSG_extension_description__",
-    "version": "2.0.2",
+    "version": "2.2.0",
 
     "icons": {
         "512": "images/Icon.png"
@@ -14,7 +14,6 @@
         "scripts": [
             "background.js"
         ],
-        "service_worker": "background.js",
         "persistent": false
     },
 
@@ -29,5 +28,7 @@
         "nativeMessaging",
         "webNavigation",
         "storage"
-    ]
+    ],
+    
+    "optional_permissions": []
 }
