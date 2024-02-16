@@ -77,6 +77,10 @@ fieldset {
 input, select, p, label, button {
     width: 100%;
 }
+fieldset input, fieldset select {
+	font-size: 0.9em;
+	font-weight: 300;
+}
 fieldset select {
 	margin-bottom: 8px;
 }
@@ -85,8 +89,6 @@ fieldset input {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #eee;
-	font-size: 0.9em;
-	font-weight: 300;
 	padding: 3px;
 }
 

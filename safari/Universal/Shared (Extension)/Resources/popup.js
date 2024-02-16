@@ -55,20 +55,6 @@ function paramsForKnownHosts(knownHosts) {
   }
   return params.filter((value, index, array) => array.indexOf(value) === index);
 }
-// const extensionId = "com.kagi.Kagi-Search-for-Safari.Extension (TFVG979488)";
-// const userAgent = window.navigator.userAgent,
-//       platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
-//       macosPlatforms = ['macOS', 'Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
-//       iosPlatforms = ['iPhone', 'iPad', 'iPod'];
-// document.getElementById("open-app").onclick = function() {
-//     if (macosPlatforms.indexOf(platform) !== -1) {
-//         browser.runtime.sendNativeMessage(extensionId, {"type": "openApp"}, function(response) {
-//             window.close();
-//         });
-//     } else if (iosPlatforms.indexOf(platform) !== -1) {
-//         window.open("kagisearch://")
-//     }
-// }
 
 // -----------------------
 // MARK: - Private session link handling
@@ -91,7 +77,42 @@ function privateSessionLinkTextfieldChanged(evt) {
 
 document.querySelector("#private-session-link").addEventListener('change', privateSessionLinkTextfieldChanged);
 document.querySelector("#private-session-link").addEventListener('paste', privateSessionLinkTextfieldChanged);
-  
+
+
+// -----------------------
+// MARK: - Selecting default engine to redirect
+// -----------------------
+var engineToRedirect = "All";
+const defaultEngineToRedirect = "Google";
+const engineSelect = document.getElementById('engine-to-redirect');
+
+// Updates the UI
+function selectCurrentEngine(currentEngine) {
+  selectCurrentEngineIndex(Array.from(engineSelect.options).indexOf(engineSelect.namedItem(currentEngine)));
+}
+function selectCurrentEngineIndex(engineIndex) {
+  engineSelect.selectedIndex = engineIndex;
+}
+
+// Runs when the selection changes
+function engineToRedirectChanged() {
+  const index = engineSelect.selectedIndex;
+  updateEngineToRedirect(engineSelect.options[index].value);
+}
+
+// Stores the new engine in storage
+function updateEngineToRedirect(newEngine) {
+  engineToRedirect = newEngine;
+  selectCurrentEngine(newEngine);
+  return browser.storage.local.set({ "kagiEngineToRedirect": newEngine })
+  .then((result) => {
+    browser.runtime.sendMessage({
+      "updatedKagiEngineToRedirect": newEngine
+    });
+  });
+}
+
+engineSelect.addEventListener('change', engineToRedirectChanged);
 
 // -----------------------
 // MARK: - Displaying & updating host permissions
@@ -105,6 +126,47 @@ function fetchAndUpdateKnownHostList() {
     enabledElement.classList.toggle("enabledForThisDomain", hasKnownHosts);
     enabledElement.innerText = hasKnownHosts ? "enabled on:" : "disabled";
     updateKnownHostList(knownHosts);
+    
+    // If the currently-redirecting engine no longer has permissions in the extension,
+    // reset to "All"
+    let enginesToDisplayInRedirectList = Array.from(document.querySelectorAll("[data-engine]")).map((en) => en.getAttribute("data-engine"));
+    if (engineToRedirect != "All" && enginesToDisplayInRedirectList.indexOf(engineToRedirect) < 0) {
+      engineToRedirect = "All";
+    }
+    
+    // If we're still set to "All", update to the default
+    // FIXME: "All" is a fallback in case something else breaks in our stored engine setting, to make sure "Redirect to Kagi" is the fallback to broken engine selection rather than "Don't redirect if we don't have a valid engine selected". There should be a more robust solution to this that sets smart defaults or detects Safari's search engine setting. There's a way to do the latter on macOS but not iOS.
+    if (engineToRedirect == "All") {
+      updateEngineToRedirect(defaultEngineToRedirect); // Need to default to *something*. Starting w/ Google
+    }
+    
+    // Redirect engine list UI updates
+    if (knownHosts.indexOf("*://*/*") > -1) {
+      // TODO: Do we need custom logic for the "All websites allowed" permission?
+    } else {
+      if (enginesToDisplayInRedirectList.length > 0) {
+        for (let i=0;i<engineSelect.options.length;i++) {
+          // Disable engines we don't have permissions for
+          engineSelect.options[i].disabled = (enginesToDisplayInRedirectList.indexOf(engineSelect.options[i].value) < 0);
+          
+          // Select the currently-redirected engine choice if it has permissions
+          if (!(engineSelect.options[i].disabled) && engineToRedirect == engineSelect.options[i].value) {
+            selectCurrentEngineIndex(i);
+          }
+        }
+          
+        // Set the default to the first permissioned engine in the list if we still haven't selected an engine
+        if (engineSelect.options[engineSelect.selectedIndex].disabled) {
+          let firstEnabledEngine = enginesToDisplayInRedirectList[0];
+          updateEngineToRedirect(firstEnabledEngine);
+        }
+      } else {
+        // We end up here if the user grants permission to only non-search-engine urls
+        // and opens the popup.
+        
+        // Leave the list as-is. Let them change the redirect if they please.
+      }
+    }
     return Promise.resolve();
   });
 }
@@ -162,20 +224,7 @@ function generateHtmlForEngine(engine, engineHosts) {
 function revokeHostPermissionLinkClicked(evt) {
   let el = evt.currentTarget;
   if (el.classList.contains("readyToConfirm")) {
-//     browser.runtime.sendNativeMessage(extensionId, {"action": "open-safari-extension-settings"}, function(response) {
-//       // no-op
-//     });
-//     window.open('App-Prefs:SAFARI&path=WEB_EXTENSIONS');
     window.open('kagisearch://open-app?destination=safari-extension-settings-deep');
-//     let engineToRevoke = evt.currentTarget.getAttribute("data-engine");
-//     if (typeof engineToRevoke == "string" && engineToRevoke.length > 0) {
-//       let engineMatchPatterns = engineToRevoke == "All" ? ["*://*/*"] : domainMap[engineToRevoke].map((domain) => `*://*.${domain}/*`);
-//       revokeHostPermissions(engineMatchPatterns);
-//     } else {
-//       let hostToRevoke = evt.currentTarget.getAttribute("data-host");
-//       let hostMatchPattern = `*://*.${hostToRevoke.replace(/^www\./, "")}/*`; // "www" removal should be redundant, but leaving replacement here for safety in future situations
-//       revokeHostPermissions([hostMatchPattern]);
-//     }
   } else {
     el.classList.add("readyToConfirm");
   }
@@ -226,31 +275,27 @@ document.onclick = function (e) {
 // MARK: - Onload handler
 // -----------------------
 document.addEventListener("DOMContentLoaded", (event) => {
-//   browser.tabs.query({ currentWindow: true, active: true })
-//   .then((tabs) => {
-//     if (tabs.length != 1) {
-//       Promise.reject(new Error("activeTab request did not return only 1 tab"));
-//     }
-//     
-//     console.log("Returned first tab:", tabs[0]);
-//     let url = new URL(tabs[0].url);
-//     document.getElementById("currentHost").innerText = url.hostname;
-//   })
   
-  Promise.all([
-    fetchAndUpdateKnownHostList(),
-    browser.storage.local.get("kagiPrivateSessionLink")
-  ])
+  browser.storage.local.get(["kagiEngineToRedirect", "kagiPrivateSessionLink"])
   .then((results) => {
+    // Fetch the current engine to redirect from local storage
+    if (typeof results == "object" &&
+      typeof results["kagiEngineToRedirect"] == "string"
+      && results["kagiEngineToRedirect"].length > 0) {
+        engineToRedirect = results["kagiEngineToRedirect"];
+    }
     
     // Fetch the current private session link from storage
-    let localPrivateSessionLink = results[1];
-    if (typeof localPrivateSessionLink == "object" &&
-        typeof localPrivateSessionLink["kagiPrivateSessionLink"] == "string"
-        && localPrivateSessionLink["kagiPrivateSessionLink"].length > 0) {
-      privateSessionLink = localPrivateSessionLink["kagiPrivateSessionLink"];
+    if (typeof results == "object" &&
+        typeof results["kagiPrivateSessionLink"] == "string"
+        && results["kagiPrivateSessionLink"].length > 0) {
+      privateSessionLink = results["kagiPrivateSessionLink"];
       document.querySelector("#private-session-link").value = privateSessionLink;
     }
+  })
+  .finally(() => {
+    selectCurrentEngine(engineToRedirect);
+    fetchAndUpdateKnownHostList();
   });
 });
 
