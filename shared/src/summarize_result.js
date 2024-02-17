@@ -66,7 +66,7 @@ async function setup() {
   }
 
   summaryStatsTimeSavedElement.innerText = '0 minutes';
-  const summaryCloseElement = document.getElementById('close_summary')
+  const summaryCloseElement = document.getElementById('close_summary');
   if (!summaryCloseElement) {
     console.error('Could not find summarize close element');
     return;
@@ -102,10 +102,10 @@ async function setup() {
         } minute${data.timeSavedInMinutes !== 1 ? 's' : ''}`;
       }
 
-      summaryCloseElement.style.display = ''
+      summaryCloseElement.style.display = '';
       summaryCloseElement.addEventListener('click', () => {
-        window.close()
-      })
+        window.close();
+      });
     }
   });
 
