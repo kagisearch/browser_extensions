@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/kagisearch/browser_extensions#readme",
   "devDependencies": {
-    "@biomejs/biome": "1.5.2",
+    "@biomejs/biome": "1.5.3",
     "adm-zip": "0.5.10",
     "nodemon": "3.0.3"
   },
