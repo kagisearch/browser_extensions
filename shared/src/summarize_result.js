@@ -67,6 +67,14 @@ async function setup() {
 
   summaryStatsTimeSavedElement.innerText = '0 minutes';
 
+  const summaryCloseElement = document.getElementById('close_summary');
+  if (!summaryCloseElement) {
+    console.error('Could not find summarize close element');
+    return;
+  }
+
+  summaryCloseElement.style.display = 'none';
+
   browser.runtime.onMessage.addListener(async (data) => {
     const searchParams = new URLSearchParams(window.location.search);
     const url = searchParams.get('url');
@@ -96,7 +104,16 @@ async function setup() {
           data.timeSavedInMinutes
         } minute${data.timeSavedInMinutes !== 1 ? 's' : ''}`;
       }
+
+      summaryCloseElement.style.display = '';
+      summaryCloseElement.addEventListener('click', () => {
+        window.close();
+      });
     }
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') window.close();
   });
 
   async function requestPageSummary() {

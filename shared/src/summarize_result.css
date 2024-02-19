@@ -92,3 +92,21 @@ p {
   font-size: 1rem;
   line-height: 1.25rem;
 }
+
+#close_summary {
+  background-color: #e5e5e5;
+  border: 1px solid #e5e5e5;
+  color: #191919;
+  border-radius: 3px;
+  height: 32px;
+  max-width: 80px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin: 10px auto;
+  display: block;
+}
+
+#close_summary:hover {
+  background-color: #cecece;
+  border: 1px solid #b7b7b7;
+}
