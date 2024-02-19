@@ -66,11 +66,14 @@ async function setup() {
   }
 
   summaryStatsTimeSavedElement.innerText = '0 minutes';
+
   const summaryCloseElement = document.getElementById('close_summary');
   if (!summaryCloseElement) {
     console.error('Could not find summarize close element');
     return;
   }
+
+  summaryCloseElement.style.display = 'none';
 
   browser.runtime.onMessage.addListener(async (data) => {
     const searchParams = new URLSearchParams(window.location.search);
