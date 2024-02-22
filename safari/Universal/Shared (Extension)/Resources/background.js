@@ -441,12 +441,12 @@ function getPreferencesFromStorage(callback) {
   browser.storage.local.get(["kagiPrivateSessionLink","kagiEngineToRedirect"], function(value) {
     // Private session link
     var link = value.kagiPrivateSessionLink;
-    if (typeof (link) !== "undefined") {
+    if (typeof (link) == "string") {
       updatePrivateSessionLink(link);
     }
     // Engine to redirect
     var engine = value.kagiEngineToRedirect;
-    if (typeof (engine) !== "undefined") {
+    if (typeof (engine) == "string") {
       if (engine == "All" || supportedEngineNames.indexOf(engine) < 0) {
         currentEngine = defaultEngineToRedirect; // default to redirecting Google
       } else {
