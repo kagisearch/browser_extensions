@@ -142,7 +142,7 @@
 		3EC41D232B21B587009B17FE /* macOS Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "macOS Assets.xcassets"; sourceTree = "<group>"; };
 		3EC772502B2C48CE00E40354 /* Kagi Search iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Kagi Search iOS copy-Info.plist"; path = "/Users/nano/Kagi/kagi-for-safari-macos/Kagi Search iOS copy-Info.plist"; sourceTree = "<absolute>"; };
 		3EC772622B2C492F00E40354 /* Kagi Search Extension iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Kagi Search Extension iOS copy-Info.plist"; path = "/Users/nano/Kagi/kagi-for-safari-macos/Kagi Search Extension iOS copy-Info.plist"; sourceTree = "<absolute>"; };
-		3EC772662B2F904200E40354 /* Kagi-Search-macOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Kagi-Search-macOS-Info.plist"; sourceTree = "<group>"; };
+		3EC772662B2F904200E40354 /* Kagi-Search-macOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Kagi-Search-macOS-Info.plist"; sourceTree = "<group>"; };
 		3ED5D48F2B0DE087009DDDAD /* Kagi Search Extension iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Kagi Search Extension iOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ED5D4AC2B0DE2BD009DDDAD /* Kagi Search Extension macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Kagi Search Extension macOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ED5D4C92B0DE324009DDDAD /* Kagi Search Extension (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Kagi Search Extension (iOS).entitlements"; sourceTree = "<group>"; };
@@ -298,6 +298,7 @@
 		3ED5D4FE2B0DE6A5009DDDAD /* Kagi Search (macOS) */ = {
 			isa = PBXGroup;
 			children = (
+				3EC772662B2F904200E40354 /* Kagi-Search-macOS-Info.plist */,
 				3ED5D4FF2B0DE6A5009DDDAD /* NSWindow+Helpers.swift */,
 				3ED5D5002B0DE6A5009DDDAD /* Main.storyboard */,
 				3ED5D5022B0DE6A5009DDDAD /* AppDelegate.swift */,
@@ -371,7 +372,6 @@
 		C31E69142823DD4E00B1491B = {
 			isa = PBXGroup;
 			children = (
-				3EC772662B2F904200E40354 /* Kagi-Search-macOS-Info.plist */,
 				C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */,
 				3ED5D5772B0DE75F009DDDAD /* iOS (Extension) */,
 				3ED5D5792B0DE75F009DDDAD /* macOS (Extension) */,
