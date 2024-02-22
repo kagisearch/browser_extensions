@@ -1279,7 +1279,7 @@
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = TFVG979488;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Kagi-Search-macOS-Info.plist";
+				INFOPLIST_FILE = "Kagi Search (macOS)/Kagi-Search-macOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.";
@@ -1322,7 +1322,7 @@
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = TFVG979488;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Kagi-Search-macOS-Info.plist";
+				INFOPLIST_FILE = "Kagi Search (macOS)/Kagi-Search-macOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.";
