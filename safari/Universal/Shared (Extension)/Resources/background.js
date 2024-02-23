@@ -298,7 +298,7 @@ function domainKeyForHost(knownHost) {
   }
   return "";
 }
-const supportedEngineNames = Object.keys(domainMap);
+const supportedEngineNames = Object.keys(domainMap).concat(["All"]);
 const www = "www.";
 const yahoo = "search.yahoo.com";
 const extensionId = "com.kagi.Kagi-Search-for-Safari.Extension (TFVG979488)";
@@ -309,7 +309,7 @@ var ua = {},
     os = !0,
     rs = !0,
     currentEngine = "All",
-    defaultEngineToRedirect = "Google",
+    defaultEngineToRedirect = "All",
     defaultKagiSearchTemplate = "https://kagi.com/search?q=%s",
     kagiSearchTemplate = defaultKagiSearchTemplate,
     kagiPrivateSearchTemplate = "",
@@ -339,7 +339,7 @@ function captureQuery(a) {
     b.endsWith(yahoo) && (b = yahoo);
     const path = a.pathname;
     var shouldBlockGoogleNonSearch = (b in googleUrls && !(path.startsWith("/search")));
-    var shouldBlockRedirectBasedOnUserPreference = ([currentEngine, "All"].indexOf(domainKeyForHost(b)) < 0);
+    var shouldBlockRedirectBasedOnUserPreference = (currentEngine != "All" && currentEngine != domainKeyForHost(b));
     if (b in builtInEngines && !(shouldBlockGoogleNonSearch || shouldBlockRedirectBasedOnUserPreference) && (a = (new URLSearchParams(a.search)).get(builtInEngines[b]))) return a;
 }
 
@@ -447,8 +447,8 @@ function getPreferencesFromStorage(callback) {
     // Engine to redirect
     var engine = value.kagiEngineToRedirect;
     if (typeof (engine) == "string") {
-      if (engine == "All" || supportedEngineNames.indexOf(engine) < 0) {
-        currentEngine = defaultEngineToRedirect; // default to redirecting Google
+      if (supportedEngineNames.indexOf(engine) < 0) {
+        currentEngine = defaultEngineToRedirect; // default to redirecting All engines to Kagi 
       } else {
         currentEngine = engine;
       }
