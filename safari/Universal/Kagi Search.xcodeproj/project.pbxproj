@@ -10,8 +10,8 @@
 		3E1A51362B1734B70010A4C4 /* Kagi Search Extension iOS.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3ED5D48F2B0DE087009DDDAD /* Kagi Search Extension iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3E1A513B2B180B890010A4C4 /* UpgradeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1A513A2B180B890010A4C4 /* UpgradeChecker.swift */; };
 		3E1A513C2B180CBE0010A4C4 /* UpgradeChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E1A513A2B180B890010A4C4 /* UpgradeChecker.swift */; };
+		3E7B281A2B86D220005EB620 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3E7B28192B86D220005EB620 /* manifest.json */; };
 		3E9DF5082B3E3E70005DF2C3 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D55B2B0DE720009DDDAD /* manifest.json */; };
-		3E9DF5092B3E3E71005DF2C3 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D55B2B0DE720009DDDAD /* manifest.json */; };
 		3EB8FA422B61F6740052E8D4 /* Deeplinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB8FA412B61F6740052E8D4 /* Deeplinks.swift */; };
 		3EB8FA432B61F6740052E8D4 /* Deeplinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB8FA412B61F6740052E8D4 /* Deeplinks.swift */; };
 		3EB8FA472B6231DC0052E8D4 /* Settings_Animation_dark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3EB8FA452B6231DB0052E8D4 /* Settings_Animation_dark.gif */; };
@@ -133,6 +133,7 @@
 
 /* Begin PBXFileReference section */
 		3E1A513A2B180B890010A4C4 /* UpgradeChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeChecker.swift; sourceTree = "<group>"; };
+		3E7B28192B86D220005EB620 /* manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
 		3EB8FA412B61F6740052E8D4 /* Deeplinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deeplinks.swift; sourceTree = "<group>"; };
 		3EB8FA452B6231DB0052E8D4 /* Settings_Animation_dark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Settings_Animation_dark.gif; sourceTree = "<group>"; };
 		3EB8FA462B6231DB0052E8D4 /* Settings_Animation_light.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Settings_Animation_light.gif; sourceTree = "<group>"; };
@@ -141,7 +142,7 @@
 		3EC41D232B21B587009B17FE /* macOS Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "macOS Assets.xcassets"; sourceTree = "<group>"; };
 		3EC772502B2C48CE00E40354 /* Kagi Search iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Kagi Search iOS copy-Info.plist"; path = "/Users/nano/Kagi/kagi-for-safari-macos/Kagi Search iOS copy-Info.plist"; sourceTree = "<absolute>"; };
 		3EC772622B2C492F00E40354 /* Kagi Search Extension iOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Kagi Search Extension iOS copy-Info.plist"; path = "/Users/nano/Kagi/kagi-for-safari-macos/Kagi Search Extension iOS copy-Info.plist"; sourceTree = "<absolute>"; };
-		3EC772662B2F904200E40354 /* Kagi-Search-macOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Kagi-Search-macOS-Info.plist"; sourceTree = "<group>"; };
+		3EC772662B2F904200E40354 /* Kagi-Search-macOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Kagi-Search-macOS-Info.plist"; sourceTree = "<group>"; };
 		3ED5D48F2B0DE087009DDDAD /* Kagi Search Extension iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Kagi Search Extension iOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ED5D4AC2B0DE2BD009DDDAD /* Kagi Search Extension macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Kagi Search Extension macOS.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ED5D4C92B0DE324009DDDAD /* Kagi Search Extension (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Kagi Search Extension (iOS).entitlements"; sourceTree = "<group>"; };
@@ -297,6 +298,7 @@
 		3ED5D4FE2B0DE6A5009DDDAD /* Kagi Search (macOS) */ = {
 			isa = PBXGroup;
 			children = (
+				3EC772662B2F904200E40354 /* Kagi-Search-macOS-Info.plist */,
 				3ED5D4FF2B0DE6A5009DDDAD /* NSWindow+Helpers.swift */,
 				3ED5D5002B0DE6A5009DDDAD /* Main.storyboard */,
 				3ED5D5022B0DE6A5009DDDAD /* AppDelegate.swift */,
@@ -341,7 +343,6 @@
 				3ED5D5552B0DE720009DDDAD /* popup.js */,
 				3ED5D5562B0DE720009DDDAD /* background.js */,
 				3ED5D55A2B0DE720009DDDAD /* popup.html */,
-				3ED5D55B2B0DE720009DDDAD /* manifest.json */,
 				3ED5D55C2B0DE720009DDDAD /* popup.css */,
 			);
 			path = Resources;
@@ -350,6 +351,7 @@
 		3ED5D5772B0DE75F009DDDAD /* iOS (Extension) */ = {
 			isa = PBXGroup;
 			children = (
+				3ED5D55B2B0DE720009DDDAD /* manifest.json */,
 				3ED5D4C92B0DE324009DDDAD /* Kagi Search Extension (iOS).entitlements */,
 				3ED5D5782B0DE75F009DDDAD /* Info.plist */,
 			);
@@ -359,6 +361,7 @@
 		3ED5D5792B0DE75F009DDDAD /* macOS (Extension) */ = {
 			isa = PBXGroup;
 			children = (
+				3E7B28192B86D220005EB620 /* manifest.json */,
 				3ED5D57A2B0DE75F009DDDAD /* Kagi Search Extension (macOS).entitlements */,
 				3ED5D57B2B0DE75F009DDDAD /* Info.plist */,
 				3E1A513A2B180B890010A4C4 /* UpgradeChecker.swift */,
@@ -369,7 +372,6 @@
 		C31E69142823DD4E00B1491B = {
 			isa = PBXGroup;
 			children = (
-				3EC772662B2F904200E40354 /* Kagi-Search-macOS-Info.plist */,
 				C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */,
 				3ED5D5772B0DE75F009DDDAD /* iOS (Extension) */,
 				3ED5D5792B0DE75F009DDDAD /* macOS (Extension) */,
@@ -599,9 +601,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3ED5D5722B0DE720009DDDAD /* popup.css in Resources */,
-				3E9DF5092B3E3E71005DF2C3 /* manifest.json in Resources */,
 				3ED5D58F2B0DFC34009DDDAD /* _locales in Resources */,
 				3ED5D56E2B0DE720009DDDAD /* popup.html in Resources */,
+				3E7B281A2B86D220005EB620 /* manifest.json in Resources */,
 				3ED5D5682B0DE720009DDDAD /* background.js in Resources */,
 				3ED5D5922B0DFC81009DDDAD /* images in Resources */,
 				3ED5D5662B0DE720009DDDAD /* popup.js in Resources */,
@@ -1277,7 +1279,7 @@
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = TFVG979488;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Kagi-Search-macOS-Info.plist";
+				INFOPLIST_FILE = "Kagi Search (macOS)/Kagi-Search-macOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.";
@@ -1320,7 +1322,7 @@
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = TFVG979488;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Kagi-Search-macOS-Info.plist";
+				INFOPLIST_FILE = "Kagi Search (macOS)/Kagi-Search-macOS-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Kagi Search is a quick, user-centric, 100% privacy-respecting search engine with results augmented by non-commercial indexes and personalized searches.";

@@ -11,7 +11,7 @@
     <div id="wrapper">
     	<ul id="instructions">
     		<li id="overrides">
-				<h3>Kagi searches <span class="enabledForThisDomain">enabled on:</span></h3>
+				<h3>Kagi extension <span class="enabledForThisDomain">enabled on:</span></h3>
 			
 				<div class="enginePermissionsGranted" id="current-overrides">
 					<details>
@@ -22,13 +22,29 @@
 					</details>
 				</div>
 			</li>
+            <li id="default-engine">
+                <h4>Engine to redirect</h4>
+                <p>Select the search engine you want to redirect to Kagi.</p>
+                <fieldset>
+                    <select type="text" id="engine-to-redirect">
+                        <option value="Google" name="Google">Google</option>
+                        <option value="DuckDuckGo" name="DuckDuckGo">DuckDuckGo</option>
+                        <option value="Yahoo" name="Yahoo">Yahoo</option>
+                        <option value="Ecosia" name="Ecosia">Ecosia</option>
+                        <option value="Bing" name="Bing">Bing</option>
+                        <option value="Sogou" name="Sogou">Sogou</option>
+                        <option value="Baidu" name="Baidu">Baidu</option>
+                        <option value="Yandex" name="Yandex">Yandex</option>
+                    </select>
+                </fieldset>
+            </li>
     		<li id="private-browsing">
     			<h4>Private browsing</h4>
     			<p>To search in Private Browsing, paste the Kagi private session link in the textbox below after copying it from <a href="https://kagi.com/settings?p=user_details#sessionLink" target="_new">your Kagi account settings</a>.</p>
     			<fieldset>
 <!-- 		        <label for="private-session-link" class=""><strong>Private session link</strong></label> -->
-		        <input type="text" id="private-session-link" placeholder="Paste private session link here" />
-			</fieldset>
+                    <input type="text" id="private-session-link" placeholder="Paste private session link here" />
+                </fieldset>
     		</li>
     	</ul>
     </div>
