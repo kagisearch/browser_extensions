@@ -266,6 +266,8 @@ async function setup() {
       closeSettingsIcon.style.display = 'none';
       tokenDiv.style.display = 'none';
       if (tokenInput.value) {
+        fastGptSection.style.display = '';
+
         const hasPermissions = await browser.permissions.contains({
           permissions: ['activeTab'],
         });
@@ -273,12 +275,12 @@ async function setup() {
         if (!hasPermissions) {
           summarizeSection.style.display = 'none';
           requestPermissionsSection.style.display = '';
-          fastGptSection.style.display = 'none';
         } else {
           summarizeSection.style.display = '';
           requestPermissionsSection.style.display = 'none';
-          fastGptSection.style.display = '';
         }
+      } else {
+        fastGptSection.style.display = 'none';
       }
       advancedToggle.setAttribute('title', 'Advanced settings');
     } else {
@@ -369,7 +371,7 @@ async function setup() {
   if (
     platformInfo.os === 'android' &&
     browserInfo?.version &&
-    parseInt(browserInfo.version, 10) <= 118
+    Number.parseInt(browserInfo.version, 10) <= 118
   ) {
     requestPermissionsButton.addEventListener('click', () => {
       alert('Cannot request activeTab permission on Android yet.');
