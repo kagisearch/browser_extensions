@@ -82,8 +82,8 @@ document.querySelector("#private-session-link").addEventListener('paste', privat
 // -----------------------
 // MARK: - Selecting default engine to redirect
 // -----------------------
-var engineToRedirect = "All";
-const defaultEngineToRedirect = "Google";
+const defaultEngineToRedirect = "All";
+var engineToRedirect = defaultEngineToRedirect;
 const engineSelect = document.getElementById('engine-to-redirect');
 
 // Updates the UI
@@ -129,7 +129,7 @@ function fetchAndUpdateKnownHostList() {
     
     // If the currently-redirecting engine no longer has permissions in the extension,
     // reset to "All"
-    let enginesToDisplayInRedirectList = Array.from(document.querySelectorAll("[data-engine]")).map((en) => en.getAttribute("data-engine"));
+    let enginesToDisplayInRedirectList = ["All"].concat(Array.from(document.querySelectorAll("[data-engine]")).map((en) => en.getAttribute("data-engine")));
     if (engineToRedirect != "All" && enginesToDisplayInRedirectList.indexOf(engineToRedirect) < 0) {
       engineToRedirect = "All";
     }
