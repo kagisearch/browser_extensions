@@ -88,6 +88,20 @@ async function setup() {
     return;
   }
 
+  const privacyConsentDiv = document.querySelector('#privacy_consent_message');
+  if (!privacyConsentDiv) {
+    console.error('Could not find privacy div');
+    return;
+  }
+
+  const privacyConsentButton = document.querySelector(
+    '#privacy_consent_button',
+  );
+  if (!privacyConsentButton) {
+    console.error('No privacy consent button found.');
+    return;
+  }
+
   const tokenDiv = document.querySelector('#token');
   if (!tokenDiv) {
     console.error('Could not find token div');
@@ -219,6 +233,19 @@ async function setup() {
     console.error('Could not find save error div');
     return;
   }
+
+  privacyConsentButton.addEventListener('click', async () => {
+    try {
+      await browser.runtime.sendMessage({
+        type: 'save_token',
+        privacy_consent: true,
+      });
+    } catch (error) {
+      console.error(error);
+
+      showSavingError();
+    }
+  });
 
   saveTokenButton.addEventListener('click', async () => {
     let token = tokenInput.value;
@@ -390,8 +417,9 @@ async function setup() {
     api_engine,
     summary_type,
     target_language,
+    privacy_consent,
   } = {}) {
-    if (token) {
+    if (privacy_consent && token) {
       tokenInput.value = token;
 
       if (api_token) {
@@ -474,7 +502,16 @@ async function setup() {
           }
         }
       }
+    } else if (!privacy_consent) {
+      setStatus('');
+      privacyConsentDiv.style.display = '';
+      tokenDiv.style.display = 'none';
+      advancedToggle.style.display = 'none';
+      saveErrorDiv.style.display = 'none';
+      toggleAdvancedDisplay('close');
     } else {
+      privacyConsentDiv.style.display = 'none';
+      advancedToggle.style.display = '';
       setStatus('no_session');
     }
   }
@@ -510,6 +547,7 @@ async function setup() {
       setStatus('manual_token');
       saveTokenButton.innerText = 'Saved!';
       saveErrorDiv.style.display = 'none';
+      advancedToggle.style.display = '';
 
       const newlyFetchedSettings = await fetchSettings();
       await handleGetData(newlyFetchedSettings);

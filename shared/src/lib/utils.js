@@ -108,6 +108,8 @@ export async function fetchSettings() {
   const summaryTypeObject = await browser.storage.local.get('summary_type');
   const targetLanguageObject =
     await browser.storage.local.get('target_language');
+  const privacyConsentObject =
+    await browser.storage.local.get('privacy_consent');
 
   return {
     token: sessionObject?.session_token,
@@ -119,6 +121,10 @@ export async function fetchSettings() {
     api_engine: apiEngineObject?.api_engine,
     summary_type: summaryTypeObject?.summary_type,
     target_language: targetLanguageObject?.target_language,
+    privacy_consent:
+      typeof privacyConsentObject?.privacy_consent !== 'undefined'
+        ? privacyConsentObject.privacy_consent
+        : false,
   };
 }
 

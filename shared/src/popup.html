@@ -83,6 +83,23 @@
         </span>
       </div>
 
+      <div id="privacy_consent_message" class="setting_row" style="display: none">
+        <div>
+          <div class="title" style="font-size: 1.2rem; margin-bottom: 1rem; text-align: center;">
+            Privacy Notice
+          </div>
+          <div class="desc" style="font-size: 0.9rem;">
+            If you allow it to, this extension will access your kagi.com session cookie and use it to automatically configure the extension and inject that session header in all requests to kagi.com, including in incognito mode (if you manually and explicitly allow it access).
+            <br /><br />
+            If you allow access to your currently active tab, you can use the Universal Summarizer and that will send your currently active tab's URL to kagi.com.
+            <br /><br />
+            <a href="https://help.kagi.com/kagi/faq/web-extension-privacy.html" target="_blank" rel="noopener noreferrer">Read the full privacy policy</a>
+            <br /><br />
+            <button id="privacy_consent_button">Allow access</button>
+          </div>
+        </div>
+      </div>
+
       <span id="status_error_message" style="display: none">
         No kagi session found.<br />
         Login to Kagi or open a Kagi tab and the extension should automatically configure.<br />
@@ -262,7 +279,7 @@
         <div class="desc">Allow accessing the currently active tab, so it can be summarized.</div>
 
         <div class="setting_row">
-          <button id="request_permissions_button">Request Permissions</button>
+          <button id="request_permissions_button">Request permissions</button>
         </div>
       </div>
 

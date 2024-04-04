@@ -10,6 +10,7 @@ let sessionApiToken = undefined;
 let sessionApiEngine = undefined;
 let sessionSummaryType = undefined;
 let sessionTargetLanguage = undefined;
+let sessionPrivacyConsent = false;
 let IS_CHROME = true;
 
 // Very hacky, but currently works flawlessly
@@ -18,7 +19,15 @@ if (typeof browser.runtime.getBrowserInfo === 'function') {
 }
 
 async function saveToken(
-  { token, api_token, api_engine, sync, summary_type, target_language } = {},
+  {
+    token,
+    api_token,
+    api_engine,
+    sync,
+    summary_type,
+    target_language,
+    privacy_consent,
+  } = {},
   isManual = false,
 ) {
   sessionToken = typeof token !== 'undefined' ? token : sessionToken;
@@ -32,6 +41,10 @@ async function saveToken(
     typeof target_language !== 'undefined'
       ? target_language
       : sessionTargetLanguage;
+  sessionPrivacyConsent =
+    typeof privacy_consent !== 'undefined'
+      ? privacy_consent
+      : sessionPrivacyConsent;
 
   let shouldSync = sync || !isManual;
   if (typeof sessionToken === 'undefined' || sessionToken.trim().length === 0) {
@@ -49,6 +62,7 @@ async function saveToken(
       api_engine: sessionApiEngine,
       summary_type: sessionSummaryType,
       target_language: sessionTargetLanguage,
+      privacy_consent: sessionPrivacyConsent,
     });
   } catch (error) {
     console.error(error);
@@ -70,6 +84,7 @@ async function saveToken(
     api_engine: sessionApiEngine,
     summary_type: sessionSummaryType,
     target_language: sessionTargetLanguage,
+    privacy_consent: sessionPrivacyConsent,
   });
 }
 
