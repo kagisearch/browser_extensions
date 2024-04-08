@@ -419,7 +419,7 @@ async function setup() {
     target_language,
     privacy_consent,
   } = {}) {
-    if (privacy_consent && token) {
+    if ((privacy_consent || IS_CHROME) && token) {
       tokenInput.value = token;
 
       if (api_token) {
@@ -502,7 +502,7 @@ async function setup() {
           }
         }
       }
-    } else if (!privacy_consent) {
+    } else if (!privacy_consent && !IS_CHROME) {
       setStatus('');
       privacyConsentDiv.style.display = '';
       tokenDiv.style.display = 'none';
