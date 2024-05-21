@@ -73,6 +73,8 @@
 		3ED5D58F2B0DFC34009DDDAD /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D58D2B0DFC34009DDDAD /* _locales */; };
 		3ED5D5912B0DFC81009DDDAD /* images in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5902B0DFC81009DDDAD /* images */; };
 		3ED5D5922B0DFC81009DDDAD /* images in Resources */ = {isa = PBXBuildFile; fileRef = 3ED5D5902B0DFC81009DDDAD /* images */; };
+		FE5E96FF2BFB657B001F7B48 /* content_script.js in Resources */ = {isa = PBXBuildFile; fileRef = FE5E96FE2BFB657B001F7B48 /* content_script.js */; };
+		FE5E97002BFB657B001F7B48 /* content_script.js in Resources */ = {isa = PBXBuildFile; fileRef = FE5E96FE2BFB657B001F7B48 /* content_script.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +191,7 @@
 		3ED5D5902B0DFC81009DDDAD /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		C31E691D2823DD4E00B1491B /* Kagi for Safari.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kagi for Safari.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MainConfig.xcconfig; sourceTree = "<group>"; };
+		FE5E96FE2BFB657B001F7B48 /* content_script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = content_script.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -342,6 +345,7 @@
 				3ED5D58D2B0DFC34009DDDAD /* _locales */,
 				3ED5D5552B0DE720009DDDAD /* popup.js */,
 				3ED5D5562B0DE720009DDDAD /* background.js */,
+				FE5E96FE2BFB657B001F7B48 /* content_script.js */,
 				3ED5D55A2B0DE720009DDDAD /* popup.html */,
 				3ED5D55C2B0DE720009DDDAD /* popup.css */,
 			);
@@ -593,6 +597,7 @@
 				3ED5D5672B0DE720009DDDAD /* background.js in Resources */,
 				3ED5D5912B0DFC81009DDDAD /* images in Resources */,
 				3ED5D5652B0DE720009DDDAD /* popup.js in Resources */,
+				FE5E96FF2BFB657B001F7B48 /* content_script.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +612,7 @@
 				3ED5D5682B0DE720009DDDAD /* background.js in Resources */,
 				3ED5D5922B0DFC81009DDDAD /* images in Resources */,
 				3ED5D5662B0DE720009DDDAD /* popup.js in Resources */,
+				FE5E97002BFB657B001F7B48 /* content_script.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -967,7 +973,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Kagi Search (iOS)/Kagi Search (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = TFVG979488;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -986,7 +992,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				MARKETING_VERSION = 2.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1011,7 +1017,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Kagi Search (iOS)/Kagi Search (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = TFVG979488;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
@@ -1030,7 +1036,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				MARKETING_VERSION = 2.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kagimacOS.Kagi-Search";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
