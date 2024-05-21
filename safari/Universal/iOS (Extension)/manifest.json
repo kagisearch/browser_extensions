@@ -1,10 +1,10 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "default_locale": "en",
 
     "name": "__MSG_extension_name__",
     "description": "__MSG_extension_description__",
-    "version": "2.2.3",
+    "version": "2.2.4",
 
     "icons": {
         "512": "images/Icon.png"
@@ -17,7 +17,7 @@
         "persistent": false
     },
 
-    "browser_action": {
+    "action": {
         "default_popup": "popup.html",
         "default_icon": {
             "128": "images/ToolbarItemIcon.png"
@@ -26,9 +26,18 @@
 
     "permissions": [
         "nativeMessaging",
-        "webNavigation",
+        "declarativeNetRequestWithHostAccess",
         "storage"
     ],
     
-    "optional_permissions": []
+    "content_scripts": [
+      {
+        "js": ["content_script.js"],
+        "matches": ["*://*.kagi.com/*"]
+      }
+    ],
+    
+    "host_permissions": [
+        "*://*/*"
+    ]
 }
