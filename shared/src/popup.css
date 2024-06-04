@@ -344,7 +344,7 @@ p {
   margin-bottom: 5px;
 }
 
-#summarize_page, #request_permissions_button, #fastgpt_submit {
+#summarize_page, #request_permissions_button, #fastgpt_submit, #privacy_consent_button {
   background-color: #ffb319;
   border: 1px solid #ffb319;
   color: #191919;
@@ -369,7 +369,7 @@ p {
   margin-right: auto;
 }
 
-#summarize_page:hover, #request_permissions_button:hover, #fastgpt_submit {
+#summarize_page:hover, #request_permissions_button:hover, #fastgpt_submit:hover, #privacy_consent_button:hover {
   background-color: #f7a808;
   border: 1px solid #d9950d;
 }
