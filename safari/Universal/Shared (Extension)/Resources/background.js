@@ -1,376 +1,509 @@
+const googleUrls = {
+    "google.com.au": "q",
+    "google.md": "q",
+    "google.ru": "q",
+    "google.me": "q",
+    "google.com.qa": "q",
+    "google.com.gt": "q",
+    "google.se": "q",
+    "google.tm": "q",
+    "google.vg": "q",
+    "google.it": "q",
+    "google.cat": "q",
+    "google.com.ru": "q",
+    "google.com.gr": "q",
+    "google.ee": "q",
+    "google.cd": "q",
+    "google.sk": "q",
+    "google.com.ly": "q",
+    "google.hn": "q",
+    "google.co.jp": "q",
+    "google.ad": "q",
+    "google.com.sg": "q",
+    "google.ie": "q",
+    "google.co.vi": "q",
+    "google.kg": "q",
+    "google.com.kh": "q",
+    "google.co.ck": "q",
+    "google.is": "q",
+    "google.tt": "q",
+    "google.vu": "q",
+    "google.bg": "q",
+    "google.ch": "q",
+    "google.com.sa": "q",
+    "google.tn": "q",
+    "google.pl": "q",
+    "google.ro": "q",
+    "google.gm": "q",
+    "google.tl": "q",
+    "google.mg": "q",
+    "google.dk": "q",
+    "google.com.bo": "q",
+    "google.je": "q",
+    "google.com.kw": "q",
+    "google.dz": "q",
+    "google.ga": "q",
+    "google.com.gh": "q",
+    "google.lt": "q",
+    "google.com.ag": "q",
+    "google.ps": "q",
+    "google.com.vc": "q",
+    "google.com.pr": "q",
+    "google.co.cr": "q",
+    "google.pn": "q",
+    "google.com.tr": "q",
+    "google.sn": "q",
+    "google.tg": "q",
+    "google.gg": "q",
+    "google.gr": "q",
+    "google.com.mt": "q",
+    "google.nu": "q",
+    "google.cm": "q",
+    "google.lk": "q",
+    "google.co.mz": "q",
+    "google.cv": "q",
+    "google.sm": "q",
+    "google.no": "q",
+    "google.al": "q",
+    "google.bi": "q",
+    "google.com.af": "q",
+    "google.sr": "q",
+    "google.jo": "q",
+    "google.sh": "q",
+    "google.co.uk": "q",
+    "google.co.bw": "q",
+    "google.dm": "q",
+    "google.at": "q",
+    "google.co.ug": "q",
+    "google.dj": "q",
+    "google.si": "q",
+    "google.com.pg": "q",
+    "google.com.tj": "q",
+    "google.co.za": "q",
+    "google.nl": "q",
+    "google.sc": "q",
+    "google.ae": "q",
+    "google.mv": "q",
+    "google.ne": "q",
+    "google.gy": "q",
+    "google.com.sl": "q",
+    "google.co.in": "q",
+    "google.com.bn": "q",
+    "google.ht": "q",
+    "google.com.ua": "q",
+    "google.com.my": "q",
+    "google.co.kr": "q",
+    "google.com": "q",
+    "google.by": "q",
+    "google.com.cu": "q",
+    "google.com.lb": "q",
+    "google.co.nz": "q",
+    "google.mu": "q",
+    "google.com.om": "q",
+    "google.as": "q",
+    "google.com.pe": "q",
+    "google.mk": "q",
+    "google.td": "q",
+    "google.es": "q",
+    "google.az": "q",
+    "google.com.hk": "q",
+    "google.com.do": "q",
+    "google.bt": "q",
+    "google.am": "q",
+    "google.fm": "q",
+    "google.com.mx": "q",
+    "google.fi": "q",
+    "google.com.bz": "q",
+    "google.st": "q",
+    "google.com.vn": "q",
+    "google.rs": "q",
+    "google.bs": "q",
+    "google.cn": "q",
+    "google.com.pa": "q",
+    "google.com.sb": "q",
+    "google.lv": "q",
+    "google.co.uz": "q",
+    "google.co.hu": "q",
+    "google.co.ve": "q",
+    "google.co.zw": "q",
+    "google.com.ai": "q",
+    "google.com.co": "q",
+    "google.ci": "q",
+    "google.com.uy": "q",
+    "google.cl": "q",
+    "google.mw": "q",
+    "google.cz": "q",
+    "google.co.il": "q",
+    "google.co.th": "q",
+    "google.be": "q",
+    "google.hr": "q",
+    "google.fr": "q",
+    "google.im": "q",
+    "google.com.ec": "q",
+    "google.cg": "q",
+    "google.iq": "q",
+    "google.com.np": "q",
+    "google.gl": "q",
+    "google.co.ke": "q",
+    "google.co.id": "q",
+    "google.ml": "q",
+    "google.ms": "q",
+    "google.com.ni": "q",
+    "google.mn": "q",
+    "google.ki": "q",
+    "google.lu": "q",
+    "google.hu": "q",
+    "google.rw": "q",
+    "google.co.ma": "q",
+    "google.com.tw": "q",
+    "google.co.ls": "q",
+    "google.com.et": "q",
+    "google.li": "q",
+    "google.com.br": "q",
+    "google.bj": "q",
+    "google.com.py": "q",
+    "google.co.tz": "q",
+    "google.ba": "q",
+    "google.co.ao": "q",
+    "google.bf": "q",
+    "google.com.ph": "q",
+    "google.com.sv": "q",
+    "google.com.bd": "q",
+    "google.com.mm": "q",
+    "google.la": "q",
+    "google.ws": "q",
+    "google.com.fj": "q",
+    "google.co.zm": "q",
+    "google.cf": "q",
+    "google.nr": "q",
+    "google.to": "q",
+    "google.com.jm": "q",
+    "google.com.ar": "q",
+    "google.com.gi": "q",
+    "google.ca": "q",
+    "google.kz": "q",
+    "google.com.cy": "q",
+    "google.de": "q",
+    "google.com.na": "q",
+    "google.com.pk": "q",
+    "google.pt": "q",
+    "google.ge": "q",
+    "google.so": "q",
+    "google.com.bh": "q",
+    "google.com.eg": "q",
+    "google.com.ng": "q"
+};
+const yandexUrls = {
+    "yandex.ru": "text",
+    "yandex.org": "text",
+    "yandex.net": "text",
+    "yandex.net.ru": "text",
+    "yandex.com.ru": "text",
+    "yandex.ua": "text",
+    "yandex.com.ua": "text",
+    "yandex.by": "text",
+    "yandex.eu": "text",
+    "yandex.ee": "text",
+    "yandex.lt": "text",
+    "yandex.lv": "text",
+    "yandex.md": "text",
+    "yandex.uz": "text",
+    "yandex.mx": "text",
+    "yandex.do": "text",
+    "yandex.tm": "text",
+    "yandex.de": "text",
+    "yandex.ie": "text",
+    "yandex.in": "text",
+    "yandex.qa": "text",
+    "yandex.so": "text",
+    "yandex.nu": "text",
+    "yandex.tj": "text",
+    "yandex.dk": "text",
+    "yandex.es": "text",
+    "yandex.pt": "text",
+    "yandex.pl": "text",
+    "yandex.lu": "text",
+    "yandex.it": "text",
+    "yandex.az": "text",
+    "yandex.ro": "text",
+    "yandex.rs": "text",
+    "yandex.sk": "text",
+    "yandex.no": "text",
+    "ya.ru": "text",
+    "yandex.com": "text",
+    "yandex.asia": "text",
+    "yandex.mobi": "text"
+};
+const ddgUrls = {
+    "duckduckgo.com": "q",
+    "duckduckgo.pl": "q",
+    "duckduckgo.jp": "q",
+    "duckduckgo.co": "q",
+    "duckduckco.de": "q",
+    "duckduckgo.ca": "q",
+    "duckduckgo.co.uk": "q",
+    "duckduckgo.com.mx": "q",
+    "duckduckgo.com.tw": "q",
+    "duckduckgo.dk": "q",
+    "duckduckgo.in": "q",
+    "duckduckgo.ke": "q",
+    "duckduckgo.mx": "q",
+    "duckduckgo.nl": "q",
+    "duckduckgo.org": "q",
+    "duckduckgo.sg": "q",
+    "duckduckgo.uk": "q",
+    "duckgo.com": "q",
+    "ddg.co": "q",
+    "ddg.gg": "q",
+    "duck.co": "q",
+    "duck.com": "q"
+};
+const bingUrls = {
+    "bing.com": "q"
+};
+const baiduUrls = {
+    "baidu.com": "wd",
+    "m.baidu.com": "word"
+};
+const sogouUrls = {
+    "sogou.com": "query",
+    "m.sogou.com": "keyword",
+    "m.so.com": "q",
+    "so.com": "q"
+};
+const ecosiaUrls = {
+    "ecosia.org": "q"
+};
+const yahooUrls = {
+    "search.yahoo.com": "p"
+};
+const builtInEngines = Object.assign({}, googleUrls, yandexUrls, ddgUrls, bingUrls, baiduUrls, sogouUrls, ecosiaUrls, yahooUrls);
 const domainMap = {
   "Google": ["google.com.au", "google.md", "google.ru", "google.me", "google.com.qa", "google.com.gt", "google.se", "google.tm", "google.vg", "google.it", "google.cat", "google.com.ru", "google.com.gr", "google.ee", "google.cd", "google.sk", "google.com.ly", "google.hn", "google.co.jp", "google.ad", "google.com.sg", "google.ie", "google.co.vi", "google.kg", "google.com.kh", "google.co.ck", "google.is", "google.tt", "google.vu", "google.bg", "google.ch", "google.com.sa", "google.tn", "google.pl", "google.ro", "google.gm", "google.tl", "google.mg", "google.dk", "google.com.bo", "google.je", "google.com.kw", "google.dz", "google.ga", "google.com.gh", "google.lt", "google.com.ag", "google.ps", "google.com.vc", "google.com.pr", "google.co.cr", "google.pn", "google.com.tr", "google.sn", "google.tg", "google.gg", "google.gr", "google.com.mt", "google.nu", "google.cm", "google.lk", "google.co.mz", "google.cv", "google.sm", "google.no", "google.al", "google.bi", "google.com.af", "google.sr", "google.jo", "google.sh", "google.co.uk", "google.co.bw", "google.dm", "google.at", "google.co.ug", "google.dj", "google.si", "google.com.pg", "google.com.tj", "google.co.za", "google.nl", "google.sc", "google.ae", "google.mv", "google.ne", "google.gy", "google.com.sl", "google.co.in", "google.com.bn", "google.ht", "google.com.ua", "google.com.my", "google.co.kr", "google.com", "google.by", "google.com.cu", "google.com.lb", "google.co.nz", "google.mu", "google.com.om", "google.as", "google.com.pe", "google.mk", "google.td", "google.es", "google.az", "google.com.hk", "google.com.do", "google.bt", "google.am", "google.fm", "google.com.mx", "google.fi", "google.com.bz", "google.st", "google.com.vn", "google.rs", "google.bs", "google.cn", "google.com.pa", "google.com.sb", "google.lv", "google.co.uz", "google.co.hu", "google.co.ve", "google.co.zw", "google.com.ai", "google.com.co", "google.ci", "google.com.uy", "google.cl", "google.mw", "google.cz", "google.co.il", "google.co.th", "google.be", "google.hr", "google.fr", "google.im", "google.com.ec", "google.cg", "google.iq", "google.com.np", "google.gl", "google.co.ke", "google.co.id", "google.ml", "google.ms", "google.com.ni", "google.mn", "google.ki", "google.lu", "google.hu", "google.rw", "google.co.ma", "google.com.tw", "google.co.ls", "google.com.et", "google.li", "google.com.br", "google.bj", "google.com.py", "google.co.tz", "google.ba", "google.co.ao", "google.bf", "google.com.ph", "google.com.sv", "google.com.bd", "google.com.mm", "google.la", "google.ws", "google.com.fj", "google.co.zm", "google.cf", "google.nr", "google.to", "google.com.jm", "google.com.ar", "google.com.gi", "google.ca", "google.kz", "google.com.cy", "google.de", "google.com.na", "google.com.pk", "google.pt", "google.ge", "google.so", "google.com.bh", "google.com.eg", "google.com.ng"],
   "DuckDuckGo": ["duckduckgo.com", "duckduckgo.pl", "duckduckgo.jp", "duckduckgo.co", "duckduckco.de", "duckduckgo.ca", "duckduckgo.co.uk", "duckduckgo.com.mx", "duckduckgo.com.tw", "duckduckgo.dk", "duckduckgo.in", "duckduckgo.ke", "duckduckgo.mx", "duckduckgo.nl", "duckduckgo.org", "duckduckgo.sg", "duckduckgo.uk", "duckgo.com", "ddg.co", "ddg.gg", "duck.co", "duck.com"],
-  "Yahoo": ["search.yahoo.com", "search.yahoo.com"],
+  "Yahoo": ["search.yahoo.com"],
   "Ecosia": ["ecosia.org"],
-  "Bing": ["bing.com", "m.baidu.com"],
+  "Bing": ["bing.com"],
   "Sogou": ["m.so.com", "so.com", "sogou.com", "m.sogou.com"],
   "Baidu": ["baidu.com", "m.baidu.com"],
   "Yandex": ["yandex.ru", "yandex.org", "yandex.net", "yandex.net.ru", "yandex.com.ru", "yandex.ua", "yandex.com.ua", "yandex.by", "yandex.eu", "yandex.ee", "yandex.lt", "yandex.lv", "yandex.md", "yandex.uz", "yandex.mx", "yandex.do", "yandex.tm", "yandex.de", "yandex.ie", "yandex.in", "yandex.qa", "yandex.so", "yandex.nu", "yandex.tj", "yandex.dk", "yandex.es", "yandex.pt", "yandex.pl", "yandex.lu", "yandex.it", "yandex.az", "yandex.ro", "yandex.rs", "yandex.sk", "yandex.no", "ya.ru", "yandex.com", "yandex.asia", "yandex.mobi"]
-}
-const paramDomainMap = {
-  "text": function() { return domainMap["Yandex"]; },
-  "wd": function() { return ["baidu.com"]; },
-  "word": function() { return ["m.baidu.com"] },
-  "query": function() { return ["sogou.com"]; },
-  "keyword": function() { return ["m.sogou.com"]; },
-  "p": function() { return domainMap["Yahoo"]; },
-  "q": function() { return [...domainMap["Google"], ...domainMap["DuckDuckGo"], ...domainMap["Ecosia"], ...domainMap["Bing"], ...["m.so.com", "so.com"]]; }
 };
-const allSupportedDomains = [...domainMap["Google"], ...domainMap["DuckDuckGo"], ...domainMap["Ecosia"], ...domainMap["Bing"], ...domainMap["Yahoo"], ...domainMap["Sogou"], ...domainMap["Yandex"], ...domainMap["Baidu"]];
-const bangDomainMap = {
-  "!g": domainMap["Google"],
-  "!google": domainMap["Google"],
-  "!ddg": domainMap["DuckDuckGo"],
-  "!duckduckgo": domainMap["DuckDuckGo"],
-  "!yahoo": domainMap["Yahoo"],
-  "!y": domainMap["Yahoo"],
-  "!sogou": domainMap["Sogou"],
-  "!bing": domainMap["Bing"],
-  "!b": domainMap["Bing"],
-  "!yandex": domainMap["Yandex"],
-  "!ya": domainMap["Yandex"],
-  "!ec": domainMap["Ecosia"],
-  "!eco": domainMap["Ecosia"],
-  "!ecosia": domainMap["Ecosia"],
-  "!bd": domainMap["Baidu"],
-  "!baidu": domainMap["Baidu"]
-};
-const engineDefaultRedirectInfo = {
-  "Google": { domain: "www.google.com", path: "search", param: "q"},
-  "DuckDuckGo": { domain: "duckduckgo.com", path: "", param: "q"},
-  "Yahoo": { domain: "search.yahoo.com", path: "search", param: "p"},
-  "Sogou": { domain: "www.sogou.com", path: "web", param: "query"},
-  "Bing": { domain: "www.bing.com", path: "search", param: "q"},
-  "Yandex": { domain: "www.yandex.ru", path: "yandsearch", param: "text"},
-  "Ecosia": { domain: "www.ecosia.org", path: "search", param: "q"},
-  "Baidu": { domain: "www.baidu.com", path: "s", param: "wd"}
-};
-const bangDefaultRedirectMap = {
-  "!g": engineDefaultRedirectInfo["Google"],
-  "!google": engineDefaultRedirectInfo["Google"],
-  "!ddg": engineDefaultRedirectInfo["DuckDuckGo"],
-  "!duckduckgo": engineDefaultRedirectInfo["DuckDuckGo"],
-  "!yahoo": engineDefaultRedirectInfo["Yahoo"],
-  "!y": engineDefaultRedirectInfo["Yahoo"],
-  "!sogou": engineDefaultRedirectInfo["Sogou"],
-  "!bing": engineDefaultRedirectInfo["Bing"],
-  "!b": engineDefaultRedirectInfo["Bing"],
-  "!yandex": engineDefaultRedirectInfo["Yandex"],
-  "!ya": engineDefaultRedirectInfo["Yandex"],
-  "!ec": engineDefaultRedirectInfo["Ecosia"],
-  "!eco": engineDefaultRedirectInfo["Ecosia"],
-  "!ecosia": engineDefaultRedirectInfo["Ecosia"],
-  "!bd": engineDefaultRedirectInfo["Baidu"],
-  "!baidu": engineDefaultRedirectInfo["Baidu"]
-};
-
-function paramsForSelectedEngine(engine) {
-    
-    if (engine == "Google") {
-        return {
-            "q": function() { return domainMap["Google"]; }
-        };
-    } else if (engine == "DuckDuckGo") {
-        return {
-            "q": function() { return domainMap["DuckDuckGo"]; }
-        };
-    } else if (engine == "Yahoo") {
-        return {
-            "p": function() { return domainMap["Yahoo"]; }
-        };
-    } else if (engine == "Sogou") {
-        return {
-            "query": function() { return ["sogou.com"]; },
-            "keyword": function() { return ["m.sogou.com"]; },
-            "q": function() { return ["m.so.com", "so.com"]; }
-        };
-    } else if (engine == "Bing") {
-        return {
-            "q": function() { return domainMap["Bing"]; }
-        };
-    } else if (engine == "Yandex") {
-        return {
-            "q": function() { return domainMap["Yandex"]; }
-        };
-    } else if (engine == "Ecosia") {
-        return {
-            "q": function() { return domainMap["Ecosia"]; }
-        };
-    } else if (engine == "Baidu") {
-        return {
-            "wd": function() { return ["baidu.com"]; },
-            "word": function() { return ["m.baidu.com"] }
-        };
+function domainKeyForHost(knownHost) {
+  let domainKeys = Object.keys(domainMap);
+  for (let i=0; i<domainKeys.length; i++) {
+    let domainKey = domainKeys[i];
+    if (domainMap[domainKey].indexOf(knownHost) > -1) {
+      return domainKey;
     }
-    
-    return paramDomainMap;
+  }
+  return "";
 }
+const supportedEngineNames = Object.keys(domainMap).concat(["All"]);
+const www = "www.";
+const yahoo = "search.yahoo.com";
+const extensionId = "com.kagi.Kagi-Search-for-Safari.Extension (TFVG979488)";
 
-function getRedirectRulesForEngine(engine, kagiToken) {
-    let ruleTemplate = {
-      "id": 999,
-      "priority": 2,
-      "action": {
-        "type": "redirect",
-        "redirect": {
-          "regexSubstitution": "https://www.kagi.com/search?q=\\1"
-        }
-      },
-      "condition": {
-        "resourceTypes": [ "main_frame" ],
-        "requestDomains": [],
-        "regexFilter": "^https?.*[?&]{{parameterKey}}=([^&#]*[&#]?.*[^~][^~])$",
-        "excludedInitiatorDomains": ["kagi.com"]
-      }
-    };
-    let allowedTemplate = {
-      "id": 999,
-      "priority": 1,
-      "action": {
-        "type": "allow"
-      },
-      "condition": {
-        "resourceTypes": [ "main_frame" ],
-        "regexFilter": "^https?.*[?&]kagibang=true?.*$",
-        "excludedInitiatorDomains": ["kagi.com"]
-      }
-    };
-    let bangFromKagiRuleTemplate = {
-      "id": 999999,
-      "priority": 3,
-      "action": {
-        "type": "redirect",
-        "redirect": {
-          "regexSubstitution": "https://{{domain}}/{{path}}?{{parameterKey}}=\\1\\2&kagibang=true&~~"
-        }
-      },
-      "condition": {
-        "resourceTypes": [ "main_frame" ],
-        "requestDomains": [ "kagi.com" ],
-        "regexFilter": "^https?:\/\/.+[?&]q=([^&#]*){{bang}}([^A-Za-z0-9_][^&#]*)[&#]?.*$"
-      }
-    };
-    let bangFromKagiRuleEndOfURLTemplate = {
-      "id": 999999,
-      "priority": 4,
-      "action": {
-        "type": "redirect",
-        "redirect": {
-          "regexSubstitution": "https://{{domain}}/{{path}}?{{parameterKey}}=\\1&kagibang=true&~~"
-        }
-      },
-      "condition": {
-        "resourceTypes": [ "main_frame" ],
-        "requestDomains": [ "kagi.com" ],
-        "regexFilter": "^(https?:\/\/.+[?&]q=)([^&#]*){{bang}}$"
-      }
-    };
-    
-    let kagiCookieTemplate = {
-      "id": 1,
-      "priority": 1,
-      "action": {
-        "type": "modifyHeaders",
-        "requestHeaders": [
-          {
-            "header": "Cookie",
-            "operation": "set",
-            "value": "kagi_session={{sessionToken}}"
-          }
-        ]
-      },
-      "condition": { "urlFilter": "||kagi.com/*", "resourceTypes": [ "main_frame" ] }
-    };
-    // Negate cookies on the login form to avoid bugs. Needed due to limitations in Safari content blocker regex
-    let kagiCookieNegationTemplate = {
-      "id": 2,
-      "priority": 2,
-      "action": {
-        "type": "modifyHeaders",
-        "requestHeaders": [
-          {
-            "header": "Cookie",
-            "operation": "remove"
-          }
-        ]
-      },
-      "condition": { "urlFilter": "||kagi.com/login", "resourceTypes": [ "main_frame" ] }
-    };
-    
-    var newRules = [];
-    let hasSessionToken = (kagiToken != null && kagiToken.trim().length > 0);
-    let paramKeys = Object.keys(paramsForSelectedEngine(engine));
-    let bangKeys = Object.keys(bangDomainMap);
-    var idCounter = 0;
-    
-    idCounter += 1;
-    var newRule = structuredClone(allowedTemplate);
-    newRule["id"] = idCounter;
-    newRules.push(newRule);
-    
-    for (let i=0; i<paramKeys.length; i++) {
-        idCounter += 1;
-        let paramKey = paramKeys[i];
-        
-        let regexFilterWithParamKey = ruleTemplate["condition"]["regexFilter"].replace("{{parameterKey}}", paramKey);
-        var regexSubstitution = ruleTemplate["action"]["redirect"]["regexSubstitution"];
-        if (hasSessionToken) {
-            // Modify the redirect location since the "www" hack is not needed if we have a session token
-            regexSubstitution += ("&token=" + kagiToken);
-        }
-        var newRule = structuredClone(ruleTemplate);
-        newRule["id"] = idCounter;
-        newRule["condition"]["regexFilter"] = regexFilterWithParamKey;
-        let wwwDomainMap = structuredClone(paramDomainMap[paramKey]());
-        newRule["condition"]["requestDomains"] = paramDomainMap[paramKey]().concat(wwwDomainMap.map((domain) => { return domain.startsWith("www.") ? "" : `www.${domain}`; }).filter((d) => d.length > 0));
-        newRule["action"]["redirect"]["regexSubstitution"] = regexSubstitution;
-        newRules.push(newRule);
-    }
-    
-    for (let bi=0; bi<bangKeys.length; bi++) {
-        let bangKey = bangKeys[bi];
-        let bangDomainInfo = bangDefaultRedirectMap[bangKey];
-        idCounter += 1;
-        // Add the mid-query bang rule for kagi.com searches
-        var newBangFromKagiRule = structuredClone(bangFromKagiRuleTemplate);
-        newBangFromKagiRule["id"] = idCounter;
-        newBangFromKagiRule["action"]["redirect"]["regexSubstitution"] = newBangFromKagiRule["action"]["redirect"]["regexSubstitution"]
-        .replace("{{parameterKey}}", bangDomainInfo["param"])
-        .replace("{{domain}}", bangDomainInfo["domain"])
-        .replace("{{path}}", bangDomainInfo["path"]);
-        newBangFromKagiRule["condition"]["regexFilter"] = newBangFromKagiRule["condition"]["regexFilter"]
-        .replace("{{bang}}", bangKey);
-        newRules.push(newBangFromKagiRule);
-        idCounter += 1;
-        // Add the end-of-query bang rule for kagi.com searches
-            var newBangAtEndOfUrlFromKagiRule = structuredClone(bangFromKagiRuleEndOfURLTemplate);
-        newBangAtEndOfUrlFromKagiRule["id"] = idCounter;
-        newBangAtEndOfUrlFromKagiRule["action"]["redirect"]["regexSubstitution"] = newBangAtEndOfUrlFromKagiRule["action"]["redirect"]["regexSubstitution"]
-        .replace("{{parameterKey}}", bangDomainInfo["param"])
-        .replace("{{domain}}", bangDomainInfo["domain"])
-        .replace("{{path}}", bangDomainInfo["path"]);
-        newBangAtEndOfUrlFromKagiRule["condition"]["regexFilter"] = newBangAtEndOfUrlFromKagiRule["condition"]["regexFilter"]
-        .replace("{{bang}}", bangKey);
-        newRules.push(newBangAtEndOfUrlFromKagiRule);
-    }
-    
-    if (hasSessionToken) {
-        idCounter += 1;
-        // FIXME: Re-add cookie rule after figuring out how to make it reliable. It's preferred over sending the token in the URL itself which can be sniffed
-        var kagiCookieRule = structuredClone(kagiCookieTemplate);
-        var kagiCookieNegationRule = structuredClone(kagiCookieNegationTemplate);
-        kagiCookieRule["id"] = idCounter;
-        idCounter += 1;
-        kagiCookieNegationRule["id"] = idCounter;
-        kagiCookieRule["action"]["requestHeaders"][0]["value"] = kagiCookieRule["action"]["requestHeaders"][0]["value"].replace("{{sessionToken}}", kagiToken);
-        newRules.push(kagiCookieRule);
-        newRules.push(kagiCookieNegationRule);
-    }
-    
-    return newRules;
-}
-
-async function clearDynamicRules() {
-    const currentRules = await browser.declarativeNetRequest.getDynamicRules();
-    
-    if (currentRules.length > 0) {
-        console.log("Cleaning up old rules...");
-        const currentRuleIds = currentRules.map((rule) => rule.id);
-        await browser.declarativeNetRequest.updateDynamicRules({
-        removeRuleIds: currentRuleIds,
-        });
-    }
-}
-
-async function synchronizeRules(engine, privateSessionLink) {
-    let kagiToken;
-    
-    if (privateSessionLink != null && typeof privateSessionLink === "string") {
-        if (privateSessionLink.indexOf("https://kagi.com/search?token=") == 0) {
-            try {
-                kagiToken = new URL(privateSessionLink)?.searchParams.get("token");
-            } catch {
-                await clearDynamicRules()
-                return
-            }
-        }
-    }
-    
-    try {
-        const enabledRules = getRedirectRulesForEngine(engine, kagiToken);
-        
-        console.log("Setting rules...", enabledRules);
-        
-        await clearDynamicRules();
-        
-        await browser.declarativeNetRequest.updateDynamicRules({
-            addRules: enabledRules,
-        });
-        
-        console.log("Seems like it worked...");
-    } catch (err) {
-        console.error("Something went wrong", err);
-    }
-}
-
-(async function onLoad() {
-    console.log("Starting up...");
-    
-    let currentEngine, privateSessionLink;
-    
-    try {
-        const prefs = await browser.storage.local.get(["kagiPrivateSessionLink","kagiEngineToRedirect"]);
-        
-        currentEngine = prefs.kagiEngineToRedirect;
-        privateSessionLink = prefs.kagiPrivateSessionLink;
-        
-        if (typeof currentEngine === "undefined") {
-            currentEngine = "All";
-        }
-        
-        if (typeof privateSessionLink === "undefined") {
-            privateSessionLink = null;
-        }
-        
-        console.log("Received preferences", { currentEngine, privateSessionLink });
-    } catch (err) {
-        console.error("Error requesting engine and private session link", err);
-        return;
-    }
-    
-    console.log("Initializing...");
-    await synchronizeRules(currentEngine, privateSessionLink);
-    
-})();
-
-async function messageReceived(data, sender) {
-    let updatedKagiPrivateSessionLink = data["updatedKagiPrivateSessionLink"];
-    let updatedKagiEngineToRedirect = data["updatedKagiEngineToRedirect"];
-    if (stringIsValid(updatedKagiPrivateSessionLink) || stringIsValid(updatedKagiEngineToRedirect)) {
-        const prefs = await browser.storage.local.get(["kagiPrivateSessionLink","kagiEngineToRedirect"]);
-        
-        currentEngine = prefs.kagiEngineToRedirect;
-        privateSessionLink = prefs.kagiPrivateSessionLink;
-        
-        if (typeof currentEngine === "undefined") {
-            currentEngine = "All";
-        }
-        
-        if (typeof privateSessionLink === "undefined") {
-            privateSessionLink = null;
-        }
-        
-        console.log("Updating rules with preps", { currentEngine, privateSessionLink });
-        await synchronizeRules(currentEngine, privateSessionLink);
-        
-        return Promise.resolve(true);
-    } else {
-        return false;
-    }
-}
-browser.runtime.onMessage.addListener(messageReceived);
+var ua = {},
+    tg = "0",
+    pt = 0,
+    os = !0,
+    rs = !0,
+    currentEngine = "All",
+    defaultEngineToRedirect = "All",
+    defaultKagiSearchTemplate = "https://kagi.com/search?q=%s",
+    kagiSearchTemplate = defaultKagiSearchTemplate,
+    kagiPrivateSearchTemplate = "",
+    flagFetchedPreferences = false,
+    customURLMode = 0,
+    customURLList = [],
+    regularTabIds = [],
+    incognitoTabIds = [];
 
 function stringIsValid(theString) {
-    return (theString != null && typeof theString == "string" && theString.length > 0);
+  return (theString != null && typeof theString == "string" && theString.length > 0);
 }
+
+function setKagiSearchTemplate(isPrivateTab) {
+    if (isPrivateTab) {
+        if (typeof kagiPrivateSearchTemplate == "string" && kagiPrivateSearchTemplate.length > 0) {
+            kagiSearchTemplate = kagiPrivateSearchTemplate;
+            return;
+        }
+    }
+    kagiSearchTemplate = defaultKagiSearchTemplate;
+}
+function captureQuery(a) {
+    a = new URL(a);
+    var b = a.host;
+    b.startsWith(www) && (b = b.slice(www.length));
+    b.endsWith(yahoo) && (b = yahoo);
+    const path = a.pathname;
+    var shouldBlockGoogleNonSearch = (b in googleUrls && !(path.startsWith("/search")));
+    var shouldBlockRedirectBasedOnUserPreference = (currentEngine != "All" && currentEngine != domainKeyForHost(b));
+    if (b in builtInEngines && !(shouldBlockGoogleNonSearch || shouldBlockRedirectBasedOnUserPreference) && (a = (new URLSearchParams(a.search)).get(builtInEngines[b]))) return a;
+}
+
+function rewriteQueryURL(a, b) {
+    var c = !0,
+        d, e = !1;
+    if (0 == pt || 2 == pt) {
+        if (d = ua[a[0].toLowerCase()]) {
+            var f = d.ul;
+            c = d.ec
+        }
+        d = a.slice(1)
+    }
+    if ((1 == pt || 2 == pt) && !f && 1 < a.length) {
+        if (d = ua[a[a.length - 1].toLowerCase()]) f = d.ul, c = d.ec;
+        d = a.slice(0, -1)
+    }
+    1 == os && kagiSearchTemplate && (!f || 1 == a.length && rs) && (e = !0, f = kagiSearchTemplate, c = !0, d = a);
+    f && (c = c ? d.map(function(g) {
+        return encodeURIComponent(g)
+    }).join("%20") : d.join("%20"), b(e, f.replaceAll("%s", c)))
+}
+var tk = 0;
+function checkForSearch(a) {
+    if (!flagFetchedPreferences) {
+        console.log("[checkForSearch] Search query started before preferences were fetched");
+        getPreferencesFromStorage(function(){
+            console.log("[checkForSearch] Fetched preferences as part of first search query during current browsing session");
+            _checkForSearch(a);
+        });
+    } else {
+        _checkForSearch(a);
+    }
+}
+
+function _checkForSearch(a) {
+    if (-1 == a.parentFrameId && 0 < a.tabId) {
+        var b = Date.now(),
+            c = a.url,
+            d = captureQuery(c).replace(/ +$/, "");
+        if (0 == tk || 500 < b - tk) {
+            if (d) {
+                var e = d.split(/\s+/);
+                function tabRewriteURL(f,g) {
+                    g && (new URL(c), matchesCustomURL(c) && (f = 1 == os && kagiSearchTemplate && f, 1 < e.length || f ? browser.tabs.update(a.tabId, {
+                    url: g,
+                    loadReplace: !0
+                    }) : rs || browser.tabs.update(a.tabId, {
+                    url: g,
+                    loadReplace: !0
+                    })))
+                }
+                if (incognitoTabIds.includes(a.tabId)) {
+                    setKagiSearchTemplate(true);
+                    rewriteQueryURL(e, tabRewriteURL);
+                } else if (regularTabIds.includes(a.tabId)) {
+                    setKagiSearchTemplate(false);
+                    rewriteQueryURL(e, tabRewriteURL);
+                } else {
+                    browser.tabs.get(a.tabId).then( (thisTab) => {
+                        storeIncognitoTabIds(thisTab);
+                        setKagiSearchTemplate(thisTab.incognito);
+                        rewriteQueryURL(e, tabRewriteURL);
+                    });
+                }
+            }
+            tk = b
+        }
+    }
+}
+
+function storeIncognitoTabIds(tab) {
+  if (tab.incognito) {
+    incognitoTabIds.push(tab.id);
+  } else {
+    regularTabIds.push(tab.id);
+  }
+}
+
+function matchesCustomURL(a) {
+  return !0
+}
+
+function updatePrivateSessionLink(link) {
+  if (link.trim().length > 0) {
+    // set variable used in current browsing session
+    kagiPrivateSearchTemplate = link + "&q=%s";
+    // cache it in browser storage so we have an available
+    // link as soon as background.js is loaded, otherwise user's
+    // first private browsing search will be logged-out and fail
+    return browser.storage.local.set({ kagiPrivateSessionLink: link });
+  } else {
+    kagiPrivateSearchTemplate = "";
+    return browser.storage.local.set({ kagiPrivateSessionLink: "" });
+  }
+}
+
+function getPreferencesFromStorage(callback) {
+  browser.storage.local.get(["kagiPrivateSessionLink","kagiEngineToRedirect"], function(value) {
+    // Private session link
+    var link = value.kagiPrivateSessionLink;
+    if (typeof (link) == "string") {
+      updatePrivateSessionLink(link);
+    }
+    // Engine to redirect
+    var engine = value.kagiEngineToRedirect;
+    if (typeof (engine) == "string") {
+      if (supportedEngineNames.indexOf(engine) < 0) {
+        currentEngine = defaultEngineToRedirect; // default to redirecting All engines to Kagi 
+      } else {
+        currentEngine = engine;
+      }
+    }
+    flagFetchedPreferences = true;
+    callback();
+  });
+}
+
+var defaultFilter = {
+  url: Object.keys(builtInEngines).flatMap(function(a) {
+    return [{
+      hostContains: a
+    }, {
+      hostContains: www + a
+    }, {
+      hostSuffix: yahoo
+    }]
+  })
+};
+
+browser.webNavigation.onBeforeNavigate.addListener(checkForSearch, defaultFilter);
+
+// Checks for upgrade from 1.x to 2.x. If so, attempts to migrate
+// the privateSessionLink url from the previous extension
+browser.runtime.onInstalled.addListener(function(details) {
+  if (!(details.previousVersion.startsWith("1") == true && browser.runtime.getManifest().version.startsWith("2") == true)) {
+    return;
+  }
+  browser.storage.local.get("privateSessionLink", function(value) {
+    var privateSessionLink = value.privateSessionLink;
+    if (typeof privateSessionLink == "string" && privateSessionLink.length > 0) {
+      updatePrivateSessionLink(privateSessionLink);
+    }
+  });
+});
+
+
+// Check for a private session link and default engine at startup so that the first search
+// in a private window or tab doesn't fail
+getPreferencesFromStorage(function(){
+    console.log("Finished fetching preferences on startup");
+});
+
+function messageReceived(data, sender) {
+  let updatedKagiPrivateSessionLink = data["updatedKagiPrivateSessionLink"];
+  let updatedKagiEngineToRedirect = data["updatedKagiEngineToRedirect"];
+  if (stringIsValid(updatedKagiPrivateSessionLink) || stringIsValid(updatedKagiEngineToRedirect)) {
+    // FIXME: Decide whether to send the session link and engine choice through storage or through the message itself. Right now we're doing both.
+    getPreferencesFromStorage(function(){
+      console.log("Finished fetching preferences after receiving an update message from popup.js");
+    });
+    return Promise.resolve(true);
+  } else {
+    return false;
+  }
+}
+browser.runtime.onMessage.addListener(messageReceived);
