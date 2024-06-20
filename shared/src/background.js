@@ -143,6 +143,7 @@ async function updateRules() {
  */
 async function checkForSession() {
   if (!syncSessionFromExisting) return;
+  if (!sessionPrivacyConsent) return;
 
   const cookie = await browser.cookies.get({
     url: 'https://kagi.com',
