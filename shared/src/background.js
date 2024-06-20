@@ -219,7 +219,12 @@ async function loadStorageData() {
   } = await fetchSettings();
 
   sessionToken = token;
-  syncSessionFromExisting = sync_existing;
+
+  if (typeof token === 'undefined')
+    syncSessionFromExisting = true;
+  else
+    syncSessionFromExisting = sync_existing;
+
   sessionApiToken = api_token;
   sessionApiEngine = api_engine;
   sessionSummaryType = summary_type;
