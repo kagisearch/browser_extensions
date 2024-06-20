@@ -215,6 +215,7 @@ async function loadStorageData() {
     api_engine,
     summary_type,
     target_language,
+    privacy_consent,
   } = await fetchSettings();
 
   sessionToken = token;
@@ -223,6 +224,7 @@ async function loadStorageData() {
   sessionApiEngine = api_engine;
   sessionSummaryType = summary_type;
   sessionTargetLanguage = target_language;
+  sessionPrivacyConsent = privacy_consent;
 }
 
 loadStorageData();
