@@ -18,6 +18,11 @@ if (typeof browser.runtime.getBrowserInfo === 'function') {
   IS_CHROME = false;
 }
 
+// Force acceptance since we do not show the policy on chrome.
+if (IS_CHROME) {
+  sessionPrivacyConsent = true;
+}
+
 async function saveToken(
   {
     token,
@@ -229,7 +234,9 @@ async function loadStorageData() {
   sessionApiEngine = api_engine;
   sessionSummaryType = summary_type;
   sessionTargetLanguage = target_language;
-  sessionPrivacyConsent = privacy_consent;
+
+  if (!IS_CHROME)
+    sessionPrivacyConsent = privacy_consent;
 }
 
 loadStorageData();
