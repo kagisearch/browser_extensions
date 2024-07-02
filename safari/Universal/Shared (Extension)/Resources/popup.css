@@ -77,6 +77,12 @@ fieldset {
 input, select, p, label, button {
     width: 100%;
 }
+input[type="checkbox"], label[checkbox] {
+    width: auto;
+}
+label[checkbox] {
+    display: contents;
+}
 fieldset input, fieldset select {
 	font-size: 0.9em;
 	font-weight: 300;
@@ -177,4 +183,9 @@ li.displayChildren:has(.showMore) > *:not(h4) { display: inherit; }
 	#instructions>li:not(:first-child) {
 		border-color: var(--borderColorLight);
 	}
+}
+
+body:not(.setupPermissionsGranted) .setupPermissionsGranted,
+body.setupPermissionsGranted .noSetupPermissions {
+    display: none !important;
 }
