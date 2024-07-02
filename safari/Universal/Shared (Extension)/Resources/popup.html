@@ -5,6 +5,7 @@
 <!--    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">-->
 <!--    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src *; img-src 'self' data:">-->
     <link rel="stylesheet" href="popup.css">
+    <script src="rule-builder.js"></script>
     <script type="module" src="popup.js" defer></script>
 </head>
 <body>
@@ -38,6 +39,20 @@
                         <option value="Yandex" name="Yandex">Yandex</option>
                     </select>
                 </fieldset>
+            </li>
+            <li id="setup" class="noSetupPermissions">
+                <h4 style="color: #FFCC02;"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCEtLUdlbmVyYXRvcjogQXBwbGUgTmF0aXZlIENvcmVTVkcgMjMyLjUtLT4KPCFET0NUWVBFIHN2ZwpQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIgogICAgICAgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTYuNzgxMiIgaGVpZ2h0PSIxNC45Mjk3Ij4KIDxnPgogIDxyZWN0IGhlaWdodD0iMTQuOTI5NyIgb3BhY2l0eT0iMCIgd2lkdGg9IjE2Ljc4MTIiIHg9IjAiIHk9IjAiLz4KICA8cGF0aCBkPSJNMi4xMzI4MSAxNC44NDM4TDE0LjI0MjIgMTQuODQzOEMxNS41NzAzIDE0Ljg0MzggMTYuMzc1IDEzLjkyMTkgMTYuMzc1IDEyLjcyNjZDMTYuMzc1IDEyLjM1OTQgMTYuMjY1NiAxMS45NzY2IDE2LjA3MDMgMTEuNjMyOEwxMC4wMDc4IDEuMDcwMzFDOS42MDE1NiAwLjM1OTM3NSA4LjkwNjI1IDAgOC4xODc1IDBDNy40Njg3NSAwIDYuNzY1NjIgMC4zNTkzNzUgNi4zNjcxOSAxLjA3MDMxTDAuMzA0Njg4IDExLjYzMjhDMC4wOTM3NSAxMS45ODQ0IDAgMTIuMzU5NCAwIDEyLjcyNjZDMCAxMy45MjE5IDAuODA0Njg4IDE0Ljg0MzggMi4xMzI4MSAxNC44NDM4WiIgZmlsbD0iI2ZmY2MwMCIvPgogIDxwYXRoIGQ9Ik04LjE5NTMxIDkuNjI1QzcuNzg5MDYgOS42MjUgNy41NjI1IDkuMzkwNjIgNy41NTQ2OSA4Ljk3NjU2TDcuNDUzMTIgNC43MjY1NkM3LjQ0NTMxIDQuMzEyNSA3Ljc1IDQuMDE1NjIgOC4xODc1IDQuMDE1NjJDOC42MDkzOCA0LjAxNTYyIDguOTM3NSA0LjMyMDMxIDguOTI5NjkgNC43MzQzOEw4LjgxMjUgOC45NzY1NkM4LjgwNDY5IDkuMzk4NDQgOC41NzgxMiA5LjYyNSA4LjE5NTMxIDkuNjI1Wk04LjE5NTMxIDEyLjI0MjJDNy43MjY1NiAxMi4yNDIyIDcuMzIwMzEgMTEuODY3MiA3LjMyMDMxIDExLjQwNjJDNy4zMjAzMSAxMC45Mzc1IDcuNzE4NzUgMTAuNTYyNSA4LjE5NTMxIDEwLjU2MjVDOC42NjQwNiAxMC41NjI1IDkuMDYyNSAxMC45Mjk3IDkuMDYyNSAxMS40MDYyQzkuMDYyNSAxMS44NzUgOC42NTYyNSAxMi4yNDIyIDguMTk1MzEgMTIuMjQyMloiIGZpbGw9IiNmZmZmZmYiLz4KIDwvZz4KPC9zdmc+Cg==" style="height: 14px; margin-right:4px" />Setup Pending</h4>
+                <p>To set up Kagi redirects for search engines, grant setup permissions, or run a search in Safari's location bar, then reopen the extension to enable redirects to Kagi.
+                </p>
+                
+                <fieldset>
+                    <input type="button" id="setup-permissions-button" value="Grant setup permissions" />
+                </fieldset>
+                
+            </li>
+            <li id="dnr-status-wrapper">
+            <input type="checkbox" id="is-dnr-enabled" name="is-dnr-enabled" value="false" checked>
+              <label checkbox="" for="is-dnr-enabled">Use fast redirect method. Should work for most users. If you experience issues, uncheck this option.</label>
             </li>
     		<li id="private-browsing">
     			<h4>Private browsing</h4>
