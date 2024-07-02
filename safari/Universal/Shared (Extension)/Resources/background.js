@@ -278,16 +278,6 @@ const yahooUrls = {
     "search.yahoo.com": "p"
 };
 const builtInEngines = Object.assign({}, googleUrls, yandexUrls, ddgUrls, bingUrls, baiduUrls, sogouUrls, ecosiaUrls, yahooUrls);
-const domainMap = {
-  "Google": ["google.com.au", "google.md", "google.ru", "google.me", "google.com.qa", "google.com.gt", "google.se", "google.tm", "google.vg", "google.it", "google.cat", "google.com.ru", "google.com.gr", "google.ee", "google.cd", "google.sk", "google.com.ly", "google.hn", "google.co.jp", "google.ad", "google.com.sg", "google.ie", "google.co.vi", "google.kg", "google.com.kh", "google.co.ck", "google.is", "google.tt", "google.vu", "google.bg", "google.ch", "google.com.sa", "google.tn", "google.pl", "google.ro", "google.gm", "google.tl", "google.mg", "google.dk", "google.com.bo", "google.je", "google.com.kw", "google.dz", "google.ga", "google.com.gh", "google.lt", "google.com.ag", "google.ps", "google.com.vc", "google.com.pr", "google.co.cr", "google.pn", "google.com.tr", "google.sn", "google.tg", "google.gg", "google.gr", "google.com.mt", "google.nu", "google.cm", "google.lk", "google.co.mz", "google.cv", "google.sm", "google.no", "google.al", "google.bi", "google.com.af", "google.sr", "google.jo", "google.sh", "google.co.uk", "google.co.bw", "google.dm", "google.at", "google.co.ug", "google.dj", "google.si", "google.com.pg", "google.com.tj", "google.co.za", "google.nl", "google.sc", "google.ae", "google.mv", "google.ne", "google.gy", "google.com.sl", "google.co.in", "google.com.bn", "google.ht", "google.com.ua", "google.com.my", "google.co.kr", "google.com", "google.by", "google.com.cu", "google.com.lb", "google.co.nz", "google.mu", "google.com.om", "google.as", "google.com.pe", "google.mk", "google.td", "google.es", "google.az", "google.com.hk", "google.com.do", "google.bt", "google.am", "google.fm", "google.com.mx", "google.fi", "google.com.bz", "google.st", "google.com.vn", "google.rs", "google.bs", "google.cn", "google.com.pa", "google.com.sb", "google.lv", "google.co.uz", "google.co.hu", "google.co.ve", "google.co.zw", "google.com.ai", "google.com.co", "google.ci", "google.com.uy", "google.cl", "google.mw", "google.cz", "google.co.il", "google.co.th", "google.be", "google.hr", "google.fr", "google.im", "google.com.ec", "google.cg", "google.iq", "google.com.np", "google.gl", "google.co.ke", "google.co.id", "google.ml", "google.ms", "google.com.ni", "google.mn", "google.ki", "google.lu", "google.hu", "google.rw", "google.co.ma", "google.com.tw", "google.co.ls", "google.com.et", "google.li", "google.com.br", "google.bj", "google.com.py", "google.co.tz", "google.ba", "google.co.ao", "google.bf", "google.com.ph", "google.com.sv", "google.com.bd", "google.com.mm", "google.la", "google.ws", "google.com.fj", "google.co.zm", "google.cf", "google.nr", "google.to", "google.com.jm", "google.com.ar", "google.com.gi", "google.ca", "google.kz", "google.com.cy", "google.de", "google.com.na", "google.com.pk", "google.pt", "google.ge", "google.so", "google.com.bh", "google.com.eg", "google.com.ng"],
-  "DuckDuckGo": ["duckduckgo.com", "duckduckgo.pl", "duckduckgo.jp", "duckduckgo.co", "duckduckco.de", "duckduckgo.ca", "duckduckgo.co.uk", "duckduckgo.com.mx", "duckduckgo.com.tw", "duckduckgo.dk", "duckduckgo.in", "duckduckgo.ke", "duckduckgo.mx", "duckduckgo.nl", "duckduckgo.org", "duckduckgo.sg", "duckduckgo.uk", "duckgo.com", "ddg.co", "ddg.gg", "duck.co", "duck.com"],
-  "Yahoo": ["search.yahoo.com"],
-  "Ecosia": ["ecosia.org"],
-  "Bing": ["bing.com"],
-  "Sogou": ["m.so.com", "so.com", "sogou.com", "m.sogou.com"],
-  "Baidu": ["baidu.com", "m.baidu.com"],
-  "Yandex": ["yandex.ru", "yandex.org", "yandex.net", "yandex.net.ru", "yandex.com.ru", "yandex.ua", "yandex.com.ua", "yandex.by", "yandex.eu", "yandex.ee", "yandex.lt", "yandex.lv", "yandex.md", "yandex.uz", "yandex.mx", "yandex.do", "yandex.tm", "yandex.de", "yandex.ie", "yandex.in", "yandex.qa", "yandex.so", "yandex.nu", "yandex.tj", "yandex.dk", "yandex.es", "yandex.pt", "yandex.pl", "yandex.lu", "yandex.it", "yandex.az", "yandex.ro", "yandex.rs", "yandex.sk", "yandex.no", "ya.ru", "yandex.com", "yandex.asia", "yandex.mobi"]
-};
 function domainKeyForHost(knownHost) {
   let domainKeys = Object.keys(domainMap);
   for (let i=0; i<domainKeys.length; i++) {
@@ -364,6 +354,7 @@ function rewriteQueryURL(a, b) {
 }
 var tk = 0;
 function checkForSearch(a) {
+    console.log("webNavigation redirect");
     if (!flagFetchedPreferences) {
         console.log("[checkForSearch] Search query started before preferences were fetched");
         getPreferencesFromStorage(function(){
@@ -493,17 +484,39 @@ getPreferencesFromStorage(function(){
     console.log("Finished fetching preferences on startup");
 });
 
-function messageReceived(data, sender) {
-  let updatedKagiPrivateSessionLink = data["updatedKagiPrivateSessionLink"];
-  let updatedKagiEngineToRedirect = data["updatedKagiEngineToRedirect"];
-  if (stringIsValid(updatedKagiPrivateSessionLink) || stringIsValid(updatedKagiEngineToRedirect)) {
-    // FIXME: Decide whether to send the session link and engine choice through storage or through the message itself. Right now we're doing both.
-    getPreferencesFromStorage(function(){
-      console.log("Finished fetching preferences after receiving an update message from popup.js");
-    });
-    return Promise.resolve(true);
-  } else {
-    return false;
-  }
+async function messageReceived(data, sender) {
+    let updatedKagiPrivateSessionLink = data["updatedKagiPrivateSessionLink"];
+    let updatedKagiEngineToRedirect = data["updatedKagiEngineToRedirect"];
+    if (stringIsValid(updatedKagiPrivateSessionLink) || stringIsValid(updatedKagiEngineToRedirect)) {
+        if (shouldUseDNR()) {
+            const prefs = await browser.storage.local.get(["kagiPrivateSessionLink","kagiEngineToRedirect"]);
+            
+            if (stringIsValid(updatedKagiPrivateSessionLink)) {
+                if (updatedKagiPrivateSessionLink == prefs.kagiPrivateSessionLink) {
+                    return;
+                }
+            }
+            
+            currentEngine = prefs.kagiEngineToRedirect;
+            privateSessionLink = prefs.kagiPrivateSessionLink;
+            
+            if (typeof currentEngine === "undefined") {
+                currentEngine = "All";
+            }
+            
+            if (typeof privateSessionLink === "undefined") {
+                privateSessionLink = null;
+            }
+            
+            console.log("Updating rules with preps", { currentEngine, privateSessionLink });
+            await synchronizeRules(currentEngine, privateSessionLink);
+        }
+        return Promise.resolve(true);
+    } else {
+        return false;
+    }
 }
+
 browser.runtime.onMessage.addListener(messageReceived);
+
+(async () => await initialize())();

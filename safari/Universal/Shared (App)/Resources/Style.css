@@ -168,13 +168,10 @@ a.screenshot:hover > object {
 
 .instruction-animation {
     display: block;
-    width: 100vw;
+    width: 70vw;
     height: auto;
     max-width: 450px; /* this is slightly larger than the widest iPhone in portrait mode. we want 100% width in portrait on iPhone, otherwise this maximum keeps things looking good. */
     border: solid 2px #ccc;
-    border-left: none;
-    border-right: none;
-    
 }
 
 hr {
