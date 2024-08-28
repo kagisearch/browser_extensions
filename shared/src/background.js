@@ -278,10 +278,30 @@ browser.contextMenus.create({
 });
 
 // Add a listener for the context menu item.
-browser.contextMenus.onClicked.addListener((info, tab) => {
+browser.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === 'kagi-summarize') {
+    if (!IS_CHROME) {  // Attach permission request to user input handler for Firefox
+      await requestActiveTabPermission();
+    }
     kagiSummarize(info, tab);
   } else if (info.menuItemId === 'kagi-image-search') {
     kagiImageSearch(info, tab);
   }
 });
+
+// Firefox only - request for activeTab permission must be attached to a user input handler
+async function requestActiveTabPermission() {
+  try {
+    const granted = await browser.permissions.request({
+      permissions: ['activeTab'],
+    });
+    if (!granted) {
+      console.error('Permission not granted for activeTab.');
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Error requesting activeTab permission:', error);
+    return false;
+  }
+}
