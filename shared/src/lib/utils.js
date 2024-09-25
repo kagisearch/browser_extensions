@@ -161,3 +161,19 @@ export async function getActiveTab(fetchingFromShortcut = false) {
 
   return tab;
 }
+
+export async function requestActiveTabPermission() {
+  try {
+    const granted = await browser.permissions.request({
+      permissions: ['activeTab'],
+    });
+    if (!granted) {
+      console.error('Permission not granted for activeTab.');
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Error requesting activeTab permission:', error);
+    return false;
+  }
+}

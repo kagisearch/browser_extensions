@@ -1,4 +1,4 @@
-import { fetchSettings, getActiveTab } from './lib/utils.js';
+import { fetchSettings, getActiveTab, requestActiveTabPermission } from './lib/utils.js';
 
 if (!globalThis.browser) {
   globalThis.browser = chrome;
@@ -376,9 +376,7 @@ async function setup() {
     event.preventDefault();
     event.stopPropagation();
 
-    const permissionGranted = await browser.permissions.request({
-      permissions: ['activeTab'],
-    });
+    const permissionGranted = await requestActiveTabPermission();
 
     if (!permissionGranted) {
       alert(

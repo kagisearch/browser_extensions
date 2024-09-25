@@ -1,4 +1,4 @@
-import { summarizeContent, fetchSettings } from './lib/utils.js';
+import { summarizeContent, fetchSettings, requestActiveTabPermission } from './lib/utils.js';
 
 if (!globalThis.browser) {
   globalThis.browser = chrome;
@@ -278,10 +278,14 @@ browser.contextMenus.create({
 });
 
 // Add a listener for the context menu item.
-browser.contextMenus.onClicked.addListener((info, tab) => {
+browser.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === 'kagi-summarize') {
+    if (!IS_CHROME) {  // Attach permission request to user input handler for Firefox
+      await requestActiveTabPermission();
+    }
     kagiSummarize(info, tab);
   } else if (info.menuItemId === 'kagi-image-search') {
     kagiImageSearch(info, tab);
   }
 });
+

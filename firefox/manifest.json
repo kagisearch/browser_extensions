@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Kagi Search for Firefox",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "A simple helper extension for setting Kagi as a default search engine, and automatically logging in to Kagi in incognito browsing windows.",
   "background": {
     "page": "src/background_page.html"
