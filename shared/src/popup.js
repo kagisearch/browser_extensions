@@ -1,4 +1,8 @@
-import { fetchSettings, getActiveTab, requestActiveTabPermission } from './lib/utils.js';
+import {
+  fetchSettings,
+  getActiveTab,
+  requestActiveTabPermission,
+} from './lib/utils.js';
 
 if (!globalThis.browser) {
   globalThis.browser = chrome;

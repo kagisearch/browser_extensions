@@ -1,4 +1,8 @@
-import { summarizeContent, fetchSettings, requestActiveTabPermission } from './lib/utils.js';
+import {
+  summarizeContent,
+  fetchSettings,
+  requestActiveTabPermission,
+} from './lib/utils.js';
 
 if (!globalThis.browser) {
   globalThis.browser = chrome;
@@ -225,18 +229,15 @@ async function loadStorageData() {
 
   sessionToken = token;
 
-  if (typeof token === 'undefined')
-    syncSessionFromExisting = true;
-  else
-    syncSessionFromExisting = sync_existing;
+  if (typeof token === 'undefined') syncSessionFromExisting = true;
+  else syncSessionFromExisting = sync_existing;
 
   sessionApiToken = api_token;
   sessionApiEngine = api_engine;
   sessionSummaryType = summary_type;
   sessionTargetLanguage = target_language;
 
-  if (!IS_CHROME)
-    sessionPrivacyConsent = privacy_consent;
+  if (!IS_CHROME) sessionPrivacyConsent = privacy_consent;
 }
 
 loadStorageData();
@@ -280,7 +281,8 @@ browser.contextMenus.create({
 // Add a listener for the context menu item.
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === 'kagi-summarize') {
-    if (!IS_CHROME) {  // Attach permission request to user input handler for Firefox
+    if (!IS_CHROME) {
+      // Attach permission request to user input handler for Firefox
       await requestActiveTabPermission();
     }
     kagiSummarize(info, tab);
@@ -288,4 +290,3 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
     kagiImageSearch(info, tab);
   }
 });
-
