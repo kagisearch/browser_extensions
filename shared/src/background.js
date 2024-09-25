@@ -1,4 +1,4 @@
-import { summarizeContent, fetchSettings } from './lib/utils.js';
+import { summarizeContent, fetchSettings, requestActiveTabPermission } from './lib/utils.js';
 
 if (!globalThis.browser) {
   globalThis.browser = chrome;
@@ -289,19 +289,3 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 });
 
-// Firefox only - request for activeTab permission must be attached to a user input handler
-async function requestActiveTabPermission() {
-  try {
-    const granted = await browser.permissions.request({
-      permissions: ['activeTab'],
-    });
-    if (!granted) {
-      console.error('Permission not granted for activeTab.');
-      return false;
-    }
-    return true;
-  } catch (error) {
-    console.error('Error requesting activeTab permission:', error);
-    return false;
-  }
-}
