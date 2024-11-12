@@ -137,7 +137,7 @@ async function updateRules() {
         },
         condition: {
           urlFilter: '|https://kagi.com/*',
-          resourceTypes: ['main_frame'],
+          resourceTypes: ['main_frame', 'xmlhttprequest'],
         },
       },
     ],
