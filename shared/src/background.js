@@ -136,7 +136,7 @@ async function updateRules() {
           ],
         },
         condition: {
-          urlFilter: '|https://kagi.com/*',
+          urlFilter: '||kagi.com/',
           resourceTypes: ['main_frame', 'xmlhttprequest'],
         },
       },
@@ -172,7 +172,7 @@ async function checkForSession() {
 
 browser.webRequest.onBeforeRequest.addListener(
   checkForSession,
-  { urls: ['https://kagi.com/*'] },
+  { urls: ['https://*.kagi.com/*'] },
   [],
 );
 
