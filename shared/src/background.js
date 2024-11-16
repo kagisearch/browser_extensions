@@ -129,7 +129,7 @@ async function updateRules() {
           type: 'modifyHeaders',
           requestHeaders: [
             {
-              header: 'Authorization',
+              header: 'X-Kagi-Authorization',
               value: sessionToken,
               operation: 'set',
             },
