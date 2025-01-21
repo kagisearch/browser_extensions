@@ -292,31 +292,34 @@ function kagiImageSearch(info) {
   });
 }
 
-// Create a context menu item.
-browser.contextMenus.create({
-  id: 'kagi-summarize',
-  title: 'Kagi Summarize',
-  contexts: ['link', 'page'], // Show the menu item when clicked on a link or elsewhere on page with no matching contexts
-});
+// FF Android does not support context menus
+if (browser.contextMenus !== undefined) {
+  // Create a context menu item.
+  browser.contextMenus.create({
+    id: 'kagi-summarize',
+    title: 'Kagi Summarize',
+    contexts: ['link', 'page'], // Show the menu item when clicked on a link or elsewhere on page with no matching contexts
+  });
 
-browser.contextMenus.create({
-  id: 'kagi-image-search',
-  title: 'Kagi Image Search',
-  contexts: ['image'],
-});
+  browser.contextMenus.create({
+    id: 'kagi-image-search',
+    title: 'Kagi Image Search',
+    contexts: ['image'],
+  });
 
-// Add a listener for the context menu item.
-browser.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId === 'kagi-summarize') {
-    if (!IS_CHROME) {
-      // Attach permission request to user input handler for Firefox
-      await requestActiveTabPermission();
+  // Add a listener for the context menu item.
+  browser.contextMenus.onClicked.addListener(async (info, tab) => {
+    if (info.menuItemId === 'kagi-summarize') {
+      if (!IS_CHROME) {
+        // Attach permission request to user input handler for Firefox
+        await requestActiveTabPermission();
+      }
+      kagiSummarize(info, tab);
+    } else if (info.menuItemId === 'kagi-image-search') {
+      kagiImageSearch(info, tab);
     }
-    kagiSummarize(info, tab);
-  } else if (info.menuItemId === 'kagi-image-search') {
-    kagiImageSearch(info, tab);
-  }
-});
+  });
+}
 
 // Communication with Kagi Privacy Pass extension
 
