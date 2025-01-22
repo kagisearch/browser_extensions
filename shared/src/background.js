@@ -204,7 +204,9 @@ async function applyHeader(isManual = false) {
 }
 
 browser.webRequest.onBeforeRequest.addListener(
-  applyHeader,
+  async (details) => {
+    await applyHeader()
+  },
   { urls: ['https://*.kagi.com/*'] },
   [],
 );
