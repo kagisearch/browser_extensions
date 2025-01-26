@@ -183,6 +183,18 @@ async function checkForSession(isManual = false) {
   await updateRules();
 }
 
+function createSummarizeMenuEntry() {
+  browser.contextMenus.create({
+    id: 'kagi-summarize',
+    title: 'Kagi Summarize',
+    contexts: ['link', 'page'], // Show the menu item when clicked on a link or elsewhere on page with no matching contexts
+  });
+}
+
+function removeSummarizeMenuEntry() {
+  browser.contextMenus.remove('kagi-summarize');
+}
+
 async function applyHeader(isManual = false) {
   if (!IS_CHROME) {
     // check if PP mode is enabled, if so remove X-Kagi-Authorization header
@@ -195,9 +207,15 @@ async function applyHeader(isManual = false) {
       // the X-Kagi-Authorize header
       syncSessionFromExisting = true;
       await removeRules();
+
+      // disable summarizer button
+      removeSummarizeMenuEntry();
       return;
     }
   }
+
+  // enable summarizer button
+  createSummarizeMenuEntry();
 
   // PP mode is not enabled, proceed with header application
   await checkForSession(isManual);
@@ -303,11 +321,9 @@ function kagiImageSearch(info) {
 // FF Android does not support context menus
 if (browser.contextMenus !== undefined) {
   // Create a context menu item.
-  browser.contextMenus.create({
-    id: 'kagi-summarize',
-    title: 'Kagi Summarize',
-    contexts: ['link', 'page'], // Show the menu item when clicked on a link or elsewhere on page with no matching contexts
-  });
+
+  // a context menu item for Summarize is added in applyHeader()
+  // to match the status of Privacy Pass
 
   browser.contextMenus.create({
     id: 'kagi-image-search',
@@ -330,11 +346,6 @@ if (browser.contextMenus !== undefined) {
 }
 
 // Communication with Kagi Privacy Pass extension
-
-/*
-  The following code is designed for Firefox. This should not affect compatibility with Safari,
-  for which we are not publishing a Privacy Pass extension.
-*/
 
 /*
   This extension makes the browser send a custom X-Kagi-Authorization header
