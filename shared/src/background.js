@@ -223,7 +223,7 @@ async function applyHeader(isManual = false) {
 
 browser.webRequest.onBeforeRequest.addListener(
   async (details) => {
-    await applyHeader()
+    await applyHeader();
   },
   { urls: ['https://*.kagi.com/*'] },
   [],
@@ -392,7 +392,7 @@ if (browser.contextMenus !== undefined) {
   which will then find out the PP extension was uninstalled, and hence reinstate X-Kagi-Authorize.
 */
 
-const KAGI_PRIVACY_PASS_EXTENSION_ID = "privacypass@kagi.com"; // Firefox only
+const KAGI_PRIVACY_PASS_EXTENSION_ID = 'privacypass@kagi.com'; // Firefox only
 
 async function requestPPMode() {
   if (IS_CHROME) {
@@ -400,36 +400,43 @@ async function requestPPMode() {
   }
   let pp_mode_enabled = false;
   try {
-    pp_mode_enabled = await browser.runtime.sendMessage(KAGI_PRIVACY_PASS_EXTENSION_ID, "status_report");
+    pp_mode_enabled = await browser.runtime.sendMessage(
+      KAGI_PRIVACY_PASS_EXTENSION_ID,
+      'status_report',
+    );
   } catch (ex) {
     // other end does not exist, likely Privacy Pass extension disabled/not installed
     pp_mode_enabled = false; // PP mode not enabled
   }
-  await browser.storage.local.set({ "pp_mode_enabled": pp_mode_enabled })
+  await browser.storage.local.set({ pp_mode_enabled: pp_mode_enabled });
 }
 
 async function isPPModeEnabled() {
   if (IS_CHROME) {
     return false;
   }
-  const { pp_mode_enabled } = await browser.storage.local.get({ "pp_mode_enabled": false });
+  const { pp_mode_enabled } = await browser.storage.local.get({
+    pp_mode_enabled: false,
+  });
   return pp_mode_enabled;
 }
 
 if (!IS_CHROME) {
   // PP extension sent an unsolicited status report
   // We update our internal assumption, and update header application
-  browser.runtime.onMessageExternal.addListener(async (request, sender, sendResponse) => {
-    if (sender.id !== KAGI_PRIVACY_PASS_EXTENSION_ID) {
-      // ignore messages from extensions other than the PP one
-      return;
-    }
-    // check the message is about the PP mode
-    if ('enabled' in request) {
-      // update X-Kagi-Authorization header application
-      await applyHeader();
-    }
-  });
+  browser.runtime.onMessageExternal.addListener(
+    async (request, sender, sendResponse) => {
+      if (sender.id !== KAGI_PRIVACY_PASS_EXTENSION_ID) {
+        // ignore messages from extensions other than the PP one
+        return;
+      }
+      // check the message is about the PP mode
+      if ('enabled' in request) {
+        // update X-Kagi-Authorization header application
+        await applyHeader();
+      }
+    },
+  );
 }
 
 // when extension is started, ask for status report, and apply header accordingly
