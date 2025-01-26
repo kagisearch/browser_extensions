@@ -184,15 +184,21 @@ async function checkForSession(isManual = false) {
 }
 
 function createSummarizeMenuEntry() {
-  browser.contextMenus.create({
-    id: 'kagi-summarize',
-    title: 'Kagi Summarize',
-    contexts: ['link', 'page'], // Show the menu item when clicked on a link or elsewhere on page with no matching contexts
-  });
+  // FF Android does not support context menus
+  if (browser.contextMenus !== undefined) {
+    browser.contextMenus.create({
+      id: 'kagi-summarize',
+      title: 'Kagi Summarize',
+      contexts: ['link', 'page'], // Show the menu item when clicked on a link or elsewhere on page with no matching contexts
+    });
+  }
 }
 
 function removeSummarizeMenuEntry() {
-  browser.contextMenus.remove('kagi-summarize');
+  // FF Android does not support context menus
+  if (browser.contextMenus !== undefined) {
+    browser.contextMenus.remove('kagi-summarize');
+  }
 }
 
 async function applyHeader(isManual = false) {
