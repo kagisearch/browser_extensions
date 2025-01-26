@@ -33,7 +33,7 @@
       "favicon_url": "icons/icon_32px.png",
       "keyword": "@kagi",
       "is_default": true,
-      "suggest_url": "https://kagi.com/api/autosuggest?q={searchTerms}",
+      "suggest_url": "https://kagisuggest.com/api/autosuggest?q={searchTerms}",
       "encoding": "UTF-8"
     }
   },
