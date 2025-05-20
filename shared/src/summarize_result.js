@@ -96,8 +96,8 @@ async function setup() {
       }
 
       summaryResultElement.style.display = '';
-      let [title, ...restContents] = summaryTextContents.split('\n');
-      let titleEl = document.createElement('h1');
+      const [title, ...restContents] = summaryTextContents.split('\n');
+      const titleEl = document.createElement('h1');
       titleEl.textContent = title;
       summaryResultElement.innerText = restContents.join('\n');
       summaryResultElement.prepend(titleEl);
