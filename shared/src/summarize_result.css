@@ -2,10 +2,10 @@ html,
 body {
   width: 500px;
   background-color: transparent;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   line-height: 16px;
   margin: 0 auto;
-  text-align: justify;
+  color-scheme: light dark;
 }
 
 * {
@@ -55,7 +55,7 @@ p {
 #summary_result {
   padding: 10px;
   font-size: 1rem;
-  line-height: 1.25rem;
+  line-height: 1.25;
 }
 
 /* This "hack" makes the "key moments" summary type look more readable */

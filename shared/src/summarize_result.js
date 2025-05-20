@@ -96,7 +96,11 @@ async function setup() {
       }
 
       summaryResultElement.style.display = '';
-      summaryResultElement.innerText = summaryTextContents;
+      let [title, ...restContents] = summaryTextContents.split('\n');
+      let titleEl = document.createElement('h1');
+      titleEl.textContent = title;
+      summaryResultElement.innerText = restContents.join('\n');
+      summaryResultElement.prepend(titleEl);
 
       if (data.timeSavedInMinutes) {
         summaryStatsElement.style.display = '';
