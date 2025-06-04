@@ -79,6 +79,7 @@
 		FE0812512C14D39200D0899F /* kagi-content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = FE08124F2C14D39200D0899F /* kagi-content-script.js */; };
 		FE7FB18C2C053F2F00198663 /* content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = FE7FB18B2C053F2F00198663 /* content-script.js */; };
 		FE7FB18D2C053F2F00198663 /* content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = FE7FB18B2C053F2F00198663 /* content-script.js */; };
+		FE9E48DF2DF01B2400473AB5 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE9E48DE2DF01B2400473AB5 /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,6 +199,7 @@
 		FE08124C2C14D36000D0899F /* rule-builder.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rule-builder.js"; sourceTree = "<group>"; };
 		FE08124F2C14D39200D0899F /* kagi-content-script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "kagi-content-script.js"; sourceTree = "<group>"; };
 		FE7FB18B2C053F2F00198663 /* content-script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "content-script.js"; sourceTree = "<group>"; };
+		FE9E48DE2DF01B2400473AB5 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE9E48DF2DF01B2400473AB5 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +252,7 @@
 		3E1A51352B1734B70010A4C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FE9E48DE2DF01B2400473AB5 /* WebKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
