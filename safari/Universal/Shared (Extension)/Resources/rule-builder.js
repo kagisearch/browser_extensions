@@ -333,7 +333,7 @@ function shouldUseDNR() {
         }
     }
     
-    if (versionMajor >= 17) {
+    if (versionMajor >= 17 && versionMajor < 18) {
         return useDNR;
     } else {
         return false;
@@ -368,8 +368,9 @@ async function initialize() {
         
         console.log("Initializing...");
         await synchronizeRules(currentEngine, privateSessionLink);
+    } else if (versionMajor >= 18) {
+        await clearDynamicRules();
     }
-    
 }
 
 function stringIsValid(theString) {

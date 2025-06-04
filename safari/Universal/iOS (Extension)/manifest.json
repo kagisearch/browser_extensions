@@ -20,10 +20,12 @@
     "content_scripts": [{
         "js": [ "content-script.js" ],
         "matches": [ "<all_urls>" ],
-        "exclude_matches" : ["*://*.kagi.com/*"]
+        "exclude_matches" : ["*://*.kagi.com/*"],
+        "run_at": "document_start"
     }, {
         "js": ["kagi-content-script.js"],
-        "matches": ["*://*.kagi.com/*"]
+        "matches": ["*://*.kagi.com/*"],
+        "run_at": "document_start"
     }],
 
     "action": {
@@ -37,7 +39,8 @@
         "nativeMessaging",
         "webNavigation",
         "declarativeNetRequestWithHostAccess",
-        "storage"
+        "storage",
+        "activeTab"
     ],
     
     "host_permissions": [

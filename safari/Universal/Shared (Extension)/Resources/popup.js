@@ -354,7 +354,7 @@ dnrStatusCheckbox.onchange = async function(evt) {
 };
 
 function dnrEnabledStatusUpdateUI() {
-    if (versionMajor < 17) {
+    if (versionMajor < 17 || versionMajor >= 18) {
         document.getElementById("dnr-status-wrapper").style.display = "none";
         return;
     }
