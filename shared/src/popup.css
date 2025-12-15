@@ -70,31 +70,6 @@ input[type="password"]:focus, input[type="text"]:focus {
   height: 100%;
 }
 
-#links {
-  flex: 1;
-  justify-content: flex-start;
-  display: flex;
-  font-size: 11px;
-  color: rgba(0, 0, 0, 0.6);
-  margin: 0 10px;
-  visibility: hidden;
-}
-
-#links a {
-  display: inline-block;
-  color: rgba(0, 0, 0, 0.6);
-  text-decoration: none;
-}
-
-#links a:hover, #links a:focus {
-  text-decoration: underline;
-}
-
-#links span {
-  display: inline-block;
-  margin: 0 7px;
-}
-
 #status {
   font-size: 0.875rem;
   flex: 0;

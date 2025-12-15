@@ -16,7 +16,6 @@ if (typeof browser.runtime.getBrowserInfo === 'function') {
 }
 
 function setStatus(type) {
-  const linksDiv = document.querySelector('#links');
   const statusElement = document.querySelector('#status');
   const statusPermissionMessageElement = document.querySelector(
     '#status_permission_message',
@@ -57,7 +56,6 @@ function setStatus(type) {
         }
       });
 
-      linksDiv.style.visibility = 'hidden';
       statusErrorMessageElement.style.display = '';
       statusErrorIcon.style.display = '';
       statusGoodIcon.style.display = 'none';
@@ -65,7 +63,6 @@ function setStatus(type) {
       break;
     }
     case 'manual_token': {
-      linksDiv.style.visibility = 'visible';
       statusErrorMessageElement.style.display = 'none';
       statusErrorIcon.style.display = 'none';
       statusGoodIcon.style.display = '';
@@ -73,7 +70,6 @@ function setStatus(type) {
       break;
     }
     case 'auto_token': {
-      linksDiv.style.visibility = 'visible';
       statusErrorMessageElement.style.display = 'none';
       statusErrorIcon.style.display = 'none';
       statusGoodIcon.style.display = '';
@@ -86,12 +82,6 @@ function setStatus(type) {
 }
 
 async function setup() {
-  const linksDiv = document.querySelector('#links');
-  if (!linksDiv) {
-    console.error('Could not find links div');
-    return;
-  }
-
   const privacyConsentDiv = document.querySelector('#privacy_consent_message');
   if (!privacyConsentDiv) {
     console.error('Could not find privacy div');
@@ -612,13 +602,6 @@ async function setup() {
   fastGptSection.querySelector('form').addEventListener('submit', () => {
     setTimeout(() => window.close(), 50); // Without this timeout, the browser opens a new window instead of a new tab
   });
-
-  // Close popup after clicking on top link
-  linksDiv.querySelectorAll('a').forEach((anchor) =>
-    anchor.addEventListener('click', () => {
-      setTimeout(() => window.close(), 50); // Without this timeout, the browser opens a new window instead of a new tab
-    }),
-  );
 }
 
 document.addEventListener('DOMContentLoaded', setup);
