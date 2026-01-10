@@ -154,10 +154,17 @@ async function checkForSession() {
   if (!syncSessionFromExisting) return;
   if (!sessionPrivacyConsent) return;
 
-  const cookie = await browser.cookies.get({
-    url: 'https://kagi.com',
-    name: 'kagi_session',
-  });
+  const cookie = (
+    await browser.cookies.getAll({
+      url: 'https://kagi.com',
+      name: 'kagi_session',
+      ...(IS_CHROME
+        ? {}
+        : {
+            firstPartyDomain: null,
+          }),
+    })
+  ).at(-1);
 
   if (!cookie || !cookie.value) return;
 
