@@ -1,16 +1,16 @@
 # Kagi Search Extension
 
-This contains the source for the [Kagi Search](https://kagi.com) extension for Firefox and Chrome.
+This contains the source for the [Kagi Search](https://kagi.com) extension for Firefox and Safari. The Chrome extension lives at [kagisearch/chrome_extension_basic](https://github.com/kagisearch/chrome_extension_basic).
 
 Get it for your browser here:
 
 - [Chrome](https://chrome.google.com/webstore/detail/kagi-search-for-chrome/cdglnehniifkbagbbombnjghhcihifij)
 - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/kagi-search-for-firefox/)
+- [Safari (iOS)](https://apps.apple.com/us/app/kagi-search-for-safari/id1607766153)
 
 ## Contents
 
 - [Extension Features](#extension-features)
-- [Other Browsers](#other-browsers)
 - [Installing from source](#installing-from-source)
   - [Download](#download)
   - [Load the extension](#load-the-extension)
@@ -29,10 +29,6 @@ Get it for your browser here:
 - Use the Universal Summarizer on the current page
 - ... more in the future!
 
-## Other Browsers
-
-- [Safari (iOS)](https://apps.apple.com/us/app/kagi-search-for-safari/id1607766153)
-
 ## Loading from source
 
 ### Building
@@ -41,7 +37,7 @@ To build the extension, you will need node and npm installed.
 
 1. Obtain the files from this repo, either via `git clone https://github.com/kagisearch/browser_extensions` or by downloading the source zip.
 2. run `npm i` to install `adm-zip` which is used to package up the files.
-3. You can now run `npm run build-firefox` or `npm run build-chrome` to zip up the relevant files and output a zip file.
+3. You can now run `npm run build` to zip up the relevant files and output a zip file.
 
 You can also download a pre-packaged zip from our releases page.
 
@@ -63,13 +59,6 @@ Or by cloning the repo:
 2. Click on "This Firefox"
 3. Click "Load Temporary Add-On"
 4. Select the zip file or manifest.json of the extension.
-
-#### Chrome
-
-1. Head to `chrome://extensions`
-2. Turn on "Developer mode" in the top right and then some new buttons will pop up.
-3. Click on `Load unpacked extension`
-4. Select the zip file or you may have to unzip the zip and select the folder outputted from extraction.
 
 ## Contributing
 
@@ -98,8 +87,7 @@ Check the recommended and required `node` and `npm` versions in the `package.jso
 
 ```sh
 npm ci  # install dependencies
-npm run watch-firefox  # builds the firefox zip file and unzips it into the `built/` directory every time a file changes
-npm run watch-chrome  # builds the chrome zip file and unzips it into the `built/` directory every time a file changes
+npm run watch  # builds the zip file and unzips it into the `built/` directory every time a file changes
 npm run format  # formats the code
 ```
 
@@ -107,7 +95,5 @@ npm run format  # formats the code
 
 ```sh
 npm run test  # runs the linter & formatter checks
-npm run build  # builds the chrome and firefox zip files in the `built/` directory
-npm run build-firefox  # builds the firefox zip file in the `built/` directory
-npm run build-chrome  # builds the chrome zip file in the `built/` directory
+npm run build  # builds the firefox zip file in the `built/` directory
 ```

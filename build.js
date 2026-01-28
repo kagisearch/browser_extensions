@@ -7,8 +7,8 @@ if (args.length === 0) {
 }
 
 const extension = args[0];
-if (extension !== 'firefox' && extension !== 'chrome') {
-  console.log('Only firefox and chrome extension building is supported');
+if (extension !== 'firefox') {
+  console.log('Only firefox extension building is supported');
   process.exit(1);
 }
 

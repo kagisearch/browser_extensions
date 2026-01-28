@@ -5,11 +5,8 @@
   "main": "build.js",
   "private": true,
   "scripts": {
-    "watch-firefox": "nodemon build.js firefox watch",
-    "watch-chrome": "nodemon build.js chrome watch",
-    "build": "npm run build-firefox && npm run build-chrome",
-    "build-firefox": "node build.js firefox",
-    "build-chrome": "node build.js chrome",
+    "watch": "nodemon build.js firefox watch",
+    "build": "node build.js firefox",
     "format": "biome format --write . && biome check --apply .",
     "lint": "biome check .",
     "test": "npm run lint"
