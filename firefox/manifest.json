@@ -7,13 +7,11 @@
     "page": "src/background_page.html"
   },
   "icons": {
-    "16": "icons/icon_16px.png",
-    "32": "icons/icon_32px.png",
-    "48": "icons/favicon-48.png",
-    "180": "icons/icon_180px.png"
+    "16": "icons/favicon.ico",
+    "48": "icons/search-color.svg"
   },
   "action": {
-    "default_icon": "icons/icon_32px.png",
+    "default_icon": "icons/search-color.svg",
     "default_title": "Kagi Search",
     "default_popup": "src/popup.html"
   },
@@ -30,7 +28,7 @@
     "search_provider": {
       "name": "Kagi",
       "search_url": "https://kagi.com/search?q={searchTerms}",
-      "favicon_url": "icons/icon_32px.png",
+      "favicon_url": "icons/favicon.ico",
       "keyword": "@kagi",
       "is_default": true,
       "suggest_url": "https://kagisuggest.com/api/autosuggest?q={searchTerms}",
