@@ -89,6 +89,11 @@ function updateWindowSizeToMatchWebviewContentSize() {
     });
 }
 
+// Escapes a value so it can be safely placed inside an HTML attribute.
+function escapeHTMLAttribute(value) {
+    return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 // Returns true if an external link or screenshot link is detected. Prevents in-app webview from opening links.
 function handleLinkElement(el) {
     if (el.href.startsWith("http")) {
@@ -97,14 +102,14 @@ function handleLinkElement(el) {
     } else if (el.classList.contains("screenshot")) {
         let screenshotHref = el.href;
         cachePrescreenshotSize();
-        var imageHTML = '<img width="800" src="' + screenshotHref + '">';
+        var imageHTML = '<img width="800" src="' + escapeHTMLAttribute(screenshotHref) + '">';
         if (el.classList.contains("multi-image")) {
             let images = el.getAttribute("data-images").split(",");
             let imageWidth = 300;
             let containerWidth = (images.length * (imageWidth + 12)) // 300px width, ~12px buffer between each
             imageHTML = '<div class="modal" style="width: ' + containerWidth + 'px;">';
             for (imageHref in images) {
-                imageHTML += '<img width="' + imageWidth + '" src="' + images[imageHref] + '">';
+                imageHTML += '<img width="' + imageWidth + '" src="' + escapeHTMLAttribute(images[imageHref]) + '">';
             }
             imageHTML += '</div>';
         }
