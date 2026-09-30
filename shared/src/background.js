@@ -448,4 +448,4 @@ if (!IS_CHROME) {
 // when extension is started, ask for status report, and apply header accordingly
 browser.runtime.onStartup.addListener(async (details) => {
   await applyHeader();
-})
+});
