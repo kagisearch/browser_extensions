@@ -2,6 +2,7 @@ import {
   summarizeContent,
   fetchSettings,
   requestActiveTabPermission,
+  openSummaryWindow,
 } from './lib/utils.js';
 
 if (!globalThis.browser) {
@@ -265,13 +266,7 @@ browser.runtime.onMessage.addListener(async (data) => {
 
 browser.commands?.onCommand.addListener(async (command) => {
   if (command === 'summarize-active-page') {
-    await browser.windows.create({
-      url: browser.runtime.getURL('src/summarize_result.html'),
-      focused: true,
-      width: 600,
-      height: 500,
-      type: 'popup',
-    });
+    await openSummaryWindow();
   }
 });
 
@@ -306,15 +301,7 @@ async function kagiSummarize(info) {
   // The linkUrl will be undefined if function is triggered by a page event. In that case, the url is taken from pageUrl
   const url = info.linkUrl || info.pageUrl;
 
-  await browser.windows.create({
-    url: browser.runtime.getURL(
-      `src/summarize_result.html?url=${encodeURIComponent(url)}`,
-    ),
-    focused: true,
-    width: 600,
-    height: 500,
-    type: 'popup',
-  });
+  await openSummaryWindow(new URLSearchParams({ url }));
 }
 
 function kagiImageSearch(info) {

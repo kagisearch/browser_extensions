@@ -1,6 +1,7 @@
 html,
 body {
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   background-color: transparent;
   font-family: Helvetica, Arial, sans-serif;
   line-height: 16px;

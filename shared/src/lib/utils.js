@@ -162,6 +162,21 @@ export async function getActiveTab(fetchingFromShortcut = false) {
   return tab;
 }
 
+export async function openSummaryWindow(searchParams = new URLSearchParams()) {
+  // Size the window for the browser's default zoom, not the source site's zoom.
+  const { defaultZoomFactor = 1 } = await browser.tabs.getZoomSettings();
+
+  return browser.windows.create({
+    url: `${browser.runtime.getURL(
+      'src/summarize_result.html',
+    )}?${searchParams}`,
+    focused: true,
+    width: Math.min(Math.round(600 * defaultZoomFactor), screen.availWidth),
+    height: Math.min(Math.round(500 * defaultZoomFactor), screen.availHeight),
+    type: 'popup',
+  });
+}
+
 export async function requestActiveTabPermission() {
   try {
     const granted = await browser.permissions.request({

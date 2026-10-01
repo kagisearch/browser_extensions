@@ -2,6 +2,7 @@ import {
   fetchSettings,
   getActiveTab,
   requestActiveTabPermission,
+  openSummaryWindow,
 } from './lib/utils.js';
 
 if (!globalThis.browser) {
@@ -340,15 +341,7 @@ async function setup() {
 
     const urlSearchParams = new URLSearchParams({ ...searchParams });
 
-    await browser.windows.create({
-      url: `${browser.runtime.getURL(
-        'src/summarize_result.html',
-      )}?${urlSearchParams.toString()}`,
-      focused: true,
-      width: 600,
-      height: 500,
-      type: 'popup',
-    });
+    await openSummaryWindow(urlSearchParams);
 
     // Save new summary_type preferences
     await browser.runtime.sendMessage({
