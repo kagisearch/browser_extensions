@@ -63,7 +63,8 @@ input[type="password"]:focus, input[type="text"]:focus {
   flex: 0;
   justify-content: flex-start;
   display: flex;
-  margin: 0 15px;
+  margin-left: 15px;
+  margin-right: auto;
 }
 
 .logo svg {
