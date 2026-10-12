@@ -101,31 +101,47 @@ export async function summarizeContent({
 }
 
 export async function fetchSettings() {
-  const sessionObject = await browser.storage.local.get('session_token');
-  const syncObject = await browser.storage.local.get('sync_existing');
-  const apiObject = await browser.storage.local.get('api_token');
-  const apiEngineObject = await browser.storage.local.get('api_engine');
-  const summaryTypeObject = await browser.storage.local.get('summary_type');
-  const targetLanguageObject =
-    await browser.storage.local.get('target_language');
-  const privacyConsentObject =
-    await browser.storage.local.get('privacy_consent');
+  const storageObject = await browser.storage.local.get({
+    session_token: undefined,
+    sync_existing: true,
+    api_token: undefined,
+    api_engine: undefined,
+    summary_type: undefined,
+    target_language: undefined,
+    privacy_consent: false,
+    summarize_context_menu_enabled: true,
+    image_search_context_menu_enabled: true,
+  });
 
   return {
-    token: sessionObject?.session_token,
-    sync_existing:
-      typeof syncObject?.sync_existing !== 'undefined'
-        ? syncObject.sync_existing
-        : true,
-    api_token: apiObject?.api_token,
-    api_engine: apiEngineObject?.api_engine,
-    summary_type: summaryTypeObject?.summary_type,
-    target_language: targetLanguageObject?.target_language,
-    privacy_consent:
-      typeof privacyConsentObject?.privacy_consent !== 'undefined'
-        ? privacyConsentObject.privacy_consent
-        : false,
+    token: storageObject.session_token,
+    sync_existing: storageObject.sync_existing,
+    api_token: storageObject.api_token,
+    api_engine: storageObject.api_engine,
+    summary_type: storageObject.summary_type,
+    target_language: storageObject.target_language,
+    privacy_consent: storageObject.privacy_consent,
+    summarize_context_menu_enabled:
+      storageObject.summarize_context_menu_enabled,
+    image_search_context_menu_enabled:
+      storageObject.image_search_context_menu_enabled,
   };
+}
+
+export const KAGI_PRIVACY_PASS_EXTENSION_ID = 'privacypass@kagi.com'; // Firefox only
+
+export async function isPPModeEnabled() {
+  let pp_mode_enabled = false;
+  try {
+    pp_mode_enabled = await browser.runtime.sendMessage(
+      KAGI_PRIVACY_PASS_EXTENSION_ID,
+      'status_report',
+    );
+  } catch (ex) {
+    // other end does not exist, likely Privacy Pass extension disabled/not installed
+  }
+
+  return pp_mode_enabled;
 }
 
 export async function getActiveTab(fetchingFromShortcut = false) {

@@ -2,6 +2,7 @@ import {
   fetchSettings,
   getActiveTab,
   requestActiveTabPermission,
+  isPPModeEnabled,
 } from './lib/utils.js';
 
 if (!globalThis.browser) {
@@ -128,6 +129,13 @@ async function setup() {
     '#request_permissions_button',
   );
   const saveErrorDiv = document.querySelector('#save_error');
+  const summarizeMenuCheckbox = document.querySelector(
+    '#summarize_context_menu_enabled',
+  );
+  const imageSearchMenuCheckbox = document.querySelector(
+    '#image_search_context_menu_enabled',
+  );
+  const ppBlockedNotice = document.querySelector('#pp_blocked_notice');
 
   privacyConsentButton.addEventListener('click', async () => {
     try {
@@ -170,6 +178,8 @@ async function setup() {
         api_engine,
         summary_type,
         target_language,
+        summarize_context_menu_enabled: summarizeMenuCheckbox.checked,
+        image_search_context_menu_enabled: imageSearchMenuCheckbox.checked,
       });
     } catch (error) {
       console.error(error);
@@ -306,7 +316,13 @@ async function setup() {
     summary_type,
     target_language,
     privacy_consent,
+    summarize_context_menu_enabled,
+    image_search_context_menu_enabled,
   } = {}) {
+    summarizeMenuCheckbox.checked = summarize_context_menu_enabled;
+    ppBlockedNotice.style.display = (await isPPModeEnabled()) ? '' : 'none';
+    imageSearchMenuCheckbox.checked = image_search_context_menu_enabled;
+
     if ((privacy_consent || IS_CHROME) && token) {
       tokenInput.value = token;
 

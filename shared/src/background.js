@@ -2,6 +2,8 @@ import {
   summarizeContent,
   fetchSettings,
   requestActiveTabPermission,
+  isPPModeEnabled,
+  KAGI_PRIVACY_PASS_EXTENSION_ID,
 } from './lib/utils.js';
 
 if (!globalThis.browser) {
@@ -15,6 +17,8 @@ let sessionApiEngine = undefined;
 let sessionSummaryType = undefined;
 let sessionTargetLanguage = undefined;
 let sessionPrivacyConsent = false;
+let sessionSummarizeContextMenuEnabled = true;
+let sessionImageSearchContextMenuEnabled = true;
 let IS_CHROME = true;
 
 // Very hacky, but currently works flawlessly
@@ -29,35 +33,31 @@ if (IS_CHROME) {
 
 async function saveToken(
   {
-    token,
-    api_token,
-    api_engine,
+    token = sessionToken,
+    api_token = sessionApiToken,
+    api_engine = sessionApiEngine,
     sync,
-    summary_type,
-    target_language,
-    privacy_consent,
+    summary_type = sessionSummaryType,
+    target_language = sessionTargetLanguage,
+    privacy_consent = sessionPrivacyConsent,
+    summarize_context_menu_enabled = sessionSummarizeContextMenuEnabled,
+    image_search_context_menu_enabled = sessionImageSearchContextMenuEnabled,
   } = {},
   isManual = false,
 ) {
-  sessionToken = typeof token !== 'undefined' ? token : sessionToken;
-  sessionApiToken =
-    typeof api_token !== 'undefined' ? api_token : sessionApiToken;
-  sessionApiEngine =
-    typeof api_engine !== 'undefined' ? api_engine : sessionApiEngine;
-  sessionSummaryType =
-    typeof summary_type !== 'undefined' ? summary_type : sessionSummaryType;
-  sessionTargetLanguage =
-    typeof target_language !== 'undefined'
-      ? target_language
-      : sessionTargetLanguage;
-  sessionPrivacyConsent =
-    typeof privacy_consent !== 'undefined'
-      ? privacy_consent
-      : sessionPrivacyConsent;
+  sessionToken = token;
+  sessionApiToken = api_token;
+  sessionApiEngine = api_engine;
+  sessionSummaryType = summary_type;
+  sessionTargetLanguage = target_language;
+  sessionPrivacyConsent = privacy_consent;
+  sessionSummarizeContextMenuEnabled = summarize_context_menu_enabled;
+  sessionImageSearchContextMenuEnabled = image_search_context_menu_enabled;
 
   let shouldSync = sync || !isManual;
   if (typeof sessionToken === 'undefined' || sessionToken.trim().length === 0) {
     shouldSync = true;
+    await updateContextMenus();
     await browser.runtime.sendMessage({ type: 'reset' });
   }
 
@@ -65,13 +65,15 @@ async function saveToken(
 
   try {
     await browser.storage.local.set({
-      session_token: token,
+      session_token: sessionToken,
       sync_existing: shouldSync,
       api_token: sessionApiToken,
       api_engine: sessionApiEngine,
       summary_type: sessionSummaryType,
       target_language: sessionTargetLanguage,
       privacy_consent: sessionPrivacyConsent,
+      summarize_context_menu_enabled: sessionSummarizeContextMenuEnabled,
+      image_search_context_menu_enabled: sessionImageSearchContextMenuEnabled,
     });
   } catch (error) {
     console.error(error);
@@ -84,6 +86,7 @@ async function saveToken(
   }
 
   await updateRules();
+  await updateContextMenus();
 
   // tell the extension popup to update the UI
   await browser.runtime.sendMessage({
@@ -94,6 +97,8 @@ async function saveToken(
     summary_type: sessionSummaryType,
     target_language: sessionTargetLanguage,
     privacy_consent: sessionPrivacyConsent,
+    summarize_context_menu_enabled: sessionSummarizeContextMenuEnabled,
+    image_search_context_menu_enabled: sessionImageSearchContextMenuEnabled,
   });
 }
 
@@ -174,14 +179,22 @@ async function updateContextMenus() {
   // FF Android does not support context menus
   if (!browser.contextMenus) return;
 
-  if (!(await isPPModeEnabled())) {
+  await browser.contextMenus.removeAll();
+
+  if (sessionSummarizeContextMenuEnabled && !(await isPPModeEnabled())) {
     browser.contextMenus.create({
       id: 'kagi-summarize',
       title: 'Kagi Summarize',
       contexts: ['link', 'page'], // Show the menu item when clicked on a link or elsewhere on page with no matching contexts
     });
-  } else {
-    browser.contextMenus.remove('kagi-summarize');
+  }
+
+  if (sessionImageSearchContextMenuEnabled) {
+    browser.contextMenus.create({
+      id: 'kagi-image-search',
+      title: 'Kagi Image Search',
+      contexts: ['image'],
+    });
   }
 }
 
@@ -242,6 +255,8 @@ async function loadStorageData() {
     summary_type,
     target_language,
     privacy_consent,
+    summarize_context_menu_enabled,
+    image_search_context_menu_enabled,
   } = await fetchSettings();
 
   sessionToken = token;
@@ -255,9 +270,14 @@ async function loadStorageData() {
   sessionTargetLanguage = target_language;
 
   if (!IS_CHROME) sessionPrivacyConsent = privacy_consent;
+  sessionSummarizeContextMenuEnabled = summarize_context_menu_enabled;
+  sessionImageSearchContextMenuEnabled = image_search_context_menu_enabled;
 }
 
-loadStorageData().then(() => updateContextMenus());
+loadStorageData().then(async () => {
+  await updateRules();
+  await updateContextMenus();
+});
 
 // The function kagiSummarize is called when clicking the context menu item.
 async function kagiSummarize(info) {
@@ -282,32 +302,17 @@ function kagiImageSearch(info) {
   });
 }
 
-// FF Android does not support context menus
-if (browser.contextMenus !== undefined) {
-  // Create a context menu item.
-
-  // a context menu item for Summarize is added in applyHeader()
-  // to match the status of Privacy Pass
-
-  browser.contextMenus.create({
-    id: 'kagi-image-search',
-    title: 'Kagi Image Search',
-    contexts: ['image'],
-  });
-
-  // Add a listener for the context menu item.
-  browser.contextMenus.onClicked.addListener(async (info, tab) => {
-    if (info.menuItemId === 'kagi-summarize') {
-      if (!IS_CHROME) {
-        // Attach permission request to user input handler for Firefox
-        await requestActiveTabPermission();
-      }
-      kagiSummarize(info, tab);
-    } else if (info.menuItemId === 'kagi-image-search') {
-      kagiImageSearch(info, tab);
+browser.contextMenus?.onClicked.addListener(async (info, tab) => {
+  if (info.menuItemId === 'kagi-summarize') {
+    if (!IS_CHROME) {
+      // Attach permission request to user input handler for Firefox
+      await requestActiveTabPermission();
     }
-  });
-}
+    kagiSummarize(info, tab);
+  } else if (info.menuItemId === 'kagi-image-search') {
+    kagiImageSearch(info, tab);
+  }
+});
 
 // Communication with Kagi Privacy Pass extension
 
@@ -325,25 +330,6 @@ if (browser.contextMenus !== undefined) {
  * Summarize requests sent from this extension aren't anonymized in privacy pass
  * mode, so we still need to keep track of its state.
  */
-
-const KAGI_PRIVACY_PASS_EXTENSION_ID = 'privacypass@kagi.com'; // Firefox only
-
-async function isPPModeEnabled() {
-  if (IS_CHROME) {
-    return;
-  }
-  let pp_mode_enabled = false;
-  try {
-    pp_mode_enabled = await browser.runtime.sendMessage(
-      KAGI_PRIVACY_PASS_EXTENSION_ID,
-      'status_report',
-    );
-  } catch (ex) {
-    // other end does not exist, likely Privacy Pass extension disabled/not installed
-  }
-
-  return pp_mode_enabled;
-}
 
 if (!IS_CHROME) {
   // PP extension sent an unsolicited status report
