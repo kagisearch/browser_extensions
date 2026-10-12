@@ -8,26 +8,12 @@ let summaryTextContents = '';
 
 async function setup() {
   const loadingElement = document.querySelector('#loading');
-  if (!loadingElement) {
-    console.error('Could not find loading div');
-    return;
-  }
 
   const summaryResultElement = document.querySelector('#summary_result');
-  if (!summaryResultElement) {
-    console.error('Could not find summarize result div');
-    return;
-  }
-
   summaryResultElement.style.display = 'none';
   summaryResultElement.classList.remove('error');
 
   const copySummaryElement = document.querySelector('#copy_summary');
-  if (!copySummaryElement) {
-    console.error('Could not find copy summary button');
-    return;
-  }
-
   copySummaryElement.style.display = 'none';
 
   copySummaryElement.addEventListener('click', async () => {
@@ -50,29 +36,14 @@ async function setup() {
   });
 
   const summaryStatsElement = document.querySelector('#summary_stats');
-  if (!summaryStatsElement) {
-    console.error('Could not find summarize stats div');
-    return;
-  }
-
   summaryStatsElement.style.display = 'none';
 
   const summaryStatsTimeSavedElement = document.querySelector(
     '#summary_stats_time_saved',
   );
-  if (!summaryStatsTimeSavedElement) {
-    console.error('Could not find summarize stats time saved element');
-    return;
-  }
-
   summaryStatsTimeSavedElement.innerText = '0 minutes';
 
   const summaryCloseElement = document.getElementById('close_summary');
-  if (!summaryCloseElement) {
-    console.error('Could not find summarize close element');
-    return;
-  }
-
   summaryCloseElement.style.display = 'none';
 
   browser.runtime.onMessage.addListener(async (data) => {

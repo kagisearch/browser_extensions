@@ -83,30 +83,11 @@ function setStatus(type) {
 
 async function setup() {
   const privacyConsentDiv = document.querySelector('#privacy_consent_message');
-  if (!privacyConsentDiv) {
-    console.error('Could not find privacy div');
-    return;
-  }
-
   const privacyConsentButton = document.querySelector(
     '#privacy_consent_button',
   );
-  if (!privacyConsentButton) {
-    console.error('No privacy consent button found.');
-    return;
-  }
-
   const tokenDiv = document.querySelector('#token');
-  if (!tokenDiv) {
-    console.error('Could not find token div');
-    return;
-  }
-
   const tokenInput = document.querySelector('#token_input');
-  if (!tokenInput) {
-    console.error('Could not set token because no input exists');
-    return;
-  }
 
   tokenInput.addEventListener('focus', (event) => {
     event.target.select();
@@ -117,10 +98,6 @@ async function setup() {
   );
 
   const apiTokenInput = document.querySelector('#api_token_input');
-  if (!apiTokenInput) {
-    console.error('Could not set API token because no input exists');
-    return;
-  }
 
   apiTokenInput.addEventListener('focus', (event) => {
     event.target.select();
@@ -131,90 +108,26 @@ async function setup() {
   );
 
   const apiEngineSelect = document.querySelector('#engine');
-  if (!apiEngineSelect) {
-    console.error('Could not set API engine because no select exists');
-    return;
-  }
-
   const advancedToggle = document.querySelector('#advanced');
-  if (!advancedToggle) {
-    console.error('Could not find advanced toggle');
-    return;
-  }
-
   const summarizeSection = document.querySelector('#summarize');
-  if (!summarizeSection) {
-    console.error('Could not find summarize section');
-    return;
-  }
-
   const summarizePageButton = document.querySelector('#summarize_page');
-  if (!summarizePageButton) {
-    console.error('Could not find summarize page button');
-    return;
-  }
-
   const apiParamElements = document.querySelectorAll('.api_param');
-  if (!apiParamElements.length) {
-    console.error('Could not find api param divs');
-    return;
-  }
 
   apiParamElements.forEach((element) => {
     element.style.display = 'none';
   });
 
   const saveTokenButton = document.querySelector('#token_save');
-  if (!saveTokenButton) {
-    console.error('Could not find save settings button');
-    return;
-  }
-
   const summaryTypeSelect = document.querySelector('#summary_type');
-  if (!summaryTypeSelect) {
-    console.error('No summary type select found.');
-    return;
-  }
-
   const targetLanguageSelect = document.querySelector('#target_language');
-  if (!targetLanguageSelect) {
-    console.error('No target language select found.');
-    return;
-  }
-
   const engineSelect = document.querySelector('#engine');
-  if (!engineSelect) {
-    console.error('No engine select found.');
-    return;
-  }
-
-  const summarizeOptions = document.querySelectorAll('.summarize_option');
-  if (summarizeOptions.length === 0) {
-    console.error('No summarize options found.');
-    return;
-  }
-
   const requestPermissionsSection = document.querySelector(
     '#request_permissions',
   );
-  if (!requestPermissionsSection) {
-    console.error('No request permissions section found.');
-    return;
-  }
-
   const requestPermissionsButton = document.querySelector(
     '#request_permissions_button',
   );
-  if (!requestPermissionsButton) {
-    console.error('No request permissions button found.');
-    return;
-  }
-
   const saveErrorDiv = document.querySelector('#save_error');
-  if (!saveErrorDiv) {
-    console.error('Could not find save error div');
-    return;
-  }
 
   privacyConsentButton.addEventListener('click', async () => {
     try {
@@ -444,12 +357,6 @@ async function setup() {
 
       if (!hasIncognitoAccess) {
         const incognitoSection = document.querySelector('#incognito');
-
-        if (!incognitoSection) {
-          console.error('No incognito div to place text');
-          return;
-        }
-
         incognitoSection.style.display = '';
 
         const firefoxExtensionSection = document.querySelector('#firefox_ext');
