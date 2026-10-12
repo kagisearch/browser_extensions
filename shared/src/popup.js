@@ -142,18 +142,6 @@ async function setup() {
     return;
   }
 
-  const fastGptSection = document.querySelector('#fastgpt');
-  if (!fastGptSection) {
-    console.error('Could not find fastgpt section');
-    return;
-  }
-
-  const fastGptQueryInput = document.querySelector('#fastgpt_query');
-  if (!fastGptQueryInput) {
-    console.error('Could not find fastgpt input');
-    return;
-  }
-
   const summarizeSection = document.querySelector('#summarize');
   if (!summarizeSection) {
     console.error('Could not find summarize section');
@@ -287,8 +275,6 @@ async function setup() {
       closeSettingsIcon.style.display = 'none';
       tokenDiv.style.display = 'none';
       if (tokenInput.value) {
-        fastGptSection.style.display = '';
-
         const hasPermissions = await browser.permissions.contains({
           permissions: ['activeTab'],
         });
@@ -300,8 +286,6 @@ async function setup() {
           summarizeSection.style.display = '';
           requestPermissionsSection.style.display = 'none';
         }
-      } else {
-        fastGptSection.style.display = 'none';
       }
       advancedToggle.setAttribute('title', 'Advanced settings');
     } else {
@@ -309,7 +293,6 @@ async function setup() {
       closeSettingsIcon.style.display = '';
       tokenDiv.style.display = '';
       summarizeSection.style.display = 'none';
-      fastGptSection.style.display = 'none';
       requestPermissionsSection.style.display = 'none';
       advancedToggle.setAttribute('title', 'Close advanced settings');
     }
@@ -430,10 +413,6 @@ async function setup() {
           summarizeSection.style.display = '';
           requestPermissionsSection.style.display = 'none';
         }
-
-        fastGptSection.style.display = '';
-      } else {
-        fastGptSection.style.display = 'none';
       }
 
       if (sync_existing) {
@@ -558,8 +537,6 @@ async function setup() {
             permissions: ['activeTab'],
           });
 
-          fastGptSection.style.display = '';
-
           if (!hasPermissions) {
             summarizeSection.style.display = 'none';
             requestPermissionsSection.style.display = '';
@@ -570,7 +547,6 @@ async function setup() {
         } else {
           summarizeSection.style.display = 'none';
           requestPermissionsSection.style.display = 'none';
-          fastGptSection.style.display = 'none';
         }
       }
 
@@ -592,15 +568,6 @@ async function setup() {
     } else if (data.type === 'save-error') {
       showSavingError();
     }
-  });
-
-  if (fastGptSection.style.display !== 'none') {
-    fastGptQueryInput.focus();
-  }
-
-  // Close popup after submitting fastGpt
-  fastGptSection.querySelector('form').addEventListener('submit', () => {
-    setTimeout(() => window.close(), 50); // Without this timeout, the browser opens a new window instead of a new tab
   });
 }
 
