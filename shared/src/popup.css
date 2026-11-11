@@ -5,12 +5,10 @@ body {
   background-color: transparent;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 16px;
+  color-scheme: light dark;
 }
 
 * {
-  -moz-box-sizing: border-box;
-  -o-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -33,12 +31,11 @@ button {
 
 input:not(:where([type="checkbox"])) {
   width: 100%;
-  border: 1px solid #e1e0db;
 }
 
 input[type="password"], input[type="text"] {
-  background-color: #f7f6f2;
-  border: 1px solid #e1e0db;
+  background-color: light-dark(#fff, #2f2f31);
+  border: 1px solid #9f9fa5;
   height: 48px;
   border-radius: 5px;
   padding: 0 10px;
@@ -163,7 +160,7 @@ h3 {
 }
 
 .desc {
-  color: rgba(0, 0, 0, 0.6);
+  opacity: 0.8;
   font-size: 0.75rem;
   margin-top: 5px;
 }
@@ -200,96 +197,6 @@ p {
   margin-bottom: 10px;
 }
 
-.k_ui_toggle_switch {
-  --bg-color: transparent;
-  --active-bg-color: transparent;
-  --border-color: #15273f;
-  --active-border-color: #15273f;
-  --knob-bg-color: #15273f;
-  --active-knob-bg-color: #15273f;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 0;
-}
-
-.k_ui_toggle_switch.with_label {
-  margin-left: auto;
-  position: relative;
-  padding-right: 35px;
-  display: inline-block;
-  color: var(--border-color);
-}
-
-.k_ui_toggle_switch_status {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform: translate(55px, 5px);
-  font-size: 0.75rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  pointer-events: none;
-  line-height: normal;
-  opacity: 0.3;
-}
-
-.k_ui_toggle_switch_status .__on {
-  display: none;
-}
-
-.k_ui_toggle_switch_bar {
-  background-color: var(--bg-color);
-  border: 1px solid var(--border-color);
-  position: relative;
-  padding: 3px;
-  width: 48px;
-  height: 24px;
-  border-radius: 100px;
-  cursor: pointer;
-  opacity: 0.3;
-}
-
-.k_ui_toggle_switch_bar:after {
-  content: "";
-  width: 18px;
-  height: 18px;
-  background-color: var(--knob-bg-color);
-  position: absolute;
-  left: 2px;
-  top: 2px;
-  border-radius: 100px;
-  transition: left 0.15s ease-in-out;
-}
-
-.k_ui_toggle_switch input {
-  display: none;
-}
-
-.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_bar {
-  border: 1px solid var(--active-border-color);
-  background-color: var(--active-bg-color);
-  opacity: unset;
-}
-
-.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_status {
-  opacity: unset;
-}
-
-.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_status .__on {
-  display: block;
-}
-
-.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_status .__off {
-  display: none;
-}
-
-.k_ui_toggle_switch input:checked ~ .k_ui_toggle_switch_bar:after {
-  background-color: var(--active-knob-bg-color);
-  left: unset;
-  right: 2px;
-}
-
 #summarize, #request_permissions {
   margin-top: 10px;
   width: 100%;
@@ -321,8 +228,6 @@ p {
   font-size: 0.9375rem;
   cursor: pointer;
   margin-top: 0;
-  margin-bottom: 10px;
-  margin-right: 10px;
 }
 
 #request_permissions_button {
