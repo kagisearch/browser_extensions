@@ -100,6 +100,8 @@ async function saveToken(
     summarize_context_menu_enabled: sessionSummarizeContextMenuEnabled,
     image_search_context_menu_enabled: sessionImageSearchContextMenuEnabled,
   });
+
+  await checkForSession();
 }
 
 async function summarizePage(options) {

@@ -322,6 +322,8 @@ async function setup() {
     summarizeMenuCheckbox.checked = summarize_context_menu_enabled;
     ppBlockedNotice.style.display = (await isPPModeEnabled()) ? '' : 'none';
     imageSearchMenuCheckbox.checked = image_search_context_menu_enabled;
+    privacyConsentDiv.style.display =
+      privacy_consent || IS_CHROME ? 'none' : '';
 
     if ((privacy_consent || IS_CHROME) && token) {
       tokenInput.value = token;
@@ -398,13 +400,11 @@ async function setup() {
       }
     } else if (!privacy_consent && !IS_CHROME) {
       setStatus('');
-      privacyConsentDiv.style.display = '';
       tokenDiv.style.display = 'none';
       advancedToggle.style.display = 'none';
       saveErrorDiv.style.display = 'none';
       toggleAdvancedDisplay('close');
     } else {
-      privacyConsentDiv.style.display = 'none';
       advancedToggle.style.display = '';
       setStatus('no_session');
     }
