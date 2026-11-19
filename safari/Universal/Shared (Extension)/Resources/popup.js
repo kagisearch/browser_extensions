@@ -28,33 +28,12 @@ document.querySelector("#private-session-link").addEventListener('input', privat
 // -----------------------
 // MARK: - Selecting default engine to redirect
 // -----------------------
-const defaultEngineToRedirect = "All";
-var engineToRedirect = defaultEngineToRedirect;
 const engineSelect = document.getElementById('engine-to-redirect');
 const dnrStatusCheckbox = document.getElementById('is-dnr-enabled');
 
-// Updates the UI
-function selectCurrentEngine(currentEngine) {
-  selectCurrentEngineIndex(Array.from(engineSelect.options).indexOf(engineSelect.namedItem(currentEngine)));
-}
-function selectCurrentEngineIndex(engineIndex) {
-  engineSelect.selectedIndex = engineIndex;
-}
-
-// Runs when the selection changes
-function engineToRedirectChanged() {
-  const index = engineSelect.selectedIndex;
-  updateEngineToRedirect(engineSelect.options[index].value);
-}
-
-// Stores the new engine in storage
-function updateEngineToRedirect(newEngine) {
-  engineToRedirect = newEngine;
-  selectCurrentEngine(newEngine);
-  return browser.storage.local.set({ kagiEngineToRedirect: newEngine });
-}
-
-engineSelect.addEventListener('change', engineToRedirectChanged);
+engineSelect.addEventListener('change', () => {
+  return browser.storage.local.set({ kagiEngineToRedirect: engineSelect.value });
+});
 
 // -----------------------
 // MARK: - Displaying & updating host permissions
@@ -69,42 +48,6 @@ function fetchAndUpdateKnownHostList() {
     enabledElement.classList.toggle("enabledForThisDomain", hasKnownHosts);
     enabledElement.innerText = hasKnownHosts ? "enabled on:" : "disabled";
     updateKnownHostList(knownHosts);
-    
-    // If the currently-redirecting engine no longer has permissions in the extension,
-    // reset to "All"
-    let enginesToDisplayInRedirectList = ["All"].concat(Array.from(document.querySelectorAll("[data-engine]")).map((en) => en.getAttribute("data-engine")));
-    if (engineToRedirect != "All" && enginesToDisplayInRedirectList.indexOf(engineToRedirect) < 0) {
-      updateEngineToRedirect(defaultEngineToRedirect);
-    }
-
-    // Redirect engine list UI updates
-    if (knownHosts.indexOf("*://*/*") > -1 || knownHosts.indexOf("<all_urls>") > -1) {
-      // TODO: Do we need custom logic for the "All websites allowed" permission?
-    } else {
-      if (enginesToDisplayInRedirectList.length > 0) {
-        for (let i=0;i<engineSelect.options.length;i++) {
-          // Disable engines we don't have permissions for
-          engineSelect.options[i].disabled = (enginesToDisplayInRedirectList.indexOf(engineSelect.options[i].value) < 0);
-          
-          // Select the currently-redirected engine choice if it has permissions
-          if (!(engineSelect.options[i].disabled) && engineToRedirect == engineSelect.options[i].value) {
-            selectCurrentEngineIndex(i);
-          }
-        }
-          
-        // Set the default to the first permissioned engine in the list if we still haven't selected an engine
-        if (engineSelect.options[engineSelect.selectedIndex].disabled) {
-          let firstEnabledEngine = enginesToDisplayInRedirectList[0];
-          updateEngineToRedirect(firstEnabledEngine);
-        }
-      } else {
-        // We end up here if the user grants permission to only non-search-engine urls
-        // and opens the popup.
-        
-        // Leave the list as-is. Let them change the redirect if they please.
-      }
-    }
-    return Promise.resolve();
   });
 }
 
@@ -133,6 +76,9 @@ function updateKnownHostList(knownHosts) {
   }
   
   let engineKeys = Object.keys(hostsMap);
+  for (const option of engineSelect.options) {
+    option.disabled = option.value !== "All" && !engineKeys.includes(option.value);
+  }
   for (let i=0; i<engineKeys.length; i++) {
     let engine = engineKeys[i];
     let engineHosts = hostsMap[engine];
@@ -215,7 +161,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   
   browser.storage.local.get(["kagiEngineToRedirect", "kagiPrivateSessionLink", "kagiDnrEnabled"])
   .then((results) => {
-    engineToRedirect = selectedEngine(results.kagiEngineToRedirect);
+    engineSelect.value = selectedEngine(results.kagiEngineToRedirect);
     dnrEnabledStatusUpdateUI(fastRedirectEnabled(results));
 
     // Fetch the current private session link from storage
@@ -226,10 +172,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       document.querySelector("#private-session-link").value = privateSessionLink;
     }
   })
-  .finally(() => {
-      selectCurrentEngine(engineToRedirect);
-      fetchAndUpdateKnownHostList();
-  });
+  .finally(fetchAndUpdateKnownHostList);
 });
 
 // -----------------------
