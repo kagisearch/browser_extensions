@@ -9,7 +9,7 @@
     "build": "node build.js firefox",
     "format": "biome format --write . && biome check --apply .",
     "lint": "biome check .",
-    "test": "npm run lint"
+    "test": "npm run lint && node --test safari/Universal/tests/*.test.js"
   },
   "repository": {
     "type": "git",

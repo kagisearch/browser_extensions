@@ -10,7 +10,7 @@ npm run build             # Build Firefox extension
 npm run watch             # Watch mode
 npm run format            # Format code with Biome
 npm run lint              # Check code with Biome
-npm test                  # Run linter (alias for npm run lint)
+npm test                  # Run lint and Safari extension regression tests
 ```
 
 Build outputs go to `built/kagi_{browser}_{version}.zip`.
