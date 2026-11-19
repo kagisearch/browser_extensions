@@ -18,16 +18,11 @@ typealias PlatformViewController = NSViewController
 typealias KImage = NSImage
 #endif
 
-let macExtensionBundleIdentifier = "com.kagimacOS.Kagi-Search.Extension"
 let appWindowFrameAutosaveName = "KagiForSafariWindowFrame"
 
 class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMessageHandler {
 
     @IBOutlet var webView: WKWebView!
-    
-    var cachedSize: CGSize?
-    var initialSize: CGSize?
-    var shouldShowStatusBar = true
     
     #if os(iOS)
     var effectView: UIVisualEffectView? = nil
@@ -38,9 +33,7 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
         
         #if os(macOS)
         view.window?.setFrameAutosaveName(appWindowFrameAutosaveName)
-        initialSize = self.webView.bounds.size
-        #elseif os(iOS)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(detectMacOSExtensionStateChange), name: NSApplication.didBecomeActiveNotification, object: nil)
         #endif
 
         self.webView.navigationDelegate = self
@@ -55,17 +48,6 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
         self.webView.configuration.userContentController.add(self, name: "controller")
 
         self.webView.loadFileURL(Bundle.main.url(forResource: "Main", withExtension: "html")!, allowingReadAccessTo: Bundle.main.resourceURL!)
-        
-        // Listen for updates to the private session link
-        CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque()), { _, observer, _, _, _ in
-            guard let observer = observer else {
-                return
-            }
-            let currentPrivateSessionLink = Preferences.shared.privateSessionLink(for: nil) ?? ""
-            // Extract pointer to `self` from void pointer:
-            let unmanagedSelf = Unmanaged<ViewController>.fromOpaque(observer).takeUnretainedValue()
-            unmanagedSelf.webView.evaluateJavaScript("setCurrentPrivateSessionLink('\(currentPrivateSessionLink)')")
-        }, Preferences.Keys.privateSessionLink.cfNotificationNameString as CFString, nil, .hold)
         
         #if os(macOS)
         addUpgradeCheckObservers()
@@ -101,8 +83,7 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
     
     private func addEffectViewIfNeeded(animated: Bool = false) {
         guard effectView == nil else { return }
-        if let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first,
-           let statusBarFrame = view.window?.windowScene?.statusBarManager?.statusBarFrame,
+        if let statusBarFrame = view.window?.windowScene?.statusBarManager?.statusBarFrame,
            statusBarFrame.width > 0,
            statusBarFrame.height > 0 {
             effectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
@@ -128,24 +109,15 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        // No way at the moment to target specific profiles from the app.
-        guard let currentEngine = Preferences.shared.engine(for: nil) else {
-            return
-        }
-        
-        let currentPrivateSessionLink = Preferences.shared.privateSessionLink(for: nil) ?? ""
-        
-        webView.evaluateJavaScript("addEngineListener();")
-        webView.evaluateJavaScript("addPrivateSessionLinkListener();")
-        webView.evaluateJavaScript("selectCurrentEngine('\(currentEngine.name)')")
-        webView.evaluateJavaScript("setCurrentPrivateSessionLink('\(currentPrivateSessionLink)')")
-        
         let iconDataString = KImage(named: "LargeIcon")?.pngData()?.base64EncodedString() ?? ""
         webView.evaluateJavaScript("document.getElementById('icon').setAttribute('src', 'data:image/png;base64,\(iconDataString)')")
-//        webView.evaluateJavaScript("document.getElementById('toolbar-icon').setAttribute('src', 'data:image/png;base64,\(toolbarIconDataString)')")
         
 #if os(iOS)
-        webView.evaluateJavaScript("show('ios')")
+        if #available(iOS 26.2, *) {
+            webView.evaluateJavaScript("show('ios')")
+        } else {
+            webView.evaluateJavaScript("show('ios', null, false)")
+        }
 #elseif os(macOS)
         webView.evaluateJavaScript("show('mac')")
 
@@ -161,76 +133,28 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
         
         switch messageAction {
         case "open-preferences":
-            #if os(macOS)
-            SFSafariApplication.showPreferencesForExtension(withIdentifier: macExtensionBundleIdentifier) { error in
-                guard error == nil else {
-                    // TODO: Insert code to inform the user that something went wrong.
-                    return
-                }
+            Deeplinks.openExtensionSettings { [weak self] in
+                #if os(iOS)
+                let alert = UIAlertController(title: "Open Safari extension settings",
+                    message: "In Settings, open Apps → Safari → Extensions → Kagi for Safari. On older iOS versions, Safari is directly in Settings.",
+                    preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self?.present(alert, animated: true)
+                #elseif os(macOS)
+                let alert = NSAlert()
+                alert.messageText = "Open Safari extension settings"
+                alert.informativeText = "In Safari, choose Settings → Extensions → Kagi for Safari."
+                alert.runModal()
+                #endif
             }
-            #elseif os(iOS)
-            if let url = URL(string: "App-Prefs:SAFARI&path=WEB_EXTENSIONS") {
-                UIApplication.shared.open(url)
-            }
-            #endif
             break
-        case "engine-changed":
-            guard let engineName = messageBody["newEngine"] as? String,
-                  let engine = SearchSource.named(engineName) else {
-                return
-            }
-            Preferences.shared.setEngine(engine, profile: nil)
-            
-            break
-            case "private-session-link-changed":
-                guard let newLink = messageBody["newLink"] as? String else {
-                    return
-                }
-                Preferences.shared.setPrivateSessionLink(newLink, profile: nil)
-                
-                break
-        case "sync-with-safari":
-            #if os(macOS)
-            syncDataToSafari(nil)
-            #elseif os(iOS)
-            
-            #endif
-            break
-        case "update-window-size":
-            #if os(macOS)
-            guard let currentWindow = view.window else {
-                return
-            }
-            var newHeight: CGFloat = 0
-            var newWidth: CGFloat = 0
-            if let cachedSize = cachedSize,
-               let useCachedSize = messageBody["useCachedSize"] as? Bool,
-               useCachedSize == true {
-                newHeight = cachedSize.height + currentWindow.titlebarHeight
-                newWidth = cachedSize.width
-                self.cachedSize = nil
-            } else if let messageHeight = messageBody["newHeight"] as? CGFloat,
-                      let messageWidth = messageBody["newWidth"] as? CGFloat {
-                newHeight = messageHeight + currentWindow.titlebarHeight + 25 // some extra buffer to prevent scrollbars
-                newWidth = messageWidth
-            }
-           
-            if let initialSize = initialSize {
-                newWidth = max(initialSize.width, newWidth)
-                newHeight = max(initialSize.height, newHeight)
-            }
-            
-            let newFrame = currentWindow.frame.insetBy(dx: ((currentWindow.frame.width - newWidth)/2), dy: ((currentWindow.frame.height - newHeight)/2))
-            currentWindow.animator().setFrame(newFrame, display: true, animate: true)
-                
-            #endif
-            break
-        case "cache-prescreenshot-size":
-            cachedSize = self.webView.bounds.size
-            break
+        #if os(iOS)
+        case "open-settings":
+            Deeplinks.openSettings()
+        #endif
         case "open-external-link":
             guard let urlString = messageBody["url"] as? String,
-                  let url = URL(string: urlString) else {
+                  let url = URL(string: urlString), url.scheme == "https" else {
                 return
             }
             #if os(macOS)
@@ -239,59 +163,34 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
             UIApplication.shared.open(url)
             #endif
             break
-        case "toggle-statusbar":
-            #if os(iOS)
-            guard let isVisible = messageBody["isVisible"] as? Bool else {
-                return
-            }
-            shouldShowStatusBar = isVisible
-            UIView.animate(withDuration: 0.5) {
-                self.setNeedsStatusBarAppearanceUpdate()
-            }
-            
-            #endif
-            break
         default:
             break
         }
     }
-    
-    #if os(iOS)
-    override var prefersStatusBarHidden: Bool {
-        get {
-            !shouldShowStatusBar
-        }
-    }
-    #endif
     
     #if os(macOS)
     @IBAction func syncDataToSafari(_ sender: AnyObject?) {
         guard let currentEngine = Preferences.shared.engine(for: nil) else {
             return
         }
-        SFSafariApplication.dispatchMessage(withName: "syncData", toExtensionWithIdentifier: macExtensionBundleIdentifier, userInfo: [
+        SFSafariApplication.dispatchMessage(withName: "syncData", toExtensionWithIdentifier: Deeplinks.extensionIdentifier, userInfo: [
                 "currentEngine": currentEngine.name,
                 "privateSessionLink": Preferences.shared.privateSessionLink(for: nil) ?? ""
             ]) { error in
 
         }
     }
-    func detectMacOSExtensionStateChange() {
-        SFSafariExtensionManager.getStateOfSafariExtension(withIdentifier: macExtensionBundleIdentifier) { (state, error) in
+    @objc private func detectMacOSExtensionStateChange() {
+        SFSafariExtensionManager.getStateOfSafariExtension(withIdentifier: Deeplinks.extensionIdentifier) { [weak self] state, error in
             guard let state = state, error == nil else {
-                // Insert code to inform the user that something went wrong.
                 return
             }
 
-            DispatchQueue.main.async { [weak self] in
+            DispatchQueue.main.async {
                 if state.isEnabled {
                     self?.checkIfUpgraded()
                 }
-                if #available(macOS 13, *) {
-                    self?.webView.evaluateJavaScript("show('mac', \(state.isEnabled), true)")
-                } else {
-                    self?.webView.evaluateJavaScript("show('mac', \(state.isEnabled), false)")
-                }
+                self?.webView.evaluateJavaScript("show('mac', \(state.isEnabled))")
             }
         }
     }

@@ -6,7 +6,6 @@
 //
 
 import XCTest
-@testable import Kagi_Search__iOS_
 
 final class Kagi_Search__iOS_Tests: XCTestCase {
 
