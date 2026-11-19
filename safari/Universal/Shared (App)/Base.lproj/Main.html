@@ -1,48 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'unsafe-inline' 'self';script-src *; img-src 'self' data:">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../Style.css">
-  <script src="../basicLightbox.min.js" defer></script>
   <script src="../Script.js" defer></script>
-  <title></title>
+  <title>Kagi for Safari</title>
 </head>
 <body>
-  <div id="wrapper">
-    <img width="128" height="128" alt="Kagi Search for Safari Icon" id="icon">
-    <h2>Instructions</h2>
-    <ol class="instructions">
-      <li>
-        <strong>Enable</strong> extension in <a class="open-preferences platform-ios" href="#">Safari Extension Settings</a>, and <strong>Allow</strong> permissions for "kagi<img />.<img />com"<span class="open-preferences platform-mac">Safari Extension Settings</span>.
-        <a href="../enable_extension.png" class="screenshot platform-mac"><object type="image/svg+xml" data="../ScreenshotIcon.svg"></object></a>
-        <fieldset id="open-settings-button" class="platform-mac">
-          <button class="open-preferences">Open Safari Extension Settings</button>
-        </fieldset>
+  <main id="wrapper">
+    <header>
+      <img width="76" height="76" alt="" id="icon">
+      <p class="eyebrow">KAGI FOR SAFARI</p>
+      <h1>Your search.<br>Your Safari.</h1>
+      <p class="intro">Bring Kagi to Safari’s address bar.<br>A little setup, then you’re ready to search.</p>
+      <p class="status platform-mac state-on">Extension is enabled</p>
+      <p class="status platform-mac state-off">Extension is not enabled yet</p>
+    </header>
+
+    <ol class="steps" aria-label="Set up Kagi">
+      <li class="card">
+        <span class="step" aria-hidden="true">1</span>
+        <div>
+          <h2>Enable the extension</h2>
+          <p>Turn on Kagi for Safari in Safari’s extension settings.</p>
+          <button class="open-preferences primary">Open extension settings <span aria-hidden="true">↗</span></button>
+          <p class="hint platform-ios">You can also open <button type="button" class="settings-shortcut">Settings</button> → Apps → Safari → Extensions → Kagi for Safari. On older iOS versions, Safari is directly in Settings.</p>
+          <p class="hint platform-mac">Safari → Settings → Extensions → Kagi for Safari.</p>
+        </div>
+      </li>
+      <li class="card">
+        <span class="step" aria-hidden="true">2</span>
+        <div>
+          <h2>Allow your search engine</h2>
+          <p>In the extension’s website permissions, allow the search engine selected in Safari, such as Google or DuckDuckGo.</p>
+          <p class="hint">If it isn’t listed, search from Safari’s address bar, open the Kagi extension, and allow access to that website.</p>
+        </div>
+      </li>
+      <li class="card">
+        <span class="step" aria-hidden="true">3</span>
+        <div>
+          <h2>Sign in and start searching</h2>
+          <p>Sign in to Kagi in Safari. Then type a search in Safari’s address bar to try it out.</p>
+          <a href="https://kagi.com/" class="text-link">Open Kagi <span aria-hidden="true">↗</span></a>
+          <p class="hint">Keep your current Safari search engine selected. The extension redirects supported address-bar searches to Kagi.</p>
+        </div>
       </li>
     </ol>
-    <img class="platform-ios instruction-animation lightmode" src="../Settings_Animation_light.gif" />
-    <img class="platform-ios instruction-animation darkmode" src="../Settings_Animation_dark.gif" />
-    <ol class="instructions" start="2">
-        <li>After your first search, click the Kagi extension icon in Safari's toolbar and <strong>select</strong> "Always Allow on This Website".
-            <a href="../grant_permissions.png" class="screenshot platform-mac"><object type="image/svg+xml" data="../ScreenshotIcon.svg"></object></a>
-        </li>
-    </ol>
-    <img class="platform-ios instruction-animation lightmode" src="../Grant_Permissions_Animation_light.gif" />
-    <img class="platform-ios instruction-animation darkmode" src="../Grant_Permissions_Animation_dark.gif" />
-    <ol class="instructions" start="3">
-      <li>
-        <p><em>Optional:</em> Select the search engine you want to redirect to Kagi in the extension popup.</p>
-      </li>
-      <li>
-        <strong>To enable</strong> Kagi in Private Browsing, <span class="platform-mac">check the "Allow in Private Browsing" checkbox</span><span class="platform-ios">enable the "Private Browsing" toggle switch</span>. Then copy your Kagi private session link from <a href="https://kagi.com/settings?p=user_details#sessionLink" target="_new">your Kagi account settings</a> into the extension popup.
-        <a href="../allow_private_browsing.png" class="screenshot platform-mac"><object type="image/svg+xml" data="../ScreenshotIcon.svg"></object></a>
-      </li>
-      <li>This completes the setup. You can now search with Kagi.</li>
-    </ol>
-    <hr>
-    <p>Sorry that Apple made this so complicated. We even started building an entire WebKit browser called <a href="https://browser.kagi.com/" target="_new">Orion</a> to make it easier to use Kagi on Mac. We’d appreciate if you gave it a try.</p>
-  </div>
+
+    <section class="private card">
+      <details>
+        <summary>Set up Private Browsing <span class="optional">Optional</span></summary>
+        <div class="details-content">
+          <p>In Kagi’s extension settings, turn on <strong>Allow in Private Browsing</strong>, if available.</p>
+          <button class="open-preferences secondary">Open extension settings <span aria-hidden="true">↗</span></button>
+          <p>Copy your private session link from your Kagi account settings. In Safari, open the Kagi extension and paste it into the private session link field.</p>
+          <a class="text-link" href="https://kagi.com/settings?p=user_details#sessionLink">Get your private session link <span aria-hidden="true">↗</span></a>
+          <p class="hint">You can also allow access to kagi.com to save the link automatically when you sign in. Regular tabs keep their own sign-in session.</p>
+        </div>
+      </details>
+    </section>
+    <footer>
+      <p>To change redirect options or your private session link, open the Kagi extension from Safari’s toolbar or page menu.</p>
+      <a href="https://help.kagi.com/kagi/getting-started/setting-default.html">Setup help <span aria-hidden="true">↗</span></a>
+    </footer>
+  </main>
 </body>
 </html>
