@@ -11,6 +11,7 @@ npm run watch             # Watch mode
 npm run format            # Format code with Biome
 npm run lint              # Check code with Biome
 npm test                  # Run lint and Safari extension regression tests
+npm run test:safari       # Run the Safari JavaScript regression suite
 ```
 
 Build outputs go to `built/kagi_{browser}_{version}.zip`.
@@ -36,7 +37,7 @@ The build script (`build.js`) combines `shared/*` with browser-specific manifest
 
 Safari extensions are Swift-based native apps, separate from the npm build system. Built with Xcode.
 
-- **`safari/Universal/`** - Universal extension for iOS + macOS (MV3). Still under development - background scripts are unreliable and may be killed or fail to load.
+- **`safari/Universal/`** - Universal extension for iOS and macOS (MV3). Persistent DNR rules handle cold searches, and a committed-navigation listener handles missed redirects. See the [Safari README](safari/README.md).
 - **`safari/Legacy iOS/`** - Legacy iOS implementation
 - **`safari/Legacy macOS/`** - Legacy macOS implementation (minimum macOS 10.14)
 
