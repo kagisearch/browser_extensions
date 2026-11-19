@@ -199,7 +199,7 @@
 		FE08124C2C14D36000D0899F /* rule-builder.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rule-builder.js"; sourceTree = "<group>"; };
 		FE08124F2C14D39200D0899F /* kagi-content-script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "kagi-content-script.js"; sourceTree = "<group>"; };
 		FE7FB18B2C053F2F00198663 /* content-script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "content-script.js"; sourceTree = "<group>"; };
-		FE9E48DE2DF01B2400473AB5 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
+		FE9E48DE2DF01B2400473AB5 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
