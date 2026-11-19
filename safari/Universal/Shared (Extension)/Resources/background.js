@@ -368,9 +368,11 @@ function checkForSearch(a) {
 
 function _checkForSearch(a) {
     if (-1 == a.parentFrameId && 0 < a.tabId) {
+        const query = captureQuery(a.url);
+        if (!query) return;
         var b = Date.now(),
             c = a.url,
-            d = captureQuery(c).replace(/ +$/, "");
+            d = query.replace(/ +$/, "");
         if (0 == tk || 500 < b - tk) {
             if (d) {
                 var e = d.split(/\s+/);
@@ -466,7 +468,7 @@ browser.webNavigation.onBeforeNavigate.addListener(checkForSearch, defaultFilter
 // Checks for upgrade from 1.x to 2.x. If so, attempts to migrate
 // the privateSessionLink url from the previous extension
 browser.runtime.onInstalled.addListener(function(details) {
-  if (!(details.previousVersion.startsWith("1") == true && browser.runtime.getManifest().version.startsWith("2") == true)) {
+  if (!details.previousVersion?.startsWith("1") || !browser.runtime.getManifest().version.startsWith("2")) {
     return;
   }
   browser.storage.local.get("privateSessionLink", function(value) {
