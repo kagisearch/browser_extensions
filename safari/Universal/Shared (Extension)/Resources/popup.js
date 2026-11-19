@@ -154,7 +154,7 @@ function fetchAndUpdateKnownHostList() {
     }
     
     // Redirect engine list UI updates
-    if (knownHosts.indexOf("*://*/*") > -1) {
+    if (knownHosts.indexOf("*://*/*") > -1 || knownHosts.indexOf("<all_urls>") > -1) {
       // TODO: Do we need custom logic for the "All websites allowed" permission?
     } else {
       if (enginesToDisplayInRedirectList.length > 0) {
@@ -190,7 +190,7 @@ function updateKnownHostList(knownHosts) {
   var hostsHtml = "";
   
   // Check if permissions have been granted for all urls instead of specific ones 
-  let hasAllUrlsPermissions = (knownHosts.indexOf("*://*/*") > -1)
+  let hasAllUrlsPermissions = (knownHosts.indexOf("*://*/*") > -1 || knownHosts.indexOf("<all_urls>") > -1)
   
   if (hasAllUrlsPermissions) {
     hostsHtml += `<details class="allUrls"><summary>All Search Engines <a href="#" class="revokePermissions" data-engine="All">${symbolTrashBase64ImgTag}<span class="confirmationText"> (tap again to remove permissions)</span></a></summary><ul class="noListStyle"><li>`;
@@ -319,12 +319,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // -----------------------
 document.getElementById("setup-permissions-button").onclick = async function(evt) {
   console.log("Checking kagi.com permissions");
-  checkSetupPermissions()
-  .then((alreadyGranted) => {
-    if (!alreadyGranted) {
-        return browser.permissions.request(setupPermissions);
-    }
-  })
+  browser.permissions.request(setupPermissions)
   .then((granted) => {
     updateSetupPermissionsUI(granted);
     if (!granted) {
