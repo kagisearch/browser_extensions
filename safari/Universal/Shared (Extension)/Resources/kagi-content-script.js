@@ -26,9 +26,6 @@ credentials: "include"
         var tokenLink = "https://kagi.com/search?token=" + token
         browser.storage.local.set({ "kagiPrivateSessionLink": tokenLink })
         .then((result) => {
-            browser.runtime.sendMessage({
-                "updatedKagiPrivateSessionLink": tokenLink
-            });
             if (location.href.indexOf("https://kagi.com/signin") == 0) {
                 let kagi_sse_replay = localStorage.getItem("kagi_sse_replay")
                 if (typeof kagi_sse_replay !== "undefined" && kagi_sse_replay != null) {
