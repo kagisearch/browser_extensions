@@ -94,6 +94,6 @@ npm run format  # formats the code
 ### Testing/sharing/debugging
 
 ```sh
-npm run test  # runs the linter & formatter checks
+npm test       # runs Biome checks and the Safari regression suite
 npm run build  # builds the firefox zip file in the `built/` directory
 ```
