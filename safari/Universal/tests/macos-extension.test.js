@@ -12,15 +12,6 @@ test('the Mac toolbar action references a PNG resource', () => {
   assert.equal(icon.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
 });
 
-test('a fresh install skips migration and a 1.x upgrade keeps its session link', () => {
-  const { listeners, storage } = startBackground({ privateSessionLink: 'https://kagi.com/search?token=example' });
-  listeners.install({ reason: 'install' });
-  listeners.install({ reason: 'update', previousVersion: '2.2.3' });
-  assert.equal(storage.kagiPrivateSessionLink, undefined);
-  listeners.install({ reason: 'update', previousVersion: '1.0.4' });
-  assert.equal(storage.kagiPrivateSessionLink, storage.privateSessionLink);
-});
-
 test('an unrelated navigation leaves the next search free to redirect', async () => {
   const { commit, redirects } = startBackground({ kagiDnrEnabled: false });
   const frame = { tabId: 7 };

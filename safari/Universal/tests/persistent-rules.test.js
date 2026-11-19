@@ -104,8 +104,13 @@ test('unsupported regexes and private link edits leave supported rules installed
   await worker.settled();
   assert.equal(destination(state.rules, cases[3][1]), undefined);
   assert.equal(destination(state.rules, cases[0][1]), expected);
-  await worker.setPreferences({ kagiPrivateSessionLink: 'https://kagi.com/search?token=sample' });
-  await worker.settled();
+  const rulesBeforeEdit = structuredClone(state.rules);
+  for (const link of ['https://kagi.com/search?token=first', 'https://kagi.com/search?token=replacement', '']) {
+    await worker.setPreferences({ kagiPrivateSessionLink: link });
+    await worker.settled();
+    assert.equal(state.updates, 1);
+    assert.deepEqual(state.rules, rulesBeforeEdit);
+  }
   await startBackground({}, 'iOS', state).settled();
   assert.equal(state.updates, 1);
   assert.ok(!JSON.stringify(state.rules).includes('token'));

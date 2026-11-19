@@ -24,18 +24,14 @@ browser.webNavigation.onCommitted.addListener(details =>
     redirectCommittedSearch(details).catch(error => console.error("Could not redirect search:", error)),
     defaultFilter);
 
-// Checks for upgrade from 1.x to 2.x. If so, attempts to migrate
-// the privateSessionLink url from the previous extension
-browser.runtime.onInstalled.addListener(function(details) {
-  if (!details.previousVersion?.startsWith("1") || !browser.runtime.getManifest().version.startsWith("2")) {
-    return;
-  }
-  browser.storage.local.get("privateSessionLink", function(value) {
-    var privateSessionLink = value.privateSessionLink;
-    if (typeof privateSessionLink == "string" && privateSessionLink.length > 0) {
-      browser.storage.local.set({ kagiPrivateSessionLink: privateSessionLink });
-    }
-  });
+// Import the 1.x link only if the user has never saved or cleared the 2.x setting.
+browser.runtime.onInstalled.addListener(details => {
+    if (details.previousVersion?.split(".")[0] !== "1" || browser.runtime.getManifest().version.split(".")[0] !== "2") return;
+    return browser.storage.local.get(["privateSessionLink", "kagiPrivateSessionLink"]).then(prefs => {
+        if (prefs.kagiPrivateSessionLink === undefined && typeof prefs.privateSessionLink === "string") {
+            return browser.storage.local.set({ kagiPrivateSessionLink: prefs.privateSessionLink });
+        }
+    }).catch(error => console.error("Could not migrate private session link:", error));
 });
 
 // The background is the only writer. Safari keeps dynamic rules while it sleeps.

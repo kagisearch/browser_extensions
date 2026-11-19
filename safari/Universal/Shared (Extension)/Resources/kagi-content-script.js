@@ -23,8 +23,8 @@ credentials: "include"
     }
     
     if (typeof token == "string" && token.length > 0) {
-        var tokenLink = "https://kagi.com/search?token=" + token
-        browser.storage.local.set({ "kagiPrivateSessionLink": tokenLink })
+        const tokenLink = "https://kagi.com/search?token=" + encodeURIComponent(token);
+        return browser.storage.local.set({ "kagiPrivateSessionLink": tokenLink })
         .then((result) => {
             if (location.href.indexOf("https://kagi.com/signin") == 0) {
                 let kagi_sse_replay = localStorage.getItem("kagi_sse_replay")
@@ -35,7 +35,9 @@ credentials: "include"
                         if (keys.length > 0) {
                             let searchString = keys[0];
                             if (searchString.indexOf("search?q=") == 0) {
-                                window.location = "http://kagi.com/" + searchString + "&token=" + token;
+                                const replayURL = new URL(searchString, "https://kagi.com/");
+                                replayURL.searchParams.set("token", token);
+                                window.location = replayURL.href;
                             }
                         }
                     }
