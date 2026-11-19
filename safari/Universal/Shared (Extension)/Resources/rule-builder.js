@@ -160,3 +160,27 @@ function captureQuery(url, engine) {
         }
     }
 }
+
+async function kagiSearchURL(query, getTab) {
+    const destination = new URL("https://kagi.com/search");
+    try {
+        const tab = await getTab();
+        if (tab?.incognito === true) {
+            const prefs = await browser.storage.local.get("kagiPrivateSessionLink");
+            const link = typeof prefs.kagiPrivateSessionLink === "string" ? prefs.kagiPrivateSessionLink.trim() : "";
+            if (link) {
+                const session = new URL(link);
+                if (session.origin === "https://kagi.com" && session.pathname === "/search" &&
+                    !session.username && !session.password && session.searchParams.get("token")) {
+                    destination.searchParams.set("token", session.searchParams.get("token"));
+                }
+            }
+        }
+    } catch {
+        // Missing settings or tab information must not strand the search page.
+        // Fall back to normal Kagi authentication without exposing a token.
+    }
+    // Preserve the query exactly, including spaces and literal plus signs.
+    const separator = destination.search ? "&" : "?";
+    return `${destination.href}${separator}q=${encodeURIComponent(query)}`;
+}

@@ -27,5 +27,5 @@ test('an unrelated navigation leaves the next search free to redirect', async ()
   await commit({ ...frame, url: 'https://www.google.com/maps?q=Boston' });
   await commit({ ...frame, url: 'https://www.google.com/search' });
   await commit({ ...frame, url: 'https://www.google.com/search?q=red+panda&client=safari' });
-  assert.deepEqual(redirects, [{ id: 7, url: 'safari-web-extension://test/redirect.html?q=red%20panda', loadReplace: true }]);
+  assert.deepEqual(redirects, [{ id: 7, url: 'https://kagi.com/search?q=red%20panda' }]);
 });

@@ -4,7 +4,7 @@ const { startBackground } = require('./background');
 
 const search = query => 'https://duckduckgo.com/?t=iphone&q=' + encodeURIComponent(query);
 const redirect = (id, query) => ({
-  id, url: 'safari-web-extension://test/redirect.html?q=' + encodeURIComponent(query), loadReplace: true
+  id, url: 'https://kagi.com/search?q=' + encodeURIComponent(query)
 });
 
 test('simultaneous commits in different tabs each redirect their own query with fast redirect off', async () => {
@@ -26,10 +26,10 @@ test('a newer commit wins when two searches overlap in the same tab', async () =
 });
 
 test('a stale commit cannot replace a pending navigation, an unrelated page, or a closed tab', async () => {
-  const { commit, tabs, redirects } = startBackground({ kagiDnrEnabled: false });
+  const { commit, tabs, redirects, listeners } = startBackground({ kagiDnrEnabled: false });
   const url = search('old');
   const pending = commit({ tabId: 7, url });
-  tabs.get(7).pendingUrl = 'https://example.org/';
+  listeners.beforeNavigate({ tabId: 7, frameId: 0, url: 'https://example.org/' });
   const old = commit({ tabId: 8, url });
   const newer = commit({ tabId: 8, url: 'https://example.org/' });
   const closed = commit({ tabId: 9, url });
@@ -68,4 +68,17 @@ test('a committed search can redirect while DNR installation is still pending', 
   }
   await worker.settled();
   assert.ok(state.rules.length > 0);
+});
+
+test('only a private fallback uses the saved session link', async () => {
+  const { commit, tabs, redirects } = startBackground({
+    kagiDnrEnabled: false, kagiPrivateSessionLink: 'https://kagi.com/search?token=private'
+  });
+  const regularTab = commit({ tabId: 7, url: search('C++') });
+  const privateTab = commit({ tabId: 8, url: search('C++') });
+  tabs.get(8).incognito = true;
+  await Promise.all([regularTab, privateTab]);
+  assert.deepEqual(redirects.sort((a, b) => a.id - b.id), [
+    redirect(7, 'C++'), { id: 8, url: 'https://kagi.com/search?token=private&q=C%2B%2B' }
+  ]);
 });
