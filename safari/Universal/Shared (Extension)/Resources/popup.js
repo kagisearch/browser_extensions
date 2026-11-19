@@ -3,33 +3,12 @@ function domainKeyForKnownHost(knownHost) {
   let domainKeys = Object.keys(domainMap);
   for (let i=0; i<domainKeys.length; i++) {
     let domainKey = domainKeys[i];
-    if (domainMap[domainKey].indexOf(knownHost) > -1) {
+    if (domainMap[domainKey].includes(knownHost) || (domainKey === "Yahoo" && yahooRegion.test(knownHost))) {
       return domainKey;
     }
   }
   return "";
 }
-function paramForKnownHost(knownHost) {
-  let paramKeys = Object.keys(paramDomainMap);
-  for (let i=0; i<paramKeys.length; i++) {
-    let paramKey = paramKeys[i];
-    if (paramDomainMap[paramKey]().indexOf(knownHost) > -1) {
-      return paramKey;
-    }
-  }
-  return "";
-}
-function paramsForKnownHosts(knownHosts) {
-  var params = [];
-  for (let i=0; i<knownHosts.length; i++) {
-    let param = paramForKnownHost(knownHosts[i]);
-    if (param.length > 0) {
-      params.push(param);
-    }
-  }
-  return params.filter((value, index, array) => array.indexOf(value) === index);
-}
-
 // -----------------------
 // MARK: - Private session link handling
 // -----------------------
@@ -40,23 +19,10 @@ function hasPrivateSessionLink() {
 }
 
 function privateSessionLinkTextfieldChanged(evt) {
-  const newLink = evt.type == "paste" ? event.clipboardData.getData("text") : evt.currentTarget.value;
-  browser.storage.local.set({ "kagiPrivateSessionLink": newLink })
-  .then((result) => {
-    browser.runtime.sendMessage({
-      "updatedKagiPrivateSessionLink": newLink
-    })
-    .then((result) => {
-        if (typeof result !== "boolean") {
-            console.log("Error sendMessage.updatedKagiPrivateSessionLink");
-            (async () => await initialize())();
-        }
-    });
-  })
+  void browser.storage.local.set({ kagiPrivateSessionLink: evt.currentTarget.value });
 }
 
-document.querySelector("#private-session-link").addEventListener('change', privateSessionLinkTextfieldChanged);
-document.querySelector("#private-session-link").addEventListener('paste', privateSessionLinkTextfieldChanged);
+document.querySelector("#private-session-link").addEventListener('input', privateSessionLinkTextfieldChanged);
 
 
 // -----------------------
@@ -85,17 +51,7 @@ function engineToRedirectChanged() {
 function updateEngineToRedirect(newEngine) {
   engineToRedirect = newEngine;
   selectCurrentEngine(newEngine);
-  return browser.storage.local.set({ "kagiEngineToRedirect": newEngine })
-  .then((result) => {
-      browser.runtime.sendMessage({
-          "updatedKagiEngineToRedirect": newEngine
-      }).then((result) => {
-          if (typeof result !== "boolean") {
-              console.log("Error sendMessage.updatedKagiPrivateSessionLink");
-              (async () => await initialize())();
-          }
-      });
-  });
+  return browser.storage.local.set({ kagiEngineToRedirect: newEngine });
 }
 
 engineSelect.addEventListener('change', engineToRedirectChanged);
@@ -133,7 +89,7 @@ function updateSetupPermissionsUI(permissionsActive) {
 function fetchAndUpdateKnownHostList() {
   return browser.permissions.getAll()
   .then((permissions) => {
-    let knownHosts = permissions["origins"].map((pattern) => pattern.replace(/^.*:\/\/.*?\.([.A-Za-z]+)\/.*$/, "$1"));
+    let knownHosts = permissions.origins.map(pattern => pattern.replace(/^[^:]+:\/\/(?:\*\.|www\.)?([^/*]+)\/.*$/, "$1"));
     let hasKnownHosts = knownHosts.length > 0;
     let enabledElement = document.querySelector("#overrides h3>span");
     enabledElement.classList.toggle("enabledForThisDomain", hasKnownHosts);
@@ -144,15 +100,9 @@ function fetchAndUpdateKnownHostList() {
     // reset to "All"
     let enginesToDisplayInRedirectList = ["All"].concat(Array.from(document.querySelectorAll("[data-engine]")).map((en) => en.getAttribute("data-engine")));
     if (engineToRedirect != "All" && enginesToDisplayInRedirectList.indexOf(engineToRedirect) < 0) {
-      engineToRedirect = "All";
+      updateEngineToRedirect(defaultEngineToRedirect);
     }
-    
-    // If we're still set to "All", update to the default
-    // FIXME: "All" is a fallback in case something else breaks in our stored engine setting, to make sure "Redirect to Kagi" is the fallback to broken engine selection rather than "Don't redirect if we don't have a valid engine selected". There should be a more robust solution to this that sets smart defaults or detects Safari's search engine setting. There's a way to do the latter on macOS but not iOS.
-    if (engineToRedirect == "All") {
-      updateEngineToRedirect(defaultEngineToRedirect); // Need to default to *something*. Starting w/ Google
-    }
-    
+
     // Redirect engine list UI updates
     if (knownHosts.indexOf("*://*/*") > -1 || knownHosts.indexOf("<all_urls>") > -1) {
       // TODO: Do we need custom logic for the "All websites allowed" permission?
@@ -289,15 +239,11 @@ document.onclick = function (e) {
 // -----------------------
 document.addEventListener("DOMContentLoaded", (event) => {
   
-  browser.storage.local.get(["kagiEngineToRedirect", "kagiPrivateSessionLink"])
+  browser.storage.local.get(["kagiEngineToRedirect", "kagiPrivateSessionLink", "kagiDnrEnabled"])
   .then((results) => {
-    // Fetch the current engine to redirect from local storage
-    if (typeof results == "object" &&
-      typeof results["kagiEngineToRedirect"] == "string"
-      && results["kagiEngineToRedirect"].length > 0) {
-        engineToRedirect = results["kagiEngineToRedirect"];
-    }
-    
+    engineToRedirect = selectedEngine(results.kagiEngineToRedirect);
+    dnrEnabledStatusUpdateUI(fastRedirectEnabled(results));
+
     // Fetch the current private session link from storage
     if (typeof results == "object" &&
         typeof results["kagiPrivateSessionLink"] == "string"
@@ -310,7 +256,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
       selectCurrentEngine(engineToRedirect);
       fetchAndUpdateKnownHostList();
       checkSetupPermissions();
-      dnrEnabledStatusUpdateUI();
   });
 });
 
@@ -338,31 +283,13 @@ document.getElementById("setup-permissions-button").onclick = async function(evt
   });
 };
 
-dnrStatusCheckbox.onchange = async function(evt) {
-    if (dnrStatusCheckbox.checked) {
-        localStorage.setItem("is-dnr-enabled", true);
-        (async () => await initialize())();
-    } else {
-        localStorage.setItem("is-dnr-enabled", false);
-        (async () => await clearDynamicRules())();
-    }
+dnrStatusCheckbox.onchange = function() {
+    void browser.storage.local.set({ kagiDnrEnabled: dnrStatusCheckbox.checked });
 };
 
-function dnrEnabledStatusUpdateUI() {
-    if (versionMajor < 17 || versionMajor >= 18) {
-        document.getElementById("dnr-status-wrapper").style.display = "none";
-        return;
-    }
-    let isDNREnabled = localStorage.getItem("is-dnr-enabled")
-    if (isDNREnabled != null) {
-        if (isDNREnabled == "true") {
-            dnrStatusCheckbox.setAttribute("checked", "true");
-        } else {
-            dnrStatusCheckbox.removeAttribute("checked");
-        }
-    } else {
-        dnrStatusCheckbox.setAttribute("checked", "true");
-    }
+function dnrEnabledStatusUpdateUI(enabled) {
+    document.getElementById("dnr-status-wrapper").hidden = !supportsFastRedirect();
+    dnrStatusCheckbox.checked = enabled;
 }
 
 const symbolTrashBase64ImgTag = `<img alt="" src="data:image/png;base64,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" />`;

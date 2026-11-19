@@ -34,52 +34,47 @@ const searches = [
   ['360 Search', 'https://www.so.com/s?q=red+panda&src=pclm&ls=safarimac', 'ls'],
 ];
 
-const frame = { parentFrameId: -1, tabId: 7 };
-const expected = [[7, 'https://kagi.com/search?q=red%20panda']];
+const frame = { tabId: 7 };
+const expected = [{ id: 7, url: 'safari-web-extension://test/redirect.html?q=red%20panda', loadReplace: true }];
 
 for (const platform of ['iOS', 'macOS']) {
   test(`${platform} redirects marked searches and leaves engine-site searches alone`, async () => {
     for (const [engine, url, marker] of searches) {
-      const { listeners, redirects } = startBackground({ kagiEngineToRedirect: engine }, platform);
+      const { commit, listeners, redirects } = startBackground({ kagiDnrEnabled: false, kagiEngineToRedirect: engine }, platform);
       const ordinary = new URL(url);
       ordinary.searchParams.delete(marker);
-      listeners.navigate({ ...frame, url: ordinary.href });
+      await commit({ ...frame, url: ordinary.href });
       ordinary.searchParams.set(marker, new URL(url).searchParams.get(marker) + 'extra');
-      listeners.navigate({ ...frame, url: ordinary.href });
-      await Promise.resolve();
+      await commit({ ...frame, url: ordinary.href });
       assert.deepEqual(redirects, [], `Unmarked or invalid ${engine} marker on ${url}`);
 
       const host = ordinary.hostname;
       assert.ok(listeners.navigationFilter.url.some(condition =>
         condition.hostEquals === host || (condition.hostSuffix && host.endsWith(condition.hostSuffix))
       ), `Navigation filter omitted ${host}`);
-      listeners.navigate({ ...frame, url });
-      await Promise.resolve();
+      await commit({ ...frame, url });
       assert.deepEqual(redirects, expected, url);
     }
   });
 }
 
-test('bangs reach Kagi once and their destination stays open', async () => {
+test('the fallback passes bangs to the redirect page once and leaves their destination open', async () => {
   for (const query of ['!g ça C++', 'ça C++ !g']) {
-    const { listeners, redirects } = startBackground();
+    const { commit, redirects } = startBackground({ kagiDnrEnabled: false });
     const params = new URLSearchParams({ t: 'iphone', q: query });
-    listeners.navigate({ ...frame, url: `https://duckduckgo.com/?${params}` });
-    await Promise.resolve();
-    const kagiURL = `https://kagi.com/search?q=${encodeURIComponent(query)}`;
-    assert.deepEqual(redirects, [[7, kagiURL]]);
+    await commit({ ...frame, url: `https://duckduckgo.com/?${params}` });
+    const page = `safari-web-extension://test/redirect.html?q=${encodeURIComponent(query)}`;
+    assert.deepEqual(redirects, [{ id: 7, url: page, loadReplace: true }]);
 
-    // A fresh worker rules out the redirect throttle hiding a bang loop.
-    const outgoing = startBackground();
-    outgoing.listeners.navigate({ ...frame, url: kagiURL });
-    outgoing.listeners.navigate({ ...frame, url: 'https://www.google.com/search?q=%C3%A7a+C%2B%2B' });
-    await Promise.resolve();
-    assert.deepEqual(outgoing.redirects, []);
+    await commit({ ...frame, url: page });
+    await commit({ ...frame, url: `https://kagi.com/search?q=${encodeURIComponent(query)}` });
+    await commit({ ...frame, url: 'https://www.google.com/search?q=%C3%A7a+C%2B%2B' });
+    assert.equal(redirects.length, 1);
   }
 });
 
 test('ignores unsupported hosts, paths, and marker lookalikes', async () => {
-  const { listeners, redirects } = startBackground();
+  const { commit, redirects } = startBackground({ kagiDnrEnabled: false });
   for (const url of [
     'https://www.google.co.uk.evil.example/search?client=safari&q=test',
     'https://maps.google.co.uk/search?client=safari&q=test',
@@ -95,32 +90,27 @@ test('ignores unsupported hosts, paths, and marker lookalikes', async () => {
     'https://m.sogou.com/web/sl?keyword=test&v=5',
     'https://www.sogou.com/web?query=test&ie=utf8',
   ]) {
-    listeners.navigate({ ...frame, url });
+    await commit({ ...frame, url });
   }
-  await Promise.resolve();
   assert.deepEqual(redirects, []);
 });
 
 test('honors the selected engine on startup and when the popup changes it', async () => {
-  const { listeners, storage, redirects } = startBackground({ kagiEngineToRedirect: 'Baidu' });
+  const { commit, setPreferences, redirects } = startBackground({ kagiDnrEnabled: false, kagiEngineToRedirect: 'Baidu' });
   const url = 'https://uk.search.yahoo.com/search?p=red+panda&fr=iphone';
-  listeners.navigate({ ...frame, url });
-  await Promise.resolve();
+  await commit({ ...frame, url });
   assert.deepEqual(redirects, []);
-  storage.kagiEngineToRedirect = 'Yahoo';
-  await listeners.message({ updatedKagiEngineToRedirect: 'Yahoo' });
-  listeners.navigate({ ...frame, url });
-  await Promise.resolve();
+  await setPreferences({ kagiEngineToRedirect: 'Yahoo' });
+  await commit({ ...frame, url });
   assert.deepEqual(redirects, expected);
 });
 
 test('both the 360 Search selection and its old Sogou label match only marked so.com searches', async () => {
   for (const engine of ['360 Search', 'Sogou']) {
-    const { listeners, redirects } = startBackground({ kagiEngineToRedirect: engine });
-    listeners.navigate({ ...frame, url: 'https://www.google.com/search?client=safari&q=test' });
-    listeners.navigate({ ...frame, url: 'https://www.sogou.com/web?query=test&ie=utf8' });
-    listeners.navigate({ ...frame, url: 'https://www.so.com/s?q=red+panda&ls=safarimac' });
-    await Promise.resolve();
+    const { commit, redirects } = startBackground({ kagiDnrEnabled: false, kagiEngineToRedirect: engine });
+    await commit({ ...frame, url: 'https://www.google.com/search?client=safari&q=test' });
+    await commit({ ...frame, url: 'https://www.sogou.com/web?query=test&ie=utf8' });
+    await commit({ ...frame, url: 'https://www.so.com/s?q=red+panda&ls=safarimac' });
     assert.deepEqual(redirects, expected, engine);
   }
 });
