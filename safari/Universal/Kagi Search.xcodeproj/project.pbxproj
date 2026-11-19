@@ -77,8 +77,10 @@
 		FE08124E2C14D36000D0899F /* rule-builder.js in Resources */ = {isa = PBXBuildFile; fileRef = FE08124C2C14D36000D0899F /* rule-builder.js */; };
 		FE0812502C14D39200D0899F /* kagi-content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = FE08124F2C14D39200D0899F /* kagi-content-script.js */; };
 		FE0812512C14D39200D0899F /* kagi-content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = FE08124F2C14D39200D0899F /* kagi-content-script.js */; };
-		FE7FB18C2C053F2F00198663 /* content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = FE7FB18B2C053F2F00198663 /* content-script.js */; };
-		FE7FB18D2C053F2F00198663 /* content-script.js in Resources */ = {isa = PBXBuildFile; fileRef = FE7FB18B2C053F2F00198663 /* content-script.js */; };
+		A6A1E00130A0000000000001 /* redirect.html in Resources */ = {isa = PBXBuildFile; fileRef = A6A1E00130A0000000000003 /* redirect.html */; };
+		A6A1E00130A0000000000002 /* redirect.html in Resources */ = {isa = PBXBuildFile; fileRef = A6A1E00130A0000000000003 /* redirect.html */; };
+		A6A1E00130A0000000000004 /* redirect.js in Resources */ = {isa = PBXBuildFile; fileRef = A6A1E00130A0000000000006 /* redirect.js */; };
+		A6A1E00130A0000000000005 /* redirect.js in Resources */ = {isa = PBXBuildFile; fileRef = A6A1E00130A0000000000006 /* redirect.js */; };
 		FE9E48DF2DF01B2400473AB5 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE9E48DE2DF01B2400473AB5 /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -198,7 +200,8 @@
 		C39A9F7028588C0100E4C0A3 /* MainConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MainConfig.xcconfig; sourceTree = "<group>"; };
 		FE08124C2C14D36000D0899F /* rule-builder.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "rule-builder.js"; sourceTree = "<group>"; };
 		FE08124F2C14D39200D0899F /* kagi-content-script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "kagi-content-script.js"; sourceTree = "<group>"; };
-		FE7FB18B2C053F2F00198663 /* content-script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "content-script.js"; sourceTree = "<group>"; };
+		A6A1E00130A0000000000003 /* redirect.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "redirect.html"; sourceTree = "<group>"; };
+		A6A1E00130A0000000000006 /* redirect.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "redirect.js"; sourceTree = "<group>"; };
 		FE9E48DE2DF01B2400473AB5 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -356,7 +359,8 @@
 				3ED5D5552B0DE720009DDDAD /* popup.js */,
 				3ED5D5562B0DE720009DDDAD /* background.js */,
 				FE08124C2C14D36000D0899F /* rule-builder.js */,
-				FE7FB18B2C053F2F00198663 /* content-script.js */,
+				A6A1E00130A0000000000003 /* redirect.html */,
+				A6A1E00130A0000000000006 /* redirect.js */,
 				FE08124F2C14D39200D0899F /* kagi-content-script.js */,
 				3ED5D55A2B0DE720009DDDAD /* popup.html */,
 				3ED5D55C2B0DE720009DDDAD /* popup.css */,
@@ -606,12 +610,13 @@
 				FE08124D2C14D36000D0899F /* rule-builder.js in Resources */,
 				3E9DF5082B3E3E70005DF2C3 /* manifest.json in Resources */,
 				3ED5D58E2B0DFC34009DDDAD /* _locales in Resources */,
-				FE7FB18C2C053F2F00198663 /* content-script.js in Resources */,
 				3ED5D56D2B0DE720009DDDAD /* popup.html in Resources */,
 				3ED5D5672B0DE720009DDDAD /* background.js in Resources */,
 				3ED5D5912B0DFC81009DDDAD /* images in Resources */,
 				3ED5D5652B0DE720009DDDAD /* popup.js in Resources */,
 				FE0812502C14D39200D0899F /* kagi-content-script.js in Resources */,
+				A6A1E00130A0000000000002 /* redirect.html in Resources */,
+				A6A1E00130A0000000000005 /* redirect.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,12 +628,13 @@
 				FE08124E2C14D36000D0899F /* rule-builder.js in Resources */,
 				3ED5D58F2B0DFC34009DDDAD /* _locales in Resources */,
 				3ED5D56E2B0DE720009DDDAD /* popup.html in Resources */,
-				FE7FB18D2C053F2F00198663 /* content-script.js in Resources */,
 				3E7B281A2B86D220005EB620 /* manifest.json in Resources */,
 				3ED5D5682B0DE720009DDDAD /* background.js in Resources */,
 				3ED5D5922B0DFC81009DDDAD /* images in Resources */,
 				3ED5D5662B0DE720009DDDAD /* popup.js in Resources */,
 				FE0812512C14D39200D0899F /* kagi-content-script.js in Resources */,
+				A6A1E00130A0000000000001 /* redirect.html in Resources */,
+				A6A1E00130A0000000000004 /* redirect.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

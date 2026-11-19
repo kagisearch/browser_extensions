@@ -22,11 +22,10 @@ test('a fresh install skips migration and a 1.x upgrade keeps its session link',
 });
 
 test('an unrelated navigation leaves the next search free to redirect', async () => {
-  const { listeners, redirects } = startBackground();
-  const frame = { parentFrameId: -1, tabId: 7 };
-  listeners.navigate({ ...frame, url: 'https://www.google.com/maps?q=Boston' });
-  listeners.navigate({ ...frame, url: 'https://www.google.com/search' });
-  listeners.navigate({ ...frame, url: 'https://www.google.com/search?q=red+panda&client=safari' });
-  await Promise.resolve();
-  assert.deepEqual(redirects, [[7, 'https://kagi.com/search?q=red%20panda']]);
+  const { commit, redirects } = startBackground({ kagiDnrEnabled: false });
+  const frame = { tabId: 7 };
+  await commit({ ...frame, url: 'https://www.google.com/maps?q=Boston' });
+  await commit({ ...frame, url: 'https://www.google.com/search' });
+  await commit({ ...frame, url: 'https://www.google.com/search?q=red+panda&client=safari' });
+  assert.deepEqual(redirects, [{ id: 7, url: 'safari-web-extension://test/redirect.html?q=red%20panda', loadReplace: true }]);
 });
