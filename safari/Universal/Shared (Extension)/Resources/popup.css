@@ -184,8 +184,3 @@ li.displayChildren:has(.showMore) > *:not(h4) { display: inherit; }
 		border-color: var(--borderColorLight);
 	}
 }
-
-body:not(.setupPermissionsGranted) .setupPermissionsGranted,
-body.setupPermissionsGranted .noSetupPermissions {
-    display: none !important;
-}

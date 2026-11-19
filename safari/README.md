@@ -1,4 +1,3 @@
 # Kagi Search for Safari
 
-> [!IMPORTANT]  
-> The Universal extension is still under development. The current implementation uses background/service-worker scripts to redirect to Kagi. It has proven to be unreliable, with the background script at risk of being killed or not loading.
+Build the Universal project with Xcode 26.2 or later. The setup app asks SafariServices to open the Kagi extension’s settings on macOS and iOS 26.2 or later. Earlier iOS releases use a shortcut to Settings. If iOS opens the main Settings screen, follow the path shown in the setup guide.
