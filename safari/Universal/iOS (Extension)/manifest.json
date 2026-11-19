@@ -33,6 +33,7 @@
     "permissions": [
         "nativeMessaging",
         "webNavigation",
+        "scripting",
         "declarativeNetRequestWithHostAccess",
         "storage"
     ],

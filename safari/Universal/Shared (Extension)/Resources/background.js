@@ -1,17 +1,31 @@
+// Only retain commits while their preference read is outstanding.
+const pendingSearches = new Map();
+browser.webNavigation.onBeforeNavigate.addListener(({ tabId, frameId }) => {
+    if (frameId === 0) pendingSearches.delete(tabId);
+});
+
 async function redirectCommittedSearch(details) {
     if (details.frameId !== 0 || details.tabId < 0) return;
-    const { kagiEngineToRedirect } = await browser.storage.local.get("kagiEngineToRedirect");
-    const query = captureQuery(details.url, selectedEngine(kagiEngineToRedirect));
-    if (query === undefined) return;
+    const { tabId, url, documentId } = details;
+    pendingSearches.set(tabId, details);
+    try {
+        const { kagiEngineToRedirect } = await browser.storage.local.get("kagiEngineToRedirect");
+        if (pendingSearches.get(tabId) !== details) return;
+        const query = captureQuery(url, selectedEngine(kagiEngineToRedirect));
+        if (query === undefined) return;
 
-    // The tab may have moved on while we were reading the selected engine.
-    const tab = await browser.tabs.get(details.tabId);
-    if (tab?.url !== details.url || (tab.pendingUrl && tab.pendingUrl !== details.url)) return;
-
-    await browser.tabs.update(details.tabId, {
-        url: `${browser.runtime.getURL("redirect.html")}?q=${encodeURIComponent(query)}`,
-        loadReplace: true
-    });
+        const destination = await kagiSearchURL(query, () => browser.tabs.get(tabId));
+        if (pendingSearches.get(tabId) !== details) return;
+        await browser.scripting.executeScript({
+            target: documentId ? { tabId, documentIds: [documentId] } : { tabId },
+            func: (source, destination) => {
+                if (location.href === source) location.replace(destination);
+            },
+            args: [url, destination]
+        });
+    } finally {
+        if (pendingSearches.get(tabId) === details) pendingSearches.delete(tabId);
+    }
 }
 
 const searchHosts = new Set(safariSearchFormats.flatMap(format => format.hosts));

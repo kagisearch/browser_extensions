@@ -11,9 +11,11 @@ async function redirect(options = {}) {
   const link = Object.hasOwn(options, 'link') ? options.link : 'https://kagi.com/search?token=private';
   let destination;
   let reads = 0;
-  const message = {};
+  const message = { textContent: '' };
+  const timers = [];
   const context = vm.createContext({
     URL, encodeURIComponent,
+    setTimeout(callback, delay) { timers.push({ callback, delay }); },
     document: { getElementById: () => message },
     window: { location: {
       href: `safari-web-extension://test/redirect.html${query === null ? '' : '?q=' + query}`,
@@ -32,10 +34,21 @@ async function redirect(options = {}) {
     }
   });
   // Run the real page's top-level call and drain its asynchronous work.
+  vm.runInContext(fs.readFileSync(path.join(__dirname, "../Shared (Extension)/Resources/rule-builder.js"), "utf8"), context);
   vm.runInContext(source, context);
   for (let i = 0; i < 3; i++) await new Promise(resolve => setImmediate(resolve));
-  return { destination, reads, message };
+  return { destination, reads, message, timers };
 }
+
+test('navigation starts immediately and the status appears only if the page is still open', async () => {
+  const { destination, message, timers } = await redirect();
+  assert.ok(destination);
+  assert.equal(message.textContent, '');
+  assert.equal(timers.length, 1);
+  assert.equal(timers[0].delay, 1500);
+  timers[0].callback();
+  assert.equal(message.textContent, 'Opening Kagi…');
+});
 
 test('regular tabs never read or attach the private-session link', async () => {
   const result = await redirect();
@@ -83,4 +96,5 @@ test('a missing query displays an error without navigating', async () => {
   const result = await redirect({ query: null });
   assert.equal(result.destination, undefined);
   assert.equal(result.message.textContent, 'The search query is missing.');
+  assert.equal(result.timers.length, 0);
 });

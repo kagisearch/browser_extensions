@@ -19,6 +19,7 @@ function startBackground(settings = {}, platform = 'macOS', state = {}) {
       getURL: resource => `safari-web-extension://test/${resource}`,
     },
     webNavigation: {
+      onBeforeNavigate: { addListener(listener) { listeners.beforeNavigate = listener; } },
       onCommitted: {
         addListener(listener, filter) {
           listeners.committed = listener;
@@ -45,7 +46,7 @@ function startBackground(settings = {}, platform = 'macOS', state = {}) {
         },
       },
     },
-    declarativeNetRequest: {
+    declarativeNetRequest: state.dnrAvailable === false ? undefined : {
       async getDynamicRules() { return structuredClone(state.rules); },
       isRegexSupported: state.isRegexSupported,
       async updateDynamicRules({ addRules = [], removeRuleIds = [] }) {
@@ -54,27 +55,42 @@ function startBackground(settings = {}, platform = 'macOS', state = {}) {
         state.updates++;
       },
     },
-    tabs: {
-      async get(id) {
-        if (!tabs.has(id)) throw new Error('Tab closed');
-        return tabs.get(id);
+    tabs: { async get(id) { return tabs.get(id); } },
+    scripting: {
+      async executeScript({ target, func, args }) {
+        const tab = tabs.get(target.tabId);
+        if (!tab || (target.documentIds && !target.documentIds.includes(tab.documentId))) return;
+        const location = { href: tab.url, replace(url) { redirects.push({ id: tab.id, url }); } };
+        vm.runInNewContext('(' + func.toString() + ')(...args)', { location, args });
       },
-      async update(id, change) { redirects.push({ id, ...change }); },
     },
   };
   const context = vm.createContext({
-    browser, URL, URLSearchParams, navigator: { userAgent: 'Version/27.0 Safari' },
+    browser, URL, URLSearchParams, navigator: { userAgent: `Version/${state.safariVersion ?? '27.0'} Safari` },
     localStorage: { getItem() { return state.legacyToggle ?? null; } },
   });
   for (const script of manifest.background.scripts) {
     vm.runInContext(readFileSync(path.join(resources, script), 'utf8'), context, { filename: script });
   }
+  let sequence = 0;
   function commit({ tabId, url, frameId = 0 }) {
-    if (frameId === 0 && tabId >= 0) tabs.set(tabId, { id: tabId, url });
-    return listeners.committed({ tabId, url, frameId });
+    const documentId = String(++sequence);
+    listeners.beforeNavigate({ tabId, url, frameId });
+    if (frameId === 0 && tabId >= 0) tabs.set(tabId, { id: tabId, url, documentId });
+    return listeners.committed({ tabId, url, frameId, documentId });
   }
   return { listeners, storage, redirects, tabs, commit, setPreferences: browser.storage.local.set,
     settled: () => vm.runInContext('rulesUpdate', context) };
 }
 
-module.exports = { startBackground };
+// Evaluate the browser-owned rules without running any background script.
+function destination(rules, url) {
+  const host = new URL(url).hostname;
+  for (const { condition, action } of rules) {
+    if (condition.requestDomains && !condition.requestDomains.some(d => host === d || host.endsWith('.' + d))) continue;
+    const match = new RegExp(condition.regexFilter).exec(url);
+    if (match) return action.redirect.regexSubstitution.replace('\\1', () => match[1]);
+  }
+}
+
+module.exports = { startBackground, destination };

@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
-const { startBackground } = require('./background');
+const { startBackground, destination } = require('./background');
 
 // Engine, Safari URL, and the parameter that identifies an address-bar search.
 const searches = [
@@ -19,6 +19,8 @@ const searches = [
   ['DuckDuckGo', 'https://duckduckgo.com/?q=red+panda&t=iphone', 't'],
   ['DuckDuckGo', 'https://duckduckgo.com/?t=ipad&q=red+panda', 't'],
   ['DuckDuckGo', 'https://duckduckgo.com/?q=red+panda&t=osx', 't'],
+  ['DuckDuckGo', 'https://duckduckgo.com/?ia=web&q=red+panda&t=iphone', 't'],
+  ['DuckDuckGo', 'https://duckduckgo.com/?ia=web&t=iphone&q=red+panda', 't'],
   ['Ecosia', 'https://www.ecosia.org/search?tts=st_asaf_iphone&q=red+panda', 'tts'],
   ['Ecosia', 'https://www.ecosia.org/search?q=red+panda&tts=st_asaf_ipad', 'tts'],
   ['Ecosia', 'https://www.ecosia.org/search?tts=st_asaf_macos&q=red+panda', 'tts'],
@@ -28,6 +30,7 @@ const searches = [
   ['Baidu', 'https://www.baidu.com/s?wd=red+panda&tn=84053098_4_dg', 'tn'],
   ['Baidu', 'https://www.baidu.com/s?wd=red+panda&tn=84053098_dg', 'tn'],
   ['Yandex', 'https://yandex.com.tr/search/touch/?clid=1906591&text=red+panda', 'clid'],
+  ['Yandex', 'https://yandex.ru/search/touch/?clid=1906591&text=red+panda', 'clid'],
   ['Yandex', 'https://yandex.kz/search/pad/?clid=1906723&text=red+panda', 'clid'],
   ['Yandex', 'https://yandex.by/search?text=red+panda&clid=1906725', 'clid'],
   ['360 Search', 'https://m.so.com/s?q=red+panda&src=home&srcg=safariwap_1', 'srcg'],
@@ -35,7 +38,7 @@ const searches = [
 ];
 
 const frame = { tabId: 7 };
-const expected = [{ id: 7, url: 'safari-web-extension://test/redirect.html?q=red%20panda', loadReplace: true }];
+const expected = [{ id: 7, url: 'https://kagi.com/search?q=red%20panda' }];
 
 for (const platform of ['iOS', 'macOS']) {
   test(`${platform} redirects marked searches and leaves engine-site searches alone`, async () => {
@@ -58,26 +61,44 @@ for (const platform of ['iOS', 'macOS']) {
   });
 }
 
-test('the fallback passes bangs to the redirect page once and leaves their destination open', async () => {
+test('the fallback passes bangs to Kagi once and leaves their destination open', async () => {
   for (const query of ['!g ça C++', 'ça C++ !g']) {
     const { commit, redirects } = startBackground({ kagiDnrEnabled: false });
     const params = new URLSearchParams({ t: 'iphone', q: query });
     await commit({ ...frame, url: `https://duckduckgo.com/?${params}` });
-    const page = `safari-web-extension://test/redirect.html?q=${encodeURIComponent(query)}`;
-    assert.deepEqual(redirects, [{ id: 7, url: page, loadReplace: true }]);
+    const page = `https://kagi.com/search?q=${encodeURIComponent(query)}`;
+    assert.deepEqual(redirects, [{ id: 7, url: page }]);
 
     await commit({ ...frame, url: page });
-    await commit({ ...frame, url: `https://kagi.com/search?q=${encodeURIComponent(query)}` });
     await commit({ ...frame, url: 'https://www.google.com/search?q=%C3%A7a+C%2B%2B' });
     assert.equal(redirects.length, 1);
   }
 });
 
-test('ignores unsupported hosts, paths, and marker lookalikes', async () => {
-  const { commit, redirects } = startBackground({ kagiDnrEnabled: false });
+test('installed rules require the same exact Safari markers and preserve the raw query', async () => {
+  const state = {};
+  await startBackground({}, 'macOS', state).settled();
+  for (const [, url, marker] of searches) {
+    assert.equal(destination(state.rules, url), 'safari-web-extension://test/redirect.html?q=red+panda', url);
+    const ordinary = new URL(url);
+    ordinary.searchParams.delete(marker);
+    assert.equal(destination(state.rules, ordinary.href), undefined, ordinary.href);
+    ordinary.searchParams.set(marker, new URL(url).searchParams.get(marker) + 'extra');
+    assert.equal(destination(state.rules, ordinary.href), undefined, ordinary.href);
+  }
+});
+
+test('both redirect paths ignore unsupported hosts, paths, and marker lookalikes', async () => {
+  const state = {};
+  const worker = startBackground({}, 'macOS', state);
+  await worker.settled();
   for (const url of [
     'https://www.google.co.uk.evil.example/search?client=safari&q=test',
     'https://maps.google.co.uk/search?client=safari&q=test',
+    'https://www.google.evil.google.co.uk/search?client=safari&q=test',
+    'https://www.google.invalid/search?client=safari&q=test',
+    'https://evil.duckduckgo.com/?q=test&t=iphone',
+    'https://duckduckgo.com/?q=test&not_t=iphone',
     'https://www.google.co.uk/search?q=test&notclient=safari',
     'https://www.google.co.uk/images?client=safari&q=test',
     'http://www.google.co.uk/search?client=safari&q=test',
@@ -90,9 +111,27 @@ test('ignores unsupported hosts, paths, and marker lookalikes', async () => {
     'https://m.sogou.com/web/sl?keyword=test&v=5',
     'https://www.sogou.com/web?query=test&ie=utf8',
   ]) {
-    await commit({ ...frame, url });
+    assert.equal(destination(state.rules, url), undefined, url);
+    await worker.commit({ ...frame, url });
   }
-  assert.deepEqual(redirects, []);
+  assert.deepEqual(worker.redirects, []);
+});
+
+test('opening a link leaves it alone and an address-bar search for its URL preserves the text', async () => {
+  const state = {};
+  const worker = startBackground({}, 'iOS', state);
+  await worker.settled();
+  const link = 'https://example.org/article?id=5&utm_source=email#section';
+  assert.equal(destination(state.rules, link), undefined);
+  await worker.commit({ ...frame, url: link });
+  assert.deepEqual(worker.redirects, []);
+
+  const search = new URL('https://www.google.com/search?client=safari');
+  search.searchParams.set('q', link);
+  const redirectPage = 'safari-web-extension://test/redirect.html?q=' + encodeURIComponent(link);
+  assert.equal(destination(state.rules, search.href), redirectPage);
+  await worker.commit({ ...frame, url: search.href });
+  assert.deepEqual(worker.redirects, [{ id: frame.tabId, url: `https://kagi.com/search?q=${encodeURIComponent(link)}` }]);
 });
 
 test('honors the selected engine on startup and when the popup changes it', async () => {
