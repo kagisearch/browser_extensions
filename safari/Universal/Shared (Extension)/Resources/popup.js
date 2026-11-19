@@ -60,32 +60,6 @@ engineSelect.addEventListener('change', engineToRedirectChanged);
 // MARK: - Displaying & updating host permissions
 // -----------------------
 
-const setupPermissions = { permissions: ["storage", "webNavigation", "declarativeNetRequestWithHostAccess", "nativeMessaging"], origins: ["*://kagi.com/*"] };
-
-function checkSetupPermissions() {
-  return new Promise((resolve, reject) => {
-    browser.permissions.contains(setupPermissions)
-    .then((alreadyGranted) => {
-      updateSetupPermissionsUI(alreadyGranted);
-      if (!alreadyGranted) {
-        console.log("Permissions for storage are not granted");
-        resolve(false);
-      } else {
-        console.log("Permissions for storage are currently granted");
-        resolve(true);
-      }
-    })
-    .catch((error) => {
-      console.error(`Storage permission update onRejected function called: ${error.message}`);
-      reject(error);
-    });
-  });
-}
-
-function updateSetupPermissionsUI(permissionsActive) {
-    document.body.classList.toggle("setupPermissionsGranted", permissionsActive);
-}
-
 function fetchAndUpdateKnownHostList() {
   return browser.permissions.getAll()
   .then((permissions) => {
@@ -255,34 +229,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
   .finally(() => {
       selectCurrentEngine(engineToRedirect);
       fetchAndUpdateKnownHostList();
-      checkSetupPermissions();
   });
 });
 
 // -----------------------
 // MARK: - Button click handlers
 // -----------------------
-document.getElementById("setup-permissions-button").onclick = async function(evt) {
-  console.log("Checking kagi.com permissions");
-  browser.permissions.request(setupPermissions)
-  .then((granted) => {
-    updateSetupPermissionsUI(granted);
-    if (!granted) {
-      return Promise.reject(new Error("Permissions for kagi.com were denied"));
-    } else {
-      console.log("Permissions for kagi.com are granted");
-      setTimeout(function(){
-        window.location.href = "popup.html";
-      }, 500);
-      // browser.runtime.reload();
-    }
-    return Promise.resolve();
-  })
-  .catch((error) => {
-    console.error(`kagi.com permission update onRejected function called: ${error.message}`);
-  });
-};
-
 dnrStatusCheckbox.onchange = function() {
     void browser.storage.local.set({ kagiDnrEnabled: dnrStatusCheckbox.checked });
 };
