@@ -130,23 +130,30 @@ test('an engine search that commits despite an installed DNR rule still redirect
   assert.equal(worker.redirects.length, 1);
 });
 
-test('both manifests expose the redirect page to all supported engine hosts', async () => {
-  const state = {};
-  await startBackground({}, 'macOS', state).settled();
-  const google = state.rules.find(rule => rule.condition.requestDomains).condition.requestDomains;
-  const hosts = [...google.flatMap(host => [host, 'www.' + host]), ...cases.map(([, url]) => new URL(url).hostname),
-    'search.yahoo.com', 'search.yahoo.co.jp', 'www.baidu.com', 'm.so.com',
-    'yandex.ru', 'yandex.com', 'yandex.kz', 'yandex.by', 'yandex.ua'];
+test('both manifests limit website access to the redirect engines and Kagi session capture', () => {
+  const { navigationFilter } = startBackground().listeners;
+  const hosts = new Set(navigationFilter.url.map(filter => filter.hostEquals).filter(Boolean));
+  for (const { hostSuffix } of navigationFilter.url) {
+    if (hostSuffix) {
+      // A wildcard match pattern covers the base host and regional subdomains.
+      hosts.delete(hostSuffix.slice(1));
+      hosts.add('*' + hostSuffix);
+    }
+  }
+  const engines = Array.from(hosts, host => `https://${host}/*`).sort();
+  const kagi = '*://*.kagi.com/*';
   for (const platform of ['iOS', 'macOS']) {
     const manifest = require(`../${platform} (Extension)/manifest.json`);
-    const { matches } = manifest.web_accessible_resources.find(entry => entry.resources.includes('redirect.html'));
-    assert.ok(matches.every(pattern => pattern.startsWith('https://')));
-    for (const host of hosts) {
-      assert.ok(matches.includes(`https://${host}/*`) || matches.some(pattern => {
-        if (!pattern.startsWith('https://*.')) return false;
-        const domain = pattern.slice('https://*.'.length, -2);
-        return host === domain || host.endsWith('.' + domain);
-      }), `${platform}: ${host}`);
-    }
+    assert.deepEqual(manifest.host_permissions.slice().sort(), [...engines, kagi].sort());
+    assert.equal(manifest.web_accessible_resources.length, 1);
+    const [redirect] = manifest.web_accessible_resources;
+    assert.deepEqual(redirect.resources, ['redirect.html']);
+    assert.deepEqual(redirect.matches.slice().sort(), engines);
+    assert.deepEqual(manifest.content_scripts.map(({ js, matches }) => ({ js, matches })), [
+      { js: ['kagi-content-script.js'], matches: [kagi] },
+    ]);
+    assert.equal(manifest.permissions.includes('activeTab'), false);
+    assert.deepEqual(manifest.optional_permissions, []);
+    assert.deepEqual(manifest.optional_host_permissions ?? [], []);
   }
 });
